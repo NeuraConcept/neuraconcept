@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { SEO } from '../components/SEO';
 import Hero from '../components/Hero';
 import Features from '../components/Features';
 import AnalyticsDemo from '../components/AnalyticsDemo';
@@ -7,6 +8,10 @@ import AnalyticsDemo from '../components/AnalyticsDemo';
 const Home: React.FC = () => {
   return (
     <>
+      <SEO 
+        title="Home" 
+        description="NeuraConcept is the future of learning, powered by AI and Knowledge Graphs. Upgrade the OS of education today." 
+      />
       <Hero />
       <Features />
       <AnalyticsDemo />

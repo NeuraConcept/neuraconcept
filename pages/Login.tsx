@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Cpu, ArrowRight, Lock, Mail } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { SEO } from '../components/SEO';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -8,6 +9,10 @@ const Login: React.FC = () => {
 
   return (
     <div className="min-h-screen pt-24 pb-12 flex items-center justify-center px-6">
+      <SEO 
+        title="Login" 
+        description="Access your NeuraConcept dashboard." 
+      />
       <div className="w-full max-w-md bg-slate-900/50 border border-slate-800 p-8 rounded-2xl relative overflow-hidden">
         {/* Decorative background glow */}
         <div className="absolute -top-20 -right-20 w-40 h-40 bg-cyan-500/20 rounded-full blur-3xl"></div>

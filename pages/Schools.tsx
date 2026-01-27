@@ -1,9 +1,14 @@
 import React from 'react';
 import { School, Users, BarChart, CheckCircle } from 'lucide-react';
+import { SEO } from '../components/SEO';
 
 const Schools: React.FC = () => {
   return (
     <div className="pt-24 pb-20 container mx-auto px-6">
+      <SEO 
+        title="For Schools" 
+        description="Empower your institution with NeuraConcept's curriculum mapping and predictive outcomes. Give teachers superpowers." 
+      />
       <div className="text-center mb-16">
         <h1 className="text-4xl md:text-6xl font-bold mb-6">
           Empower Your <span className="text-cyan-400">Institution</span>
@@ -37,7 +42,7 @@ const Schools: React.FC = () => {
         </div>
       </div>
 
-      <div className="bg-slate-950 border border-slate-800 rounded-3xl p-8 md:p-12">
+      <section className="bg-slate-950 border border-slate-800 rounded-3xl p-8 md:p-12">
         <h2 className="text-3xl font-bold mb-8 text-center">Why Top Schools Choose NeuraConcept</h2>
         <div className="grid md:grid-cols-2 gap-8">
           {[
@@ -63,7 +68,7 @@ const Schools: React.FC = () => {
             Schedule a Demo
           </a>
         </div>
-      </div>
+      </section>
     </div>
   );
 };

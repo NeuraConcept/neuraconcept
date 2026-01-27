@@ -1,10 +1,15 @@
 import React from 'react';
 import { Network, Brain, Database, Lock } from 'lucide-react';
+import { SEO } from '../components/SEO';
 import KnowledgeGraph from '../components/KnowledgeGraph';
 
 const Technology: React.FC = () => {
   return (
     <div className="pt-24 pb-20 container mx-auto px-6">
+      <SEO 
+        title="Technology" 
+        description="Our neuro-symbolic AI combines knowledge graphs with cognitive modeling to create a digital twin of the student's mind." 
+      />
       <div className="max-w-4xl mx-auto text-center mb-16">
         <h1 className="text-4xl md:text-6xl font-bold mb-6">
           <span className="text-cyan-400">Neuro-Symbolic</span> AI
@@ -32,6 +37,7 @@ const Technology: React.FC = () => {
           <img 
             src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
             alt="AI Processing" 
+            loading="lazy"
             className="rounded-2xl border border-slate-800 opacity-80 shadow-2xl shadow-violet-900/20"
           />
         </div>

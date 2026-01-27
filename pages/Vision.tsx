@@ -1,9 +1,14 @@
 import React from 'react';
 import { Lightbulb, Target, Globe } from 'lucide-react';
+import { SEO } from '../components/SEO';
 
 const Vision: React.FC = () => {
   return (
     <div className="pt-24 pb-20 container mx-auto px-6">
+      <SEO 
+        title="Our Vision" 
+        description="We are building the infrastructure for personalized education at scale. Understanding over memorization." 
+      />
       <div className="max-w-4xl mx-auto">
         <h1 className="text-4xl md:text-6xl font-bold mb-10 text-center">
           Our Vision for <span className="text-cyan-400">Learning</span>
