@@ -5,7 +5,7 @@ import { FeatureItem } from '../types';
 const features: FeatureItem[] = [
   {
     title: "Mental Model Engine",
-    description: "We don't just track scores. We map 8,000+ interconnected concepts to identify exactly why a student is failing Calculus (hint: it might be Algebra).",
+    description: "We don't just track scores. We map a vast network of interconnected concepts to identify exactly why a student is failing Calculus (hint: it might be Algebra).",
     icon: Brain,
     color: "text-fuchsia-400"
   },
@@ -54,7 +54,7 @@ const Features: React.FC = () => {
             Beyond Rote Learning
           </h2>
           <p className="text-slate-400 text-lg leading-relaxed">
-            Standard LMSs are flat lists. <span className="text-cyan-400 font-semibold">NeuroGraph</span> is a multi-dimensional web of understanding.
+            Standard LMSs are flat lists. <span className="text-cyan-400 font-semibold">NeuraConcept</span> is a multi-dimensional web of understanding.
           </p>
         </div>
 

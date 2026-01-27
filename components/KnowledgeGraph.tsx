@@ -3,30 +3,51 @@ import * as d3 from 'd3';
 import { GraphNode, GraphLink, NodeType } from '../types';
 
 const INITIAL_NODES: GraphNode[] = [
-  { id: 'Physics', label: 'Physics', type: NodeType.SUBJECT, val: 20 },
-  { id: 'Math', label: 'Math', type: NodeType.SUBJECT, val: 20 },
-  { id: 'LawsOfMotion', label: 'Laws of Motion', type: NodeType.TOPIC, val: 15 },
-  { id: 'Vectors', label: 'Vectors', type: NodeType.TOPIC, val: 15 },
-  { id: 'Newton2', label: "Newton's 2nd Law", type: NodeType.CONCEPT, val: 10 },
-  { id: 'NormalForce', label: 'Normal Force', type: NodeType.CONCEPT, val: 10 },
-  { id: 'Friction', label: 'Friction', type: NodeType.CONCEPT, val: 12 },
-  { id: 'VectorRes', label: 'Vector Resolution', type: NodeType.SKILL, val: 8 },
-  { id: 'Trig', label: 'Trigonometry', type: NodeType.SKILL, val: 8 },
-  { id: 'Misc1', label: 'Mass affects speed', type: NodeType.MISCONCEPTION, val: 6 },
+  // Biology Domain
+  { id: 'Bio', label: 'Biology', type: NodeType.SUBJECT, val: 30 },
+  { id: 'Photosynthesis', label: 'Photosynthesis', type: NodeType.CONCEPT, val: 26 },
+  
+  // Chemistry Gaps (Root Cause)
+  { id: 'Chem', label: 'Chemistry', type: NodeType.SUBJECT, val: 30 },
+  { id: 'Reactions', label: 'Chemical Reactions', type: NodeType.CONCEPT, val: 22 },
+  { id: 'Molecules', label: 'Atoms & Molecules', type: NodeType.TOPIC, val: 20 },
+  
+  // Physics Gaps (Root Cause)
+  { id: 'Phys', label: 'Physics', type: NodeType.SUBJECT, val: 30 },
+  { id: 'Energy', label: 'Energy Conversion', type: NodeType.CONCEPT, val: 22 },
+
+  // Supporting Nodes
+  { id: 'Sunlight', label: 'Sunlight', type: NodeType.CONCEPT, val: 16 },
+  { id: 'Glucose', label: 'Glucose', type: NodeType.CONCEPT, val: 16 },
+  
+  // The Trap
+  { id: 'SoilMyth', label: 'Myth: Soil is Food', type: NodeType.MISCONCEPTION, val: 18 },
+  
+  // Resources
+  { id: 'ChemVid', label: 'Basics of Reactions', type: NodeType.RESOURCE, val: 14 },
 ];
 
 const INITIAL_LINKS: GraphLink[] = [
-  { source: 'LawsOfMotion', target: 'Physics', relation: 'PART_OF' },
-  { source: 'Newton2', target: 'LawsOfMotion', relation: 'PART_OF' },
-  { source: 'NormalForce', target: 'LawsOfMotion', relation: 'PART_OF' },
-  { source: 'Friction', target: 'LawsOfMotion', relation: 'PART_OF' },
-  { source: 'Vectors', target: 'Math', relation: 'PART_OF' },
-  { source: 'VectorRes', target: 'Vectors', relation: 'PART_OF' },
-  { source: 'Friction', target: 'NormalForce', relation: 'REQUIRES' },
-  { source: 'Friction', target: 'Newton2', relation: 'REQUIRES' },
-  { source: 'NormalForce', target: 'VectorRes', relation: 'REQUIRES' },
-  { source: 'VectorRes', target: 'Trig', relation: 'REQUIRES' },
-  { source: 'Friction', target: 'Misc1', relation: 'HAS_MISCONCEPTION' },
+  // Hierarchy
+  { source: 'Photosynthesis', target: 'Bio', relation: 'PART_OF' },
+  { source: 'Reactions', target: 'Chem', relation: 'PART_OF' },
+  { source: 'Molecules', target: 'Chem', relation: 'PART_OF' },
+  { source: 'Energy', target: 'Phys', relation: 'PART_OF' },
+  { source: 'Reactions', target: 'Molecules', relation: 'PART_OF' },
+
+  // The "Mental Model" Dependencies (Cross-Disciplinary)
+  { source: 'Photosynthesis', target: 'Reactions', relation: 'REQUIRES' }, // Bio needs Chem
+  { source: 'Photosynthesis', target: 'Energy', relation: 'REQUIRES' },    // Bio needs Phys
+  
+  // Standard Dependencies
+  { source: 'Photosynthesis', target: 'Sunlight', relation: 'RELATED_TO' },
+  { source: 'Glucose', target: 'Photosynthesis', relation: 'RELATED_TO' }, // Produced by
+  
+  // Misconception
+  { source: 'Photosynthesis', target: 'SoilMyth', relation: 'HAS_MISCONCEPTION' },
+  
+  // Remediation
+  { source: 'ChemVid', target: 'Reactions', relation: 'EXPLAINS' },
 ];
 
 const KnowledgeGraph: React.FC = () => {
@@ -59,11 +80,25 @@ const KnowledgeGraph: React.FC = () => {
     feMerge.append("feMergeNode").attr("in", "coloredBlur");
     feMerge.append("feMergeNode").attr("in", "SourceGraphic");
 
+    // Arrow Marker
+    defs.append("marker")
+      .attr("id", "arrow-head")
+      .attr("viewBox", "0 -5 10 10")
+      .attr("refX", 50) // Increased offset to clear rectangular node
+      .attr("refY", 0)
+      .attr("markerWidth", 6)
+      .attr("markerHeight", 6)
+      .attr("orient", "auto")
+      .append("path")
+      .attr("d", "M0,-5L10,0L0,5")
+      .attr("fill", "#64748b")
+      .attr("opacity", 0.6);
+
     const simulation = d3.forceSimulation(INITIAL_NODES)
-      .force("link", d3.forceLink(INITIAL_LINKS).id((d: any) => d.id).distance(100))
-      .force("charge", d3.forceManyBody().strength(-300))
+      .force("link", d3.forceLink(INITIAL_LINKS).id((d: any) => d.id).distance(150)) // Increased distance
+      .force("charge", d3.forceManyBody().strength(-500)) // Stronger repulsion
       .force("center", d3.forceCenter(width / 2, height / 2))
-      .force("collide", d3.forceCollide().radius((d: any) => d.val + 5));
+      .force("collide", d3.forceCollide().radius(60)); // Larger collision radius for rectangles
 
     const link = svg.append("g")
       .selectAll("line")
@@ -72,11 +107,15 @@ const KnowledgeGraph: React.FC = () => {
       .attr("stroke", (d) => {
         if (d.relation === 'REQUIRES') return "#ef4444"; // Red for critical path
         if (d.relation === 'HAS_MISCONCEPTION') return "#fbbf24"; // Amber
-        return "#334155"; // Slate 700
+        if (d.relation === 'ASSESSES') return "#a855f7"; // Purple-500
+        if (d.relation === 'EXPLAINS') return "#f97316"; // Orange-500
+        if (d.relation === 'TRAPS') return "#f87171"; // Red-400
+        return "#64748b"; // Slate 500 (PART_OF, RELATED_TO)
       })
       .attr("stroke-opacity", 0.6)
-      .attr("stroke-width", (d) => d.relation === 'REQUIRES' ? 2 : 1)
-      .attr("stroke-dasharray", (d) => d.relation === 'HAS_MISCONCEPTION' ? "4,4" : "none");
+      .attr("stroke-width", (d) => d.relation === 'REQUIRES' ? 2 : 1.5)
+      .attr("marker-end", "url(#arrow-head)")
+      .attr("stroke-dasharray", (d) => (d.relation === 'HAS_MISCONCEPTION' || d.relation === 'TRAPS') ? "4,4" : "none");
 
     const node = svg.append("g")
       .selectAll("g")
@@ -84,42 +123,116 @@ const KnowledgeGraph: React.FC = () => {
       .join("g")
       .call(drag(simulation) as any);
 
-    // Node Circles
-    node.append("circle")
-      .attr("r", (d) => d.val)
+    // Node Rectangles
+    node.append("rect")
+      .attr("width", 100)
+      .attr("height", 40)
+      .attr("x", -50)
+      .attr("y", -20)
+      .attr("rx", 6)
+      .attr("ry", 6)
       .attr("fill", (d) => {
         switch(d.type) {
-          case NodeType.SUBJECT: return "#0ea5e9"; // Sky 500
-          case NodeType.TOPIC: return "#8b5cf6"; // Violet 500
-          case NodeType.CONCEPT: return "#22d3ee"; // Cyan 400
-          case NodeType.SKILL: return "#10b981"; // Emerald 500
-          case NodeType.MISCONCEPTION: return "#f43f5e"; // Rose 500
-          default: return "#94a3b8";
+          case NodeType.SUBJECT: return "#bbdefb"; // Blue 100
+          case NodeType.TOPIC: return "#e1bee7"; // Purple 100
+          case NodeType.CONCEPT: return "#c8e6c9"; // Green 100
+          case NodeType.SKILL: return "#fff9c4"; // Yellow 100
+          case NodeType.MISCONCEPTION: return "#ffcdd2"; // Red 100
+          case NodeType.RESOURCE: return "#ffe0b2"; // Orange 100
+          case NodeType.QUESTION: return "#eeeeee"; // Grey 200
+          default: return "#cbd5e1";
         }
       })
-      .attr("stroke", "#fff")
+      .attr("stroke", (d) => {
+         // Keep stroke darker for contrast
+         switch(d.type) {
+          case NodeType.SUBJECT: return "#0d47a1"; // Blue 900
+          case NodeType.TOPIC: return "#4a148c"; // Purple 900
+          case NodeType.CONCEPT: return "#1b5e20"; // Green 900
+          case NodeType.SKILL: return "#f57f17"; // Yellow 700? Using Orange for now as per schema implies darker stroke
+          case NodeType.MISCONCEPTION: return "#b71c1c"; // Red 900
+          case NodeType.RESOURCE: return "#e65100"; // Orange 900
+          case NodeType.QUESTION: return "#212121"; // Grey 900
+          default: return "#fff";
+        }
+      })
       .attr("stroke-width", 1.5)
       .attr("filter", "url(#glow)")
       .style("cursor", "pointer")
       .on("mouseover", (event, d) => {
         setHoveredNode(d);
-        d3.select(event.currentTarget).transition().duration(200).attr("r", d.val * 1.3);
+        d3.select(event.currentTarget)
+          .transition().duration(200)
+          .attr("width", 110)
+          .attr("height", 44)
+          .attr("x", -55)
+          .attr("y", -22);
       })
       .on("mouseout", (event, d) => {
         setHoveredNode(null);
-        d3.select(event.currentTarget).transition().duration(200).attr("r", d.val);
+        d3.select(event.currentTarget)
+          .transition().duration(200)
+          .attr("width", 100)
+          .attr("height", 40)
+          .attr("x", -50)
+          .attr("y", -20);
       });
 
     // Labels
     node.append("text")
       .text((d) => d.label)
-      .attr("x", (d) => d.val + 5)
-      .attr("y", 4)
-      .attr("fill", "#e2e8f0")
+      .attr("text-anchor", "middle")
+      .attr("dominant-baseline", "middle")
+      .attr("fill", "#1e293b") // Dark text for light backgrounds
       .attr("font-size", "10px")
-      .attr("font-family", "Fira Code, monospace")
+      .attr("font-weight", "600")
+      .attr("font-family", "Inter, sans-serif")
       .style("pointer-events", "none")
-      .style("text-shadow", "0 1px 3px rgba(0,0,0,0.8)");
+      .call(wrap, 90); // Wrap function to handle long text
+
+    function wrap(text: any, width: number) {
+      text.each(function(this: SVGTextElement) {
+        const text = d3.select(this);
+        const words = text.text().split(/\s+/).reverse();
+        let word;
+        let line: string[] = [];
+        let lineNumber = 0;
+        const lineHeight = 1.1; // ems
+        const y = text.attr("y");
+        const dy = 0;
+        let tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em");
+        
+        while (word = words.pop()) {
+          line.push(word);
+          tspan.text(line.join(" "));
+          if ((tspan.node()?.getComputedTextLength() || 0) > width) {
+            line.pop();
+            tspan.text(line.join(" "));
+            line = [word];
+            tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+          }
+        }
+        // Re-center logically based on line count
+        const totalHeight = lineNumber * lineHeight; 
+        text.selectAll("tspan").attr("dy", (d, i) => {
+            return (i * lineHeight - totalHeight / 2 + 0.3) + "em"; // 0.3 adjustment for visual center
+        })
+      });
+    }
+
+    // Link Labels
+    const linkLabel = svg.append("g")
+      .selectAll("text")
+      .data(INITIAL_LINKS)
+      .join("text")
+      .text((d) => d.relation)
+      .attr("font-size", "8px")
+      .attr("fill", "#94a3b8")
+      .attr("font-family", "Fira Code, monospace")
+      .attr("text-anchor", "middle")
+      .style("pointer-events", "none")
+      .style("text-shadow", "0 1px 2px rgba(0,0,0,1)")
+      .attr("dy", -4);
 
     simulation.on("tick", () => {
       link
@@ -130,6 +243,10 @@ const KnowledgeGraph: React.FC = () => {
 
       node
         .attr("transform", (d: any) => `translate(${d.x},${d.y})`);
+
+      linkLabel
+        .attr("x", (d: any) => (d.source.x + d.target.x) / 2)
+        .attr("y", (d: any) => (d.source.y + d.target.y) / 2);
     });
 
     function drag(simulation: any) {
@@ -165,19 +282,22 @@ const KnowledgeGraph: React.FC = () => {
   return (
     <div className="relative w-full h-[600px] glass-panel rounded-2xl overflow-hidden border border-cyan-500/30 shadow-[0_0_50px_-12px_rgba(6,182,212,0.25)]" ref={wrapperRef}>
       <div className="absolute top-4 left-4 z-10 pointer-events-none">
-        <h3 className="text-cyan-400 font-mono text-sm tracking-wider uppercase mb-1">Live Engine</h3>
-        <h2 className="text-2xl font-bold text-white tracking-tight">The Knowledge Graph</h2>
-        <p className="text-slate-400 text-xs mt-2 max-w-[200px]">
-          Visualizing dependencies: <span className="text-red-400">Red lines</span> indicate critical prerequisites.
+        <h3 className="text-cyan-400 font-mono text-sm tracking-wider uppercase mb-1">Live Mental Model</h3>
+        <h2 className="text-2xl font-bold text-white tracking-tight">Concept Dependencies</h2>
+        <p className="text-slate-400 text-xs mt-2 max-w-[250px]">
+          Showing how <span className="text-green-300">Biology</span> builds upon <span className="text-purple-300">Chemistry</span> & <span className="text-blue-300">Physics</span>.
         </p>
       </div>
       
       {/* Legend */}
       <div className="absolute bottom-4 right-4 z-10 glass-panel p-3 rounded-lg text-xs space-y-2 pointer-events-none">
-        <div className="flex items-center gap-2"><span className="w-3 h-3 rounded-full bg-sky-500"></span> Subject</div>
-        <div className="flex items-center gap-2"><span className="w-3 h-3 rounded-full bg-cyan-400"></span> Concept</div>
-        <div className="flex items-center gap-2"><span className="w-3 h-3 rounded-full bg-emerald-500"></span> Skill</div>
-        <div className="flex items-center gap-2"><span className="w-3 h-3 rounded-full bg-rose-500"></span> Misconception</div>
+        <div className="flex items-center gap-2"><div className="w-4 h-2 rounded bg-[#bbdefb] border border-blue-900"></div> Subject</div>
+        <div className="flex items-center gap-2"><div className="w-4 h-2 rounded bg-[#e1bee7] border border-purple-900"></div> Topic</div>
+        <div className="flex items-center gap-2"><div className="w-4 h-2 rounded bg-[#c8e6c9] border border-green-900"></div> Concept</div>
+        <div className="flex items-center gap-2"><div className="w-4 h-2 rounded bg-[#fff9c4] border border-yellow-700"></div> Skill</div>
+        <div className="flex items-center gap-2"><div className="w-4 h-2 rounded bg-[#ffcdd2] border border-red-900"></div> Misconception</div>
+        <div className="flex items-center gap-2"><div className="w-4 h-2 rounded bg-[#ffe0b2] border border-orange-900"></div> Resource</div>
+        <div className="flex items-center gap-2"><div className="w-4 h-2 rounded bg-[#eeeeee] border border-gray-900"></div> Question</div>
       </div>
 
       <svg ref={svgRef} className="w-full h-full"></svg>
@@ -185,14 +305,15 @@ const KnowledgeGraph: React.FC = () => {
       {hoveredNode && (
         <div className="absolute top-4 right-4 z-20 glass-panel p-4 rounded-xl border border-white/10 animate-fade-in max-w-xs">
           <h4 className="font-bold text-lg text-white mb-1">{hoveredNode.label}</h4>
-          <span className={`text-xs px-2 py-1 rounded-full text-black font-semibold 
-            ${hoveredNode.type === NodeType.MISCONCEPTION ? 'bg-rose-400' : 'bg-cyan-400'}`}>
+          <span className={`text-xs px-2 py-1 rounded-full text-black font-semibold bg-white/80`}>
             {hoveredNode.type}
           </span>
           <p className="text-slate-300 text-sm mt-3 leading-relaxed">
             {hoveredNode.type === NodeType.MISCONCEPTION 
-              ? "A common cognitive trap. The system identifies questions designed to trigger this specific error." 
-              : "A discrete node in the learning path. Mastery of this node unlocks advanced dependent concepts."}
+              ? "A specific wrong mental model that students often hold." 
+              : hoveredNode.type === NodeType.QUESTION
+              ? "An evaluation item connecting concepts and testing for misconceptions."
+              : "A node in the learning path."}
           </p>
         </div>
       )}

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Cpu, Menu, X } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Navbar: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -20,22 +21,22 @@ const Navbar: React.FC = () => {
       <div className="container mx-auto px-6 h-20 flex items-center justify-between">
         
         {/* Logo */}
-        <div className="flex items-center gap-2">
+        <Link to="/" className="flex items-center gap-2">
           <div className="relative">
             <div className="absolute inset-0 bg-cyan-500 blur-sm opacity-50 animate-pulse"></div>
             <Cpu className="text-cyan-400 relative z-10" size={28} />
           </div>
-          <span className="text-2xl font-bold text-white tracking-tighter">NeuroGraph</span>
-        </div>
+          <span className="text-2xl font-bold text-white tracking-tighter">NeuraConcept</span>
+        </Link>
 
         {/* Desktop Links */}
         <div className="hidden md:flex items-center gap-8">
-          <a href="#" className="text-slate-300 hover:text-white text-sm font-medium transition-colors">Vision</a>
-          <a href="#" className="text-slate-300 hover:text-white text-sm font-medium transition-colors">Technology</a>
-          <a href="#" className="text-slate-300 hover:text-white text-sm font-medium transition-colors">For Schools</a>
-          <button className="px-5 py-2 rounded-full border border-cyan-500/50 text-cyan-400 text-sm font-semibold hover:bg-cyan-500/10 transition-colors">
+          <Link to="/vision" className="text-slate-300 hover:text-white text-sm font-medium transition-colors">Vision</Link>
+          <Link to="/technology" className="text-slate-300 hover:text-white text-sm font-medium transition-colors">Technology</Link>
+          <Link to="/schools" className="text-slate-300 hover:text-white text-sm font-medium transition-colors">For Schools</Link>
+          <Link to="/login" className="bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors border border-white/10">
             Partner Login
-          </button>
+          </Link>
         </div>
 
         {/* Mobile Toggle */}
@@ -50,12 +51,12 @@ const Navbar: React.FC = () => {
       {/* Mobile Menu */}
       {mobileMenuOpen && (
         <div className="md:hidden bg-slate-950 border-b border-slate-800 p-6 space-y-4 animate-fade-in">
-           <a href="#" className="block text-slate-300 hover:text-white">Vision</a>
-           <a href="#" className="block text-slate-300 hover:text-white">Technology</a>
-           <a href="#" className="block text-slate-300 hover:text-white">For Schools</a>
-           <button className="w-full py-3 mt-4 rounded-lg bg-cyan-900/30 text-cyan-400 border border-cyan-500/30">
+           <Link to="/vision" className="block text-slate-300 hover:text-white" onClick={() => setMobileMenuOpen(false)}>Vision</Link>
+           <Link to="/technology" className="block text-slate-300 hover:text-white" onClick={() => setMobileMenuOpen(false)}>Technology</Link>
+           <Link to="/schools" className="block text-slate-300 hover:text-white" onClick={() => setMobileMenuOpen(false)}>For Schools</Link>
+           <Link to="/login" className="block w-full text-center py-3 mt-4 rounded-lg bg-cyan-900/30 text-cyan-400 border border-cyan-500/30" onClick={() => setMobileMenuOpen(false)}>
              Partner Login
-           </button>
+           </Link>
         </div>
       )}
     </nav>

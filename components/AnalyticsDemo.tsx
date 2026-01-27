@@ -29,7 +29,7 @@ const AnalyticsDemo: React.FC = () => {
                   <div className="w-12 h-12 rounded-full bg-violet-500/20 flex items-center justify-center text-violet-400 font-bold shrink-0">1</div>
                   <div>
                     <h4 className="text-white font-semibold text-lg">Forgetting Curve</h4>
-                    <p className="text-slate-400">Without intervention, 50% of knowledge is lost within 24 hours.</p>
+                    <p className="text-slate-400">Without intervention, knowledge retention decays rapidly over time.</p>
                   </div>
                 </div>
                 <div className="flex gap-4 items-start">
@@ -52,7 +52,7 @@ const AnalyticsDemo: React.FC = () => {
             {/* Chart */}
             <div className="glass-panel p-6 rounded-2xl border border-white/10 relative">
               <div className="absolute -top-4 -right-4 bg-cyan-500 text-black font-bold px-4 py-1 rounded-full text-sm animate-pulse">
-                +400% Retention
+                Optimized Retention
               </div>
               <h3 className="text-slate-300 font-mono text-sm mb-4 uppercase">Memory Retention Over Time</h3>
               <div className="h-[300px] w-full">
@@ -82,7 +82,7 @@ const AnalyticsDemo: React.FC = () => {
                       strokeWidth={3}
                       fillOpacity={1} 
                       fill="url(#colorMemory)" 
-                      name="With NeuroGraph"
+                      name="With NeuraConcept"
                     />
                     <Area 
                       type="monotone" 
