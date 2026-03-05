@@ -14,7 +14,7 @@ export const SEO = ({
   title,
   description,
   keywords,
-  image = "/assets/digital-brain.png",
+  image = "/assets/digital-brain.webp",
   url = "https://neuraconcept.com",
   type = "website"
 }: SEOProps) => {
@@ -71,7 +71,7 @@ export const SEO = ({
           "name": "NeuraConcept",
           "description": T("seo.org_desc"),
           "url": "https://neuraconcept.com",
-          "logo": "https://neuraconcept.com/assets/digital-brain.png",
+          "logo": "https://neuraconcept.com/assets/digital-brain.webp",
           "sameAs": [
             "https://twitter.com/neuraconcept",
             "https://linkedin.com/company/neuraconcept"

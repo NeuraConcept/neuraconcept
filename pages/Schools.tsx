@@ -36,7 +36,7 @@ const Schools: React.FC = () => {
       {/* Classroom Hero Image */}
       <div className="mb-16">
         <img
-          src="/assets/schools-classroom.png"
+          src="/assets/schools-classroom.webp"
           alt={T("schools.img_alt")}
           className="rounded-2xl shadow-lg w-full"
           loading="lazy"

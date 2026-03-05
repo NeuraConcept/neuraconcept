@@ -69,7 +69,7 @@ const GradeOwl: React.FC = () => {
         {/* Product Hero Image */}
         <div className="max-w-4xl mx-auto mt-16">
           <img
-            src="/assets/gradeowl-hero.png"
+            src="/assets/gradeowl-hero.webp"
             alt={T("gradeowl.img_alt")}
             className="rounded-2xl shadow-lg w-full"
             loading="lazy"

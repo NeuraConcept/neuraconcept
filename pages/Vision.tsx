@@ -35,7 +35,7 @@ const Vision: React.FC = () => {
         {/* Vision Hero Image */}
         <div className="mb-20">
           <img
-            src="/assets/vision-education.png"
+            src="/assets/vision-education.webp"
             alt={T("vision.img_alt")}
             className="rounded-2xl shadow-lg w-full"
             loading="lazy"

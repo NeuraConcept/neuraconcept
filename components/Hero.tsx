@@ -65,7 +65,7 @@ const Hero: React.FC = () => {
           <div className="lg:w-1/2 w-full flex justify-center">
             <div className="relative">
               <img
-                src="/assets/hero-teacher.png"
+                src="/assets/hero-teacher.webp"
                 alt={T("hero.img_alt")}
                 className="rounded-2xl shadow-xl shadow-gray-200/50 w-full max-w-lg"
                 loading="lazy"
