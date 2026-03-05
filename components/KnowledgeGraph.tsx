@@ -284,7 +284,7 @@ const KnowledgeGraph: React.FC = () => {
       <div className="absolute top-4 left-4 z-10 pointer-events-none">
         <h3 className="text-cyan-400 font-mono text-sm tracking-wider uppercase mb-1">Live Mental Model</h3>
         <h2 className="text-2xl font-bold text-white tracking-tight">Concept Dependencies</h2>
-        <p className="text-slate-400 text-xs mt-2 max-w-[250px]">
+        <p className="text-gray-300 text-xs mt-2 max-w-[250px]">
           Showing how <span className="text-green-300">Biology</span> builds upon <span className="text-purple-300">Chemistry</span> & <span className="text-blue-300">Physics</span>.
         </p>
       </div>
@@ -308,7 +308,7 @@ const KnowledgeGraph: React.FC = () => {
           <span className={`text-xs px-2 py-1 rounded-full text-black font-semibold bg-white/80`}>
             {hoveredNode.type}
           </span>
-          <p className="text-slate-300 text-sm mt-3 leading-relaxed">
+          <p className="text-gray-200 text-sm mt-3 leading-relaxed">
             {hoveredNode.type === NodeType.MISCONCEPTION 
               ? "A specific wrong mental model that students often hold." 
               : hoveredNode.type === NodeType.QUESTION

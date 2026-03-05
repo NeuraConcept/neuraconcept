@@ -1,64 +1,79 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import KnowledgeGraph from './KnowledgeGraph';
-import { ArrowRight, ChevronRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
+import { useT } from 'talkr';
 
 const Hero: React.FC = () => {
+  const { T } = useT();
+
+  const scrollToHowItWorks = () => {
+    const el = document.getElementById('how-it-works');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
-    <header className="relative pt-32 pb-20 overflow-hidden">
+    <header className="relative pt-32 pb-20 overflow-hidden bg-white">
       <div className="container mx-auto px-6 relative z-10">
         <div className="flex flex-col lg:flex-row gap-12 items-center">
-          
+
           {/* Left Content */}
           <div className="lg:w-1/2 space-y-8">
-            {/* <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-300 text-sm font-mono">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gray-50 border border-gray-200 text-gray-600 text-sm font-medium">
               <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-violet-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-violet-500"></span>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-apple-blue opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-apple-blue"></span>
               </span>
-              V 1.0 Beta Live
-            </div>  */}
+              {T("hero.badge")}
+            </div>
 
-            <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight leading-tight">
-              The <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-violet-500">Neural Network</span> <br />
-              of Learning.
+            <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight leading-tight text-gray-900">
+              {T("hero.title_1")}<span className="text-apple-blue">{T("hero.title_2")}</span>
             </h1>
-            
-            <p className="text-lg text-slate-400 max-w-xl leading-relaxed">
-              Education isn't linear. It's a network. We map the hidden dependencies between thousands of concepts to identify the 
-              <span className="text-white font-semibold"> root cause </span> 
-              of every student's struggle.
+
+            <p className="text-lg text-gray-400 max-w-xl leading-relaxed">
+              {T("hero.subtitle")}
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
-              <Link to="/schools" className="group relative px-8 py-4 bg-white text-black font-bold rounded-lg overflow-hidden transition-all hover:scale-105 active:scale-95 text-center">
-                <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-cyan-300 opacity-0 group-hover:opacity-100 transition-opacity" />
-                <span className="relative flex items-center justify-center gap-2">
-                  Request Demo <ArrowRight size={20} />
-                </span>
+              <Link
+                to="/waitlist"
+                className="bg-apple-blue text-white font-semibold px-8 py-4 rounded-xl hover:bg-apple-blue-dark shadow-lg shadow-apple-blue/20 inline-flex items-center justify-center gap-2 transition-colors"
+              >
+                {T("hero.cta")} <ArrowRight size={20} />
               </Link>
-              
-              <Link to="/technology" className="px-8 py-4 glass-panel text-white font-semibold rounded-lg hover:bg-white/10 transition-colors flex items-center justify-center gap-2 text-center">
-                Explore The Graph <ChevronRight size={20} className="text-slate-400" />
-              </Link>
+
+              <button
+                onClick={scrollToHowItWorks}
+                className="border border-gray-200 text-gray-600 font-semibold px-8 py-4 rounded-xl hover:bg-gray-50 transition-colors text-center"
+              >
+                {T("hero.cta_secondary")}
+              </button>
             </div>
 
-            <div className="flex items-center gap-4 text-sm text-slate-500 pt-8 font-mono">
-              <div>POWERED BY</div>
-              <div className="h-px bg-slate-800 w-12"></div>
-              <div className="flex gap-4">
-                <span>Large Language Models</span>|
-                <span>NEO4J</span>|
-                <span>REACT</span>
-              </div>
+            <div className="flex flex-wrap items-center gap-2 text-sm text-gray-300 pt-4">
+              <span>{T("hero.tag_classrooms")}</span>
+              <span className="text-gray-200">&bull;</span>
+              <span>{T("hero.tag_handwritten")}</span>
+              <span className="text-gray-200">&bull;</span>
+              <span>{T("hero.tag_boards")}</span>
             </div>
           </div>
 
-          {/* Right Content (Graph) */}
-          <div className="lg:w-1/2 w-full perspective-1000">
-             <div className="transform transition-transform hover:rotate-y-2 duration-500">
-               <KnowledgeGraph />
-             </div>
+          {/* Right Visual — Hero Illustration */}
+          <div className="lg:w-1/2 w-full flex justify-center">
+            <div className="relative">
+              <img
+                src="/assets/hero-teacher.png"
+                alt={T("hero.img_alt")}
+                className="rounded-2xl shadow-xl shadow-gray-200/50 w-full max-w-lg"
+                loading="lazy"
+              />
+              {/* Decorative elements */}
+              <div className="absolute -top-4 -right-4 w-16 h-16 bg-blue-100 rounded-2xl -z-10 rotate-12"></div>
+              <div className="absolute -bottom-3 -left-3 w-12 h-12 bg-gray-100 rounded-xl -z-10 -rotate-6"></div>
+            </div>
           </div>
 
         </div>

@@ -1,50 +1,63 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { ArrowRight, MessageCircle } from 'lucide-react';
+import { useT } from 'talkr';
 import { SEO } from '../components/SEO';
 import Hero from '../components/Hero';
 import Features from '../components/Features';
 import AnalyticsDemo from '../components/AnalyticsDemo';
 
 const Home: React.FC = () => {
+  const { T } = useT();
+
   return (
     <>
-      <SEO 
-        title="Home" 
-        description="NeuraConcept is the future of learning, powered by AI and Knowledge Graphs. Upgrade the OS of education today." 
+      <SEO
+        title="Home"
+        description={T("home.seo_desc")}
       />
       <Hero />
       <Features />
       <AnalyticsDemo />
-      
-      {/* CTA Section */}
-      <section className="py-24 container mx-auto px-6 text-center relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-cyan-900/10 pointer-events-none"></div>
-        
-        <h2 className="text-4xl md:text-5xl font-bold mb-6">
-          Ready to upgrade the <span className="text-cyan-400">OS of Education?</span>
-        </h2>
-        <p className="text-slate-400 max-w-2xl mx-auto mb-10 text-lg">
-          We are currently onboarding select coaching centers and schools for our Beta program.
-        </p>
-        
-        <div className="max-w-md mx-auto relative group">
-           <div className="absolute -inset-1 bg-gradient-to-r from-cyan-400 to-violet-600 rounded-lg blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
-           <div className="relative flex">
-             <input 
-                type="email" 
-                placeholder="Enter your email" 
-                className="w-full bg-slate-900 text-white px-6 py-4 rounded-l-lg border-y border-l border-slate-700 focus:outline-none focus:border-cyan-500"
-             />
-             <Link to="/schools" className="bg-white text-black font-bold px-8 py-4 rounded-r-lg hover:bg-slate-200 transition-colors whitespace-nowrap flex items-center">
-               Get Access
-             </Link>
-           </div>
+
+      {/* Social Proof / Board Support Section */}
+      <section className="py-16 container mx-auto px-6">
+        <div className="text-center mb-12">
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">{T("home.boards_heading")}</h2>
         </div>
-        
-        <div className="mt-8">
-          <Link to="/technology" className="text-slate-400 hover:text-cyan-400 text-sm font-medium transition-colors border-b border-transparent hover:border-cyan-400 pb-0.5">
-             See how the technology works
+        <div className="flex flex-wrap justify-center gap-8">
+          <div className="px-6 py-3 rounded-full bg-gray-100 text-gray-600 font-medium">{T("home.board_cbse")}</div>
+          <div className="px-6 py-3 rounded-full bg-gray-100 text-gray-600 font-medium">{T("home.board_icse")}</div>
+          <div className="px-6 py-3 rounded-full bg-gray-100 text-gray-600 font-medium">{T("home.board_karnataka")}</div>
+          <div className="px-6 py-3 rounded-full bg-gray-100 text-gray-600 font-medium">{T("home.board_all")}</div>
+        </div>
+      </section>
+
+      {/* Teacher Quote */}
+      <section className="py-16 bg-gray-50">
+        <div className="container mx-auto px-6 max-w-3xl text-center">
+          <blockquote className="text-2xl text-gray-600 italic mb-6">
+            {T("home.quote")}
+          </blockquote>
+          <p className="text-gray-400 font-medium">{T("home.quote_attr")}</p>
+        </div>
+      </section>
+
+      {/* Bottom CTA */}
+      <section className="py-24 container mx-auto px-6 text-center">
+        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+          {T("home.cta_heading_1")}<span className="text-apple-blue">{T("home.cta_heading_2")}</span>
+        </h2>
+        <p className="text-gray-400 max-w-2xl mx-auto mb-10 text-lg">
+          {T("home.cta_subheading")}
+        </p>
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <Link to="/waitlist" className="bg-apple-blue text-white font-semibold px-8 py-4 rounded-xl hover:bg-apple-blue-dark shadow-lg shadow-apple-blue/20 inline-flex items-center gap-2 justify-center transition-colors">
+            {T("home.cta_waitlist")} <ArrowRight size={20} />
           </Link>
+          <a href="https://chat.whatsapp.com/HgeTpYJgkksAZYYOxwYMDj" target="_blank" rel="noopener noreferrer" className="border border-emerald-600 text-emerald-700 font-semibold px-8 py-4 rounded-xl hover:bg-emerald-50 inline-flex items-center gap-2 justify-center transition-colors">
+            <MessageCircle size={20} /> {T("home.cta_whatsapp")}
+          </a>
         </div>
       </section>
     </>

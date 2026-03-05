@@ -1,22 +1,58 @@
 import React from 'react';
-import { Cpu } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { useT } from 'talkr';
 
 const Footer: React.FC = () => {
+  const { T } = useT();
+
   return (
-    <footer className="border-t border-slate-800 bg-slate-950 py-12 mt-20">
+    <footer className="border-t border-gray-200 bg-gray-50 py-16 mt-20">
       <div className="container mx-auto px-6">
-        <div className="flex flex-col md:flex-row justify-between items-center">
-          <div className="flex items-center gap-2 mb-4 md:mb-0">
-            <Cpu className="text-cyan-400" size={24} />
-            <span className="text-xl font-bold text-white tracking-tighter">NeuraConcept</span>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+          {/* Brand */}
+          <div className="md:col-span-1">
+            <span className="text-xl font-bold text-gray-900 tracking-tight">Neura<span className="text-gray-900">Concept</span></span>
+            <p className="text-gray-400 text-sm mt-3 leading-relaxed">
+              {T("footer.tagline")}
+            </p>
           </div>
-          <div className="text-slate-500 text-sm">
-            &copy; {new Date().getFullYear()} NeuraConcept EdTech. All rights reserved.
+
+          {/* Product */}
+          <div>
+            <h4 className="font-semibold text-gray-900 mb-4 text-sm uppercase tracking-wider">{T("footer.product")}</h4>
+            <ul className="space-y-3">
+              <li><Link to="/gradeowl" className="text-gray-400 hover:text-apple-blue text-sm transition-colors">{T("footer.gradeowl")}</Link></li>
+              <li><Link to="/technology" className="text-gray-400 hover:text-apple-blue text-sm transition-colors">{T("footer.technology")}</Link></li>
+              <li><Link to="/schools" className="text-gray-400 hover:text-apple-blue text-sm transition-colors">{T("footer.schools")}</Link></li>
+            </ul>
           </div>
-          <div className="flex gap-6 mt-4 md:mt-0">
-             {/* <span className="text-slate-600 cursor-not-allowed text-sm">Privacy</span>
-             <span className="text-slate-600 cursor-not-allowed text-sm">Terms</span>
-             <span className="text-slate-600 cursor-not-allowed text-sm">Contact</span> */}
+
+          {/* Company */}
+          <div>
+            <h4 className="font-semibold text-gray-900 mb-4 text-sm uppercase tracking-wider">{T("footer.company")}</h4>
+            <ul className="space-y-3">
+              <li><Link to="/vision" className="text-gray-400 hover:text-apple-blue text-sm transition-colors">{T("footer.vision")}</Link></li>
+              <li><a href="mailto:dip@turkar.co" className="text-gray-400 hover:text-apple-blue text-sm transition-colors">{T("footer.contact")}</a></li>
+            </ul>
+          </div>
+
+          {/* Connect */}
+          <div>
+            <h4 className="font-semibold text-gray-900 mb-4 text-sm uppercase tracking-wider">{T("footer.connect")}</h4>
+            <ul className="space-y-3">
+              <li>
+                <a href="https://chat.whatsapp.com/HgeTpYJgkksAZYYOxwYMDj" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-apple-blue text-sm transition-colors">
+                  {T("footer.whatsapp")}
+                </a>
+              </li>
+              <li><Link to="/waitlist" className="text-gray-400 hover:text-apple-blue text-sm transition-colors">{T("footer.waitlist")}</Link></li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="border-t border-gray-200 pt-8 flex flex-col md:flex-row justify-between items-center">
+          <div className="text-gray-300 text-sm">
+            &copy; {new Date().getFullYear()} {T("footer.copyright")}
           </div>
         </div>
       </div>

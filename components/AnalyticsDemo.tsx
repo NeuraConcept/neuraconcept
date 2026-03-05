@@ -1,106 +1,133 @@
 import React from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Area, AreaChart } from 'recharts';
+import { XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Area, AreaChart } from 'recharts';
+import { useT } from 'talkr';
 
-const retentionData = [
-  { day: 0, memory: 100, standard: 100 },
-  { day: 1, memory: 80, standard: 50 },
-  { day: 2, memory: 100, standard: 30 }, // Review 1
-  { day: 4, memory: 90, standard: 15 },
-  { day: 5, memory: 100, standard: 10 }, // Review 2
-  { day: 10, memory: 95, standard: 5 },
-  { day: 15, memory: 100, standard: 2 }, // Review 3
-  { day: 30, memory: 98, standard: 0 },
+const timeSavingsData = [
+  { students: 10, manual: 2, gradeowl: 0.5 },
+  { students: 20, manual: 4, gradeowl: 0.8 },
+  { students: 30, manual: 6, gradeowl: 1.0 },
+  { students: 40, manual: 8, gradeowl: 1.2 },
+  { students: 50, manual: 10, gradeowl: 1.5 },
+  { students: 60, manual: 12, gradeowl: 1.8 },
 ];
 
 const AnalyticsDemo: React.FC = () => {
+  const { T } = useT();
+
   return (
-    <section className="py-24 bg-slate-950/50 relative">
-       <div className="container mx-auto px-6">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            
-            {/* Text Content */}
-            <div className="space-y-8">
-              <h2 className="text-3xl md:text-4xl font-bold text-white">
-                The Science of <br/>
-                <span className="text-cyan-400">Spaced Repetition</span>
-              </h2>
-              <div className="space-y-6">
-                <div className="flex gap-4 items-start">
-                  <div className="w-12 h-12 rounded-full bg-violet-500/20 flex items-center justify-center text-violet-400 font-bold shrink-0">1</div>
-                  <div>
-                    <h4 className="text-white font-semibold text-lg">Forgetting Curve</h4>
-                    <p className="text-slate-400">Without intervention, knowledge retention decays rapidly over time.</p>
-                  </div>
-                </div>
-                <div className="flex gap-4 items-start">
-                  <div className="w-12 h-12 rounded-full bg-cyan-500/20 flex items-center justify-center text-cyan-400 font-bold shrink-0">2</div>
-                  <div>
-                    <h4 className="text-white font-semibold text-lg">Strategic Intervention</h4>
-                    <p className="text-slate-400">Our AI injects "Micro-Quizzes" at the precise moment of memory decay.</p>
-                  </div>
-                </div>
-                <div className="flex gap-4 items-start">
-                  <div className="w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400 font-bold shrink-0">3</div>
-                  <div>
-                    <h4 className="text-white font-semibold text-lg">Permanent Encoding</h4>
-                    <p className="text-slate-400">3-4 strategically spaced reviews lead to near-permanent retention.</p>
-                  </div>
-                </div>
+    <section id="how-it-works" className="py-24 bg-gray-50">
+      <div className="container mx-auto px-6">
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+            {T("analytics.heading_1")}<span className="text-apple-blue">{T("analytics.heading_2")}</span>{T("analytics.heading_3")}
+          </h2>
+        </div>
+
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+
+          {/* Steps */}
+          <div className="space-y-8">
+            <div className="flex gap-4 items-start">
+              <div className="w-12 h-12 rounded-full bg-gray-900 flex items-center justify-center text-white font-bold shrink-0 text-lg">
+                1
+              </div>
+              <div>
+                <h4 className="text-gray-900 font-semibold text-lg mb-1">{T("analytics.step1_title")}</h4>
+                <p className="text-gray-400 leading-relaxed">
+                  {T("analytics.step1_desc")}
+                </p>
               </div>
             </div>
-
-            {/* Chart */}
-            <div className="glass-panel p-6 rounded-2xl border border-white/10 relative">
-              <div className="absolute -top-4 -right-4 bg-cyan-500 text-black font-bold px-4 py-1 rounded-full text-sm animate-pulse">
-                Optimized Retention
+            <div className="flex gap-4 items-start">
+              <div className="w-12 h-12 rounded-full bg-gray-900 flex items-center justify-center text-white font-bold shrink-0 text-lg">
+                2
               </div>
-              <h3 className="text-slate-300 font-mono text-sm mb-4 uppercase">Memory Retention Over Time</h3>
-              <div className="h-[300px] w-full">
-                <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart data={retentionData}>
-                    <defs>
-                      <linearGradient id="colorMemory" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#22d3ee" stopOpacity={0.3}/>
-                        <stop offset="95%" stopColor="#22d3ee" stopOpacity={0}/>
-                      </linearGradient>
-                      <linearGradient id="colorStandard" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#94a3b8" stopOpacity={0.3}/>
-                        <stop offset="95%" stopColor="#94a3b8" stopOpacity={0}/>
-                      </linearGradient>
-                    </defs>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
-                    <XAxis dataKey="day" stroke="#64748b" label={{ value: 'Days', position: 'insideBottomRight', offset: 0, fill: '#64748b' }} />
-                    <YAxis stroke="#64748b" label={{ value: 'Retention %', angle: -90, position: 'insideLeft', fill: '#64748b' }}/>
-                    <Tooltip 
-                      contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', color: '#fff' }}
-                      itemStyle={{ color: '#fff' }}
-                    />
-                    <Area 
-                      type="monotone" 
-                      dataKey="memory" 
-                      stroke="#22d3ee" 
-                      strokeWidth={3}
-                      fillOpacity={1} 
-                      fill="url(#colorMemory)" 
-                      name="With NeuraConcept"
-                    />
-                    <Area 
-                      type="monotone" 
-                      dataKey="standard" 
-                      stroke="#64748b" 
-                      strokeWidth={2}
-                      strokeDasharray="5 5"
-                      fillOpacity={1} 
-                      fill="url(#colorStandard)" 
-                      name="Standard Learning"
-                    />
-                  </AreaChart>
-                </ResponsiveContainer>
+              <div>
+                <h4 className="text-gray-900 font-semibold text-lg mb-1">{T("analytics.step2_title")}</h4>
+                <p className="text-gray-400 leading-relaxed">
+                  {T("analytics.step2_desc")}
+                </p>
               </div>
             </div>
-
+            <div className="flex gap-4 items-start">
+              <div className="w-12 h-12 rounded-full bg-gray-900 flex items-center justify-center text-white font-bold shrink-0 text-lg">
+                3
+              </div>
+              <div>
+                <h4 className="text-gray-900 font-semibold text-lg mb-1">{T("analytics.step3_title")}</h4>
+                <p className="text-gray-400 leading-relaxed">
+                  {T("analytics.step3_desc")}
+                </p>
+              </div>
+            </div>
           </div>
-       </div>
+
+          {/* Chart */}
+          <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
+            <h3 className="text-gray-900 font-semibold text-sm mb-4 uppercase tracking-wide">
+              {T("analytics.chart_title")}
+            </h3>
+            <div className="h-[300px] w-full">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={timeSavingsData}>
+                  <defs>
+                    <linearGradient id="colorGradeOwl" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#007AFF" stopOpacity={0.2} />
+                      <stop offset="95%" stopColor="#007AFF" stopOpacity={0} />
+                    </linearGradient>
+                    <linearGradient id="colorManual" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#86868B" stopOpacity={0.15} />
+                      <stop offset="95%" stopColor="#86868B" stopOpacity={0} />
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#D2D2D7" />
+                  <XAxis
+                    dataKey="students"
+                    stroke="#86868B"
+                    tick={{ fill: '#86868B', fontSize: 12 }}
+                    label={{ value: T("analytics.chart_xlabel"), position: 'insideBottomRight', offset: -5, fill: '#86868B', fontSize: 12 }}
+                  />
+                  <YAxis
+                    stroke="#86868B"
+                    tick={{ fill: '#86868B', fontSize: 12 }}
+                    label={{ value: T("analytics.chart_ylabel"), angle: -90, position: 'insideLeft', fill: '#86868B', fontSize: 12 }}
+                  />
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: '#ffffff',
+                      borderColor: '#D2D2D7',
+                      borderRadius: '8px',
+                      color: '#1D1D1F',
+                      boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
+                    }}
+                    itemStyle={{ color: '#1D1D1F' }}
+                  />
+                  <Area
+                    type="monotone"
+                    dataKey="manual"
+                    stroke="#86868B"
+                    strokeWidth={2}
+                    strokeDasharray="5 5"
+                    fillOpacity={1}
+                    fill="url(#colorManual)"
+                    name={T("analytics.chart_manual")}
+                  />
+                  <Area
+                    type="monotone"
+                    dataKey="gradeowl"
+                    stroke="#007AFF"
+                    strokeWidth={3}
+                    fillOpacity={1}
+                    fill="url(#colorGradeOwl)"
+                    name={T("analytics.chart_gradeowl")}
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+
+        </div>
+      </div>
     </section>
   );
 };

@@ -18,6 +18,11 @@ export default defineConfig(({ mode }) => {
         alias: {
           '@': path.resolve(__dirname, '.'),
         }
+      },
+      build: {
+        rollupOptions: {
+          external: ['react', 'react-dom', 'react-dom/client', 'react/jsx-runtime', 'lucide-react', 'd3', 'recharts', 'talkr'],
+        }
       }
     };
 });

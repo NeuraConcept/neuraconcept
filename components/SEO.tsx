@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useT } from 'talkr';
 
 interface SEOProps {
   title: string;
@@ -9,21 +10,23 @@ interface SEOProps {
   type?: string;
 }
 
-export const SEO = ({ 
-  title, 
-  description, 
-  keywords = "EdTech, AI, Learning, Education, Future",
+export const SEO = ({
+  title,
+  description,
+  keywords,
   image = "/assets/digital-brain.png",
   url = "https://neuraconcept.com",
   type = "website"
 }: SEOProps) => {
+  const { T, locale } = useT();
+  const defaultKeywords = T("seo.default_keywords");
+  const resolvedKeywords = keywords || defaultKeywords;
+
   useEffect(() => {
-    // Basic Title Update
-    const siteTitle = "NeuraConcept | The Future of Learning";
+    const siteTitle = T("seo.site_title");
     const fullTitle = title === "Home" ? siteTitle : `${title} | NeuraConcept`;
     document.title = fullTitle;
 
-    // Helper to update or create meta tags
     const updateMeta = (attribute: string, attributeValue: string, content: string) => {
       let element = document.querySelector(`meta[${attribute}="${attributeValue}"]`);
       if (!element) {
@@ -36,7 +39,7 @@ export const SEO = ({
 
     // Standard Meta
     updateMeta('name', 'description', description);
-    updateMeta('name', 'keywords', keywords);
+    updateMeta('name', 'keywords', resolvedKeywords);
 
     // Open Graph
     updateMeta('property', 'og:title', fullTitle);
@@ -44,11 +47,12 @@ export const SEO = ({
     updateMeta('property', 'og:image', image);
     updateMeta('property', 'og:url', url);
     updateMeta('property', 'og:type', type);
+    updateMeta('property', 'og:locale', locale === 'hi' ? 'hi_IN' : 'en_US');
 
     // Twitter
     updateMeta('name', 'twitter:title', fullTitle);
     updateMeta('name', 'twitter:description', description);
-    
+
     // Canonical Link
     let link = document.querySelector('link[rel="canonical"]');
     if (!link) {
@@ -65,6 +69,7 @@ export const SEO = ({
         {
           "@type": "Organization",
           "name": "NeuraConcept",
+          "description": T("seo.org_desc"),
           "url": "https://neuraconcept.com",
           "logo": "https://neuraconcept.com/assets/digital-brain.png",
           "sameAs": [
@@ -73,14 +78,22 @@ export const SEO = ({
           ]
         },
         {
+          "@type": "SoftwareApplication",
+          "name": "GradeOwl",
+          "description": T("seo.app_desc"),
+          "applicationCategory": "EducationalApplication",
+          "operatingSystem": "Android, iOS",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "INR",
+            "description": T("seo.free_offer")
+          }
+        },
+        {
           "@type": "WebSite",
           "name": "NeuraConcept",
-          "url": "https://neuraconcept.com",
-          "potentialAction": {
-            "@type": "SearchAction",
-            "target": "https://neuraconcept.com/search?q={search_term_string}",
-            "query-input": "required name=search_term_string"
-          }
+          "url": "https://neuraconcept.com"
         }
       ]
     };
@@ -93,8 +106,7 @@ export const SEO = ({
     }
     script.textContent = JSON.stringify(schemaData);
 
-  }, [title, description, keywords, image, url, type]);
+  }, [title, description, resolvedKeywords, image, url, type, locale]);
 
-  // Render nothing
   return null;
 };

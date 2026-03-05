@@ -1,32 +1,33 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="NeuraConcept is the future of learning, powered by AI and Knowledge Graphs." />
-    <meta name="theme-color" content="#020617" />
-    <title>NeuraConcept | The Future of Learning</title>
+    <meta name="description" content="GradeOwl by NeuraConcept — AI-powered subjective exam grading for CBSE, ICSE, and State Board schools. Grade answer sheets 10x faster." />
+    <meta name="theme-color" content="#007AFF" />
+    <title>NeuraConcept | GradeOwl - AI Grading for Indian Schools</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
-        darkMode: 'class',
         theme: {
           extend: {
             colors: {
-              cyan: {
-                400: '#22d3ee',
-                500: '#06b6d4',
-                900: '#164e63',
+              apple: {
+                blue: '#007AFF',
+                'blue-dark': '#0056CC',
               },
-              violet: {
-                500: '#8b5cf6',
-                900: '#4c1d95',
-              },
-              slate: {
-                850: '#151f32',
-                900: '#0f172a',
-                950: '#020617',
+              gray: {
+                50: '#F5F5F7',
+                100: '#E8E8ED',
+                200: '#D2D2D7',
+                300: '#AEAEB2',
+                400: '#86868B',
+                500: '#6E6E73',
+                600: '#48484A',
+                700: '#3A3A3C',
+                800: '#2C2C2E',
+                900: '#1D1D1F',
               }
             },
             fontFamily: {
@@ -34,13 +35,12 @@
               mono: ['Fira Code', 'monospace'],
             },
             animation: {
-              'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-              'float': 'float 6s ease-in-out infinite',
+              'fade-in': 'fadeIn 0.5s ease-out forwards',
             },
             keyframes: {
-              float: {
-                '0%, 100%': { transform: 'translateY(0)' },
-                '50%': { transform: 'translateY(-20px)' },
+              fadeIn: {
+                '0%': { opacity: '0', transform: 'translateY(10px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' },
               }
             }
           },
@@ -51,20 +51,47 @@
     <style>
       body {
         font-family: 'Inter', sans-serif;
-        background-color: #020617; /* Slate 950 */
-        color: white;
+        background-color: #FFFFFF;
+        color: #1D1D1F;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
       }
-      .glass-panel {
-        background: rgba(15, 23, 42, 0.6);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border: 1px solid rgba(148, 163, 184, 0.1);
+      .card {
+        background-color: #FFFFFF;
+        border-radius: 1rem;
+        box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.04);
+        border: 1px solid #D2D2D7;
       }
-      .neon-text {
-        text-shadow: 0 0 10px rgba(34, 211, 238, 0.5);
+      .btn-primary {
+        background-color: #007AFF;
+        color: #FFFFFF;
+        border-radius: 0.75rem;
+        padding: 0.5rem 1.25rem;
+        font-weight: 600;
+        transition: background-color 0.2s;
       }
-      .neon-border {
-        box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
+      .btn-primary:hover {
+        background-color: #0056CC;
+      }
+      .btn-secondary {
+        border: 1px solid #D2D2D7;
+        color: #1D1D1F;
+        border-radius: 0.75rem;
+        padding: 0.5rem 1.25rem;
+        font-weight: 600;
+        transition: all 0.2s;
+      }
+      .btn-secondary:hover {
+        background-color: #F5F5F7;
+      }
+      .section-light {
+        background-color: #F5F5F7;
+      }
+      .gradient-text {
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-image: linear-gradient(to right, #1D1D1F, #6E6E73);
       }
     </style>
   <script type="importmap">
@@ -75,7 +102,8 @@
     "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
     "react/": "https://esm.sh/react@^19.2.3/",
     "lucide-react": "https://esm.sh/lucide-react@^0.563.0",
-    "recharts": "https://esm.sh/recharts@^3.7.0"
+    "recharts": "https://esm.sh/recharts@^3.7.0",
+    "talkr": "https://esm.sh/talkr@latest"
   }
 }
 </script>

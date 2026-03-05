@@ -1,77 +1,43 @@
 import React from 'react';
-import { Brain, Youtube, Smartphone, Zap, ScanLine, Share2 } from 'lucide-react';
-import { FeatureItem } from '../types';
+import { Sparkles, ScanLine, ClipboardCheck, Layers } from 'lucide-react';
+import { useT } from 'talkr';
 
-const features: FeatureItem[] = [
-  {
-    title: "Mental Model Engine",
-    description: "We don't just track scores. We map a vast network of interconnected concepts to identify exactly why a student is failing Calculus (hint: it might be Algebra).",
-    icon: Brain,
-    color: "text-fuchsia-400"
-  },
-  {
-    title: "Youtube Layering",
-    description: "We curate the world's best free content and overlay Active Recall quizzes. High quality, low cost, maximum retention.",
-    icon: Youtube,
-    color: "text-red-500"
-  },
-  {
-    title: "Reels-Style Discovery",
-    description: "Capture 'dead time' with vertical, swipeable micro-learning. Spark curiosity during bus rides with 60-second concept hooks.",
-    icon: Smartphone,
-    color: "text-cyan-400"
-  },
-  {
-    title: "AI Auto-Grading",
-    description: "The 'Trojan Horse' for adoption. Teachers save hours grading via OCR, while we digitize the data to feed the Mental Model.",
-    icon: ScanLine,
-    color: "text-emerald-400"
-  },
-  {
-    title: "Spaced Repetition",
-    description: "The algorithm predicts memory decay. We schedule reviews exactly when a student is about to forget, ensuring long-term retention.",
-    icon: Zap,
-    color: "text-amber-400"
-  },
-  {
-    title: "Concept Navigation",
-    description: "Break free from linear textbook chapters. Navigate learning by atomic concepts and their relationships.",
-    icon: Share2,
-    color: "text-indigo-400"
-  }
+const featureKeys = [
+  { titleKey: "features.rubric_title", descKey: "features.rubric_desc", icon: Sparkles },
+  { titleKey: "features.studentid_title", descKey: "features.studentid_desc", icon: ScanLine },
+  { titleKey: "features.grading_title", descKey: "features.grading_desc", icon: ClipboardCheck },
+  { titleKey: "features.cluster_title", descKey: "features.cluster_desc", icon: Layers },
 ];
 
 const Features: React.FC = () => {
-  return (
-    <section className="py-24 relative overflow-hidden">
-      {/* Background Gradients */}
-      <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-violet-900/20 blur-[100px] rounded-full pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-1/3 h-1/3 bg-cyan-900/20 blur-[100px] rounded-full pointer-events-none" />
+  const { T } = useT();
 
-      <div className="container mx-auto px-6 relative z-10">
+  return (
+    <section className="py-24 bg-white">
+      <div className="container mx-auto px-6">
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-3xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400 mb-6">
-            Beyond Rote Learning
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+            {T("features.heading")}
           </h2>
-          <p className="text-slate-400 text-lg leading-relaxed">
-            Standard LMSs are flat lists. <span className="text-cyan-400 font-semibold">NeuraConcept</span> is a multi-dimensional web of understanding.
+          <p className="text-gray-400 text-lg leading-relaxed">
+            {T("features.subheading")}
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {features.map((feature, idx) => (
-            <div 
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+          {featureKeys.map((feature, idx) => (
+            <div
               key={idx}
-              className="group glass-panel p-8 rounded-2xl hover:bg-slate-800/50 transition-all duration-300 hover:-translate-y-2 border border-white/5 hover:border-cyan-500/30"
+              className="group bg-white p-8 rounded-2xl border border-gray-200 hover:shadow-md hover:border-blue-500 transition-all duration-300"
             >
-              <div className={`p-3 rounded-lg bg-slate-900/50 w-fit mb-6 ${feature.color} group-hover:scale-110 transition-transform duration-300`}>
-                <feature.icon size={32} />
+              <div className="p-3 rounded-lg bg-gray-50 w-fit mb-6 text-gray-900 group-hover:scale-110 transition-transform duration-300">
+                <feature.icon size={28} />
               </div>
-              <h3 className="text-xl font-bold text-white mb-3 group-hover:text-cyan-300 transition-colors">
-                {feature.title}
+              <h3 className="text-xl font-bold text-gray-900 mb-3">
+                {T(feature.titleKey)}
               </h3>
-              <p className="text-slate-400 leading-relaxed">
-                {feature.description}
+              <p className="text-gray-400 leading-relaxed">
+                {T(feature.descKey)}
               </p>
             </div>
           ))}
