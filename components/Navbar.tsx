@@ -59,6 +59,8 @@ const Navbar: React.FC = () => {
           <Link to="/technology" className="text-gray-500 hover:text-apple-blue text-sm font-medium transition-colors">{T("nav.technology")}</Link>
           <Link to="/gradeowl" className="text-gray-500 hover:text-apple-blue text-sm font-medium transition-colors">{T("nav.gradeowl")}</Link>
           <Link to="/schools" className="text-gray-500 hover:text-apple-blue text-sm font-medium transition-colors">{T("nav.schools")}</Link>
+          <Link to="/pricing" className="text-gray-500 hover:text-apple-blue text-sm font-medium transition-colors">{T("nav.pricing")}</Link>
+          <Link to="/about" className="text-gray-500 hover:text-apple-blue text-sm font-medium transition-colors">{T("nav.about")}</Link>
           <Link to="/login" className="text-gray-400 hover:text-gray-600 text-sm font-medium transition-colors">{T("nav.login")}</Link>
 
           {/* Language Dropdown */}
@@ -110,6 +112,8 @@ const Navbar: React.FC = () => {
            <Link to="/technology" className="block text-gray-600 hover:text-apple-blue font-medium" onClick={() => setMobileMenuOpen(false)}>{T("nav.technology")}</Link>
            <Link to="/gradeowl" className="block text-gray-600 hover:text-apple-blue font-medium" onClick={() => setMobileMenuOpen(false)}>{T("nav.gradeowl")}</Link>
            <Link to="/schools" className="block text-gray-600 hover:text-apple-blue font-medium" onClick={() => setMobileMenuOpen(false)}>{T("nav.schools")}</Link>
+           <Link to="/pricing" className="block text-gray-600 hover:text-apple-blue font-medium" onClick={() => setMobileMenuOpen(false)}>{T("nav.pricing")}</Link>
+           <Link to="/about" className="block text-gray-600 hover:text-apple-blue font-medium" onClick={() => setMobileMenuOpen(false)}>{T("nav.about")}</Link>
            <Link to="/login" className="block text-gray-400 hover:text-gray-600 font-medium" onClick={() => setMobileMenuOpen(false)}>{T("nav.login")}</Link>
 
            {/* Mobile Language Selector */}
