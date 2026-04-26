@@ -16,7 +16,7 @@ export const SEO = ({
   description,
   keywords,
   image = "/assets/digital-brain.webp",
-  url = "https://neuraconcept.com",
+  url,
   type = "website",
   jsonLd,
 }: SEOProps) => {
@@ -47,22 +47,30 @@ export const SEO = ({
     updateMeta('property', 'og:title', fullTitle);
     updateMeta('property', 'og:description', description);
     updateMeta('property', 'og:image', image);
-    updateMeta('property', 'og:url', url);
     updateMeta('property', 'og:type', type);
-    updateMeta('property', 'og:locale', locale === 'hi' ? 'hi_IN' : 'en_US');
+    const ogLocale = locale === 'hi' ? 'hi_IN' : locale === 'kn' ? 'kn_IN' : 'en_US';
+    updateMeta('property', 'og:locale', ogLocale);
+    if (url) {
+      updateMeta('property', 'og:url', url);
+    }
 
     // Twitter
     updateMeta('name', 'twitter:title', fullTitle);
     updateMeta('name', 'twitter:description', description);
+    updateMeta('name', 'twitter:image', image);
 
-    // Canonical Link
-    let link = document.querySelector('link[rel="canonical"]');
-    if (!link) {
+    // Canonical Link — only emit when the page provides an explicit URL.
+    // Pages without an explicit canonical (e.g. NotFound) intentionally
+    // emit none to avoid pointing every URL at the homepage.
+    if (url) {
+      let link = document.querySelector('link[rel="canonical"]');
+      if (!link) {
         link = document.createElement('link');
         link.setAttribute('rel', 'canonical');
         document.head.appendChild(link);
+      }
+      link.setAttribute('href', url);
     }
-    link.setAttribute('href', url);
 
     // JSON-LD Structured Data
     const baseGraph: Array<Record<string, unknown>> = [

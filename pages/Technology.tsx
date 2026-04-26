@@ -18,6 +18,7 @@ const Technology: React.FC = () => {
       <SEO
         title={T("nav.technology")}
         description={T("tech.seo_desc")}
+        url="https://neuraconcept.com/technology"
       />
       <div className="max-w-4xl mx-auto text-center mb-16">
         <h1 className="text-4xl md:text-6xl font-bold mb-6 text-gray-900">

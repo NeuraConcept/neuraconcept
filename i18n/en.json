@@ -230,7 +230,9 @@
     "subjects_placeholder": "e.g., Science, Hindi, Social Studies",
     "submit": "Request Access",
     "seo_desc": "Join the GradeOwl early access waitlist — AI grading for CBSE, ICSE and State Board schools. Reduce copy checking time and teacher workload.",
-    "seo_keywords": "GradeOwl waitlist, AI grading early access, teacher signup, CBSE grading tool"
+    "seo_keywords": "GradeOwl waitlist, AI grading early access, teacher signup, CBSE grading tool",
+    "error_generic": "Something went wrong. Please try again.",
+    "submitting": "Submitting..."
   },
   "pricing": {
     "title_1": "Simple, school-friendly ",
@@ -320,6 +322,7 @@
   "notFound": {
     "title": "Page not found",
     "message": "The page you're looking for doesn't exist.",
-    "cta": "Back to home"
+    "cta": "Back to home",
+    "seo_desc": "Page not found on NeuraConcept. Return to the home page or browse GradeOwl, FAQ, pricing, and more."
   }
 }

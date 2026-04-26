@@ -34,10 +34,10 @@ const Waitlist: React.FC = () => {
       if (res.status === 201) {
         setSubmitted(true);
       } else {
-        setError('Something went wrong. Please try again.');
+        setError(T("waitlist.error_generic"));
       }
     } catch {
-      setError('Something went wrong. Please try again.');
+      setError(T("waitlist.error_generic"));
     } finally {
       setLoading(false);
     }
@@ -51,6 +51,7 @@ const Waitlist: React.FC = () => {
         title={T("nav.waitlist")}
         description={T("waitlist.seo_desc")}
         keywords={T("waitlist.seo_keywords")}
+        url="https://neuraconcept.com/waitlist"
       />
 
       <div className="container mx-auto px-6">

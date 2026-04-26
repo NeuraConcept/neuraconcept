@@ -15,6 +15,7 @@ const Home: React.FC = () => {
       <SEO
         title="Home"
         description={T("home.seo_desc")}
+        url="https://neuraconcept.com/"
       />
       <Hero />
       <Features />

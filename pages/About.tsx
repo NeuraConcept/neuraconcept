@@ -43,6 +43,7 @@ const About: React.FC = () => {
         title={T("nav.about")}
         description={T("about.seo_desc")}
         keywords={T("about.seo_keywords")}
+        url="https://neuraconcept.com/about"
       />
 
       {/* Header */}

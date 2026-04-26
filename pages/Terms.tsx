@@ -47,6 +47,7 @@ const Terms: React.FC = () => {
         title={T("nav.terms")}
         description="NeuraConcept Terms of Service - Terms governing your use of GradeOwl."
         keywords="GradeOwl terms, NeuraConcept terms of service, AI grading terms, school subscription terms, India edtech"
+        url="https://neuraconcept.com/terms"
       />
       <div className="max-w-4xl mx-auto">
         <h1 className="text-4xl md:text-5xl font-bold mb-4 text-center text-gray-900">
@@ -73,7 +74,7 @@ const Terms: React.FC = () => {
 
         <div className="prose prose-lg">
           {/* Section 1 */}
-          <h2 id="section-1" className="text-2xl font-bold mt-12 mb-4 text-gray-900">1. Introduction</h2>
+          <h2 id="section-1" className="text-2xl font-bold mt-12 mb-4 text-gray-900 scroll-mt-24">1. Introduction</h2>
           <p className="text-gray-500 mb-4 leading-relaxed">
             These Terms of Service ("Terms") govern your access to and use of GradeOwl, an AI-powered subjective exam grading platform operated by NeuraConcept ("we," "us," or "our"). GradeOwl is designed for Indian schools following CBSE, ICSE, and State Board curricula.
           </p>
@@ -85,7 +86,7 @@ const Terms: React.FC = () => {
           </p>
 
           {/* Section 2 */}
-          <h2 id="section-2" className="text-2xl font-bold mt-12 mb-4 text-gray-900">2. Definitions</h2>
+          <h2 id="section-2" className="text-2xl font-bold mt-12 mb-4 text-gray-900 scroll-mt-24">2. Definitions</h2>
           <ul className="list-disc pl-6 space-y-2 text-gray-500">
             <li><strong className="text-gray-700">"Service"</strong> means the GradeOwl platform, including the web application, mobile application, API, and all related tools and features provided by NeuraConcept.</li>
             <li><strong className="text-gray-700">"User"</strong> means any teacher, school administrator, or authorized individual who creates an account and uses the Service.</li>
@@ -95,7 +96,7 @@ const Terms: React.FC = () => {
           </ul>
 
           {/* Section 3 */}
-          <h2 id="section-3" className="text-2xl font-bold mt-12 mb-4 text-gray-900">3. Service Description</h2>
+          <h2 id="section-3" className="text-2xl font-bold mt-12 mb-4 text-gray-900 scroll-mt-24">3. Service Description</h2>
           <p className="text-gray-500 mb-4 leading-relaxed">
             GradeOwl provides the following capabilities to subscribed schools and their authorized teachers:
           </p>
@@ -108,7 +109,7 @@ const Terms: React.FC = () => {
           </ul>
 
           {/* Section 4 - AI Disclaimer (emphasized) */}
-          <h2 id="section-4" className="text-2xl font-bold mt-12 mb-4 text-gray-900">4. AI Grading Disclaimer</h2>
+          <h2 id="section-4" className="text-2xl font-bold mt-12 mb-4 text-gray-900 scroll-mt-24">4. AI Grading Disclaimer</h2>
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
             <p className="text-blue-900 font-semibold mb-4">
               GradeOwl's AI grading is assistive, not authoritative. The teacher always has the final say.
@@ -124,7 +125,7 @@ const Terms: React.FC = () => {
           </div>
 
           {/* Section 5 */}
-          <h2 id="section-5" className="text-2xl font-bold mt-12 mb-4 text-gray-900">5. Account Registration and Responsibilities</h2>
+          <h2 id="section-5" className="text-2xl font-bold mt-12 mb-4 text-gray-900 scroll-mt-24">5. Account Registration and Responsibilities</h2>
 
           <h3 className="text-xl font-semibold mt-8 mb-3 text-gray-900">5.1 Account Creation</h3>
           <p className="text-gray-500 mb-4 leading-relaxed">
@@ -148,7 +149,7 @@ const Terms: React.FC = () => {
           </p>
 
           {/* Section 6 */}
-          <h2 id="section-6" className="text-2xl font-bold mt-12 mb-4 text-gray-900">6. Subscription and Payment</h2>
+          <h2 id="section-6" className="text-2xl font-bold mt-12 mb-4 text-gray-900 scroll-mt-24">6. Subscription and Payment</h2>
 
           <h3 className="text-xl font-semibold mt-8 mb-3 text-gray-900">6.1 Subscription Model</h3>
           <p className="text-gray-500 mb-4 leading-relaxed">
@@ -173,7 +174,7 @@ const Terms: React.FC = () => {
           </p>
 
           {/* Section 7 */}
-          <h2 id="section-7" className="text-2xl font-bold mt-12 mb-4 text-gray-900">7. Acceptable Use Policy</h2>
+          <h2 id="section-7" className="text-2xl font-bold mt-12 mb-4 text-gray-900 scroll-mt-24">7. Acceptable Use Policy</h2>
           <p className="text-gray-500 mb-4 leading-relaxed">
             You agree to use the Service only for its intended purpose: grading student answer sheets for legitimate educational purposes within your school.
           </p>
@@ -193,7 +194,7 @@ const Terms: React.FC = () => {
           </p>
 
           {/* Section 8 */}
-          <h2 id="section-8" className="text-2xl font-bold mt-12 mb-4 text-gray-900">8. Intellectual Property</h2>
+          <h2 id="section-8" className="text-2xl font-bold mt-12 mb-4 text-gray-900 scroll-mt-24">8. Intellectual Property</h2>
 
           <h3 className="text-xl font-semibold mt-8 mb-3 text-gray-900">8.1 Your Content</h3>
           <p className="text-gray-500 mb-4 leading-relaxed">
@@ -225,7 +226,7 @@ const Terms: React.FC = () => {
           </p>
 
           {/* Section 9 */}
-          <h2 id="section-9" className="text-2xl font-bold mt-12 mb-4 text-gray-900">9. Data Handling and Privacy</h2>
+          <h2 id="section-9" className="text-2xl font-bold mt-12 mb-4 text-gray-900 scroll-mt-24">9. Data Handling and Privacy</h2>
           <p className="text-gray-500 mb-4 leading-relaxed">
             Our collection, use, and protection of personal data is governed by our{' '}
             <Link to="/privacy" className="text-apple-blue hover:underline">Privacy Policy</Link>,
@@ -244,7 +245,7 @@ const Terms: React.FC = () => {
           </p>
 
           {/* Section 10 */}
-          <h2 id="section-10" className="text-2xl font-bold mt-12 mb-4 text-gray-900">10. Service Availability and Modifications</h2>
+          <h2 id="section-10" className="text-2xl font-bold mt-12 mb-4 text-gray-900 scroll-mt-24">10. Service Availability and Modifications</h2>
 
           <h3 className="text-xl font-semibold mt-8 mb-3 text-gray-900">10.1 Availability</h3>
           <p className="text-gray-500 mb-4 leading-relaxed">
@@ -262,7 +263,7 @@ const Terms: React.FC = () => {
           </p>
 
           {/* Section 11 */}
-          <h2 id="section-11" className="text-2xl font-bold mt-12 mb-4 text-gray-900">11. Limitation of Liability</h2>
+          <h2 id="section-11" className="text-2xl font-bold mt-12 mb-4 text-gray-900 scroll-mt-24">11. Limitation of Liability</h2>
           <p className="text-gray-500 mb-4 leading-relaxed">
             <strong className="text-gray-700">To the maximum extent permitted by applicable Indian law:</strong>
           </p>
@@ -278,7 +279,7 @@ const Terms: React.FC = () => {
           </p>
 
           {/* Section 12 */}
-          <h2 id="section-12" className="text-2xl font-bold mt-12 mb-4 text-gray-900">12. Indemnification</h2>
+          <h2 id="section-12" className="text-2xl font-bold mt-12 mb-4 text-gray-900 scroll-mt-24">12. Indemnification</h2>
           <p className="text-gray-500 mb-4 leading-relaxed">
             You agree to indemnify and hold harmless NeuraConcept, its founders, employees, and agents from any claims, damages, losses, or expenses (including reasonable legal fees) arising from:
           </p>
@@ -291,7 +292,7 @@ const Terms: React.FC = () => {
           </ul>
 
           {/* Section 13 */}
-          <h2 id="section-13" className="text-2xl font-bold mt-12 mb-4 text-gray-900">13. Termination</h2>
+          <h2 id="section-13" className="text-2xl font-bold mt-12 mb-4 text-gray-900 scroll-mt-24">13. Termination</h2>
 
           <h3 className="text-xl font-semibold mt-8 mb-3 text-gray-900">13.1 Termination by You</h3>
           <p className="text-gray-500 mb-4 leading-relaxed">
@@ -316,7 +317,7 @@ const Terms: React.FC = () => {
           </ul>
 
           {/* Section 14 */}
-          <h2 id="section-14" className="text-2xl font-bold mt-12 mb-4 text-gray-900">14. Dispute Resolution</h2>
+          <h2 id="section-14" className="text-2xl font-bold mt-12 mb-4 text-gray-900 scroll-mt-24">14. Dispute Resolution</h2>
 
           <h3 className="text-xl font-semibold mt-8 mb-3 text-gray-900">14.1 Governing Law</h3>
           <p className="text-gray-500 mb-4 leading-relaxed">
@@ -334,7 +335,7 @@ const Terms: React.FC = () => {
           </ol>
 
           {/* Section 15 */}
-          <h2 id="section-15" className="text-2xl font-bold mt-12 mb-4 text-gray-900">15. General Provisions</h2>
+          <h2 id="section-15" className="text-2xl font-bold mt-12 mb-4 text-gray-900 scroll-mt-24">15. General Provisions</h2>
 
           <h3 className="text-xl font-semibold mt-8 mb-3 text-gray-900">15.1 Entire Agreement</h3>
           <p className="text-gray-500 mb-4 leading-relaxed">
@@ -362,7 +363,7 @@ const Terms: React.FC = () => {
           </p>
 
           {/* Section 16 */}
-          <h2 id="section-16" className="text-2xl font-bold mt-12 mb-4 text-gray-900">16. Changes to These Terms</h2>
+          <h2 id="section-16" className="text-2xl font-bold mt-12 mb-4 text-gray-900 scroll-mt-24">16. Changes to These Terms</h2>
           <p className="text-gray-500 mb-4 leading-relaxed">We may update these Terms from time to time. When we make changes:</p>
           <ul className="list-disc pl-6 space-y-2 text-gray-500">
             <li>We will update the "Last Updated" date at the top of this page.</li>
@@ -371,7 +372,7 @@ const Terms: React.FC = () => {
           </ul>
 
           {/* Section 17 */}
-          <h2 id="section-17" className="text-2xl font-bold mt-12 mb-4 text-gray-900">17. Contact Us</h2>
+          <h2 id="section-17" className="text-2xl font-bold mt-12 mb-4 text-gray-900 scroll-mt-24">17. Contact Us</h2>
           <p className="text-gray-500 mb-4 leading-relaxed">For questions about these Terms:</p>
           <ul className="list-disc pl-6 space-y-2 text-gray-500">
             <li><strong className="text-gray-700">General support:</strong> support@neuraconcept.com</li>

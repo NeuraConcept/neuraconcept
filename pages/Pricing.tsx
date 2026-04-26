@@ -63,6 +63,7 @@ const Pricing: React.FC = () => {
         title={T("nav.pricing")}
         description={T("pricing.seo_desc")}
         keywords={T("pricing.seo_keywords")}
+        url="https://neuraconcept.com/pricing"
       />
 
       {/* Header */}

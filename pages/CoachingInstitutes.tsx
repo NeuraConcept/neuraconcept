@@ -3,6 +3,20 @@ import { Link } from 'react-router-dom';
 import { Clock, Scale, BarChart3, CheckCircle, ArrowRight } from 'lucide-react';
 import { SEO } from '../components/SEO';
 
+const coachingJsonLd = {
+  "@type": "Service",
+  "serviceType": "AI-powered test series and mock test grading",
+  "provider": {
+    "@type": "Organization",
+    "name": "NeuraConcept",
+  },
+  "areaServed": "India",
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "Coaching Institutes, Tutoring Centers",
+  },
+};
+
 const CoachingInstitutes: React.FC = () => {
   const features = [
     {
@@ -54,19 +68,8 @@ const CoachingInstitutes: React.FC = () => {
         title="Coaching Institutes"
         description="GradeOwl for coaching institutes — automated test series grading, mock test checking, rubric-based marking. Built for JEE/NEET prep centers and multi-batch tutoring chains across India."
         keywords="test series grading tool india, mock test checking automation, ai grading coaching institute, automated answer checking india, JEE NEET mock grading, coaching institute software"
-        jsonLd={{
-          "@type": "Service",
-          "serviceType": "AI-powered test series and mock test grading",
-          "provider": {
-            "@type": "Organization",
-            "name": "NeuraConcept",
-          },
-          "areaServed": "India",
-          "audience": {
-            "@type": "Audience",
-            "audienceType": "Coaching Institutes, Tutoring Centers",
-          },
-        }}
+        url="https://neuraconcept.com/coaching-institutes"
+        jsonLd={coachingJsonLd}
       />
 
       <div className="container mx-auto px-6">

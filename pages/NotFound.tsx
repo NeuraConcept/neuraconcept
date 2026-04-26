@@ -11,7 +11,7 @@ const NotFound: React.FC = () => {
     <div className="pt-24 pb-20">
       <SEO
         title={T("notFound.title")}
-        description={T("notFound.message")}
+        description={T("notFound.seo_desc")}
       />
 
       <section className="container mx-auto px-6">

@@ -17,6 +17,7 @@ const Vision: React.FC = () => {
       <SEO
         title={T("nav.vision")}
         description={T("vision.seo_desc")}
+        url="https://neuraconcept.com/vision"
       />
       <div className="max-w-4xl mx-auto">
         <h1 className="text-4xl md:text-6xl font-bold mb-10 text-center text-gray-900">
