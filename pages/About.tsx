@@ -86,14 +86,14 @@ const About: React.FC = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-gray-400 hover:text-apple-blue transition-colors"
-                    aria-label="LinkedIn"
+                    aria-label={T("about.linkedin_label")}
                   >
                     <Linkedin size={20} />
                   </a>
                   <a
                     href="mailto:dip@neuraconcept.com"
                     className="text-gray-400 hover:text-apple-blue transition-colors"
-                    aria-label="Email"
+                    aria-label={T("about.email_label")}
                   >
                     <Mail size={20} />
                   </a>

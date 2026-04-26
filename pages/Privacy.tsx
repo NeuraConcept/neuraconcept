@@ -1,16 +1,48 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useT } from 'talkr';
+import { ArrowUp } from 'lucide-react';
 import { SEO } from '../components/SEO';
+
+const sections = [
+  { n: 1, title: 'Introduction' },
+  { n: 2, title: 'Who This Policy Applies To' },
+  { n: 3, title: 'Data We Collect' },
+  { n: 4, title: 'How We Use Your Data' },
+  { n: 5, title: "Children's Data Protection" },
+  { n: 6, title: 'How We Share Your Data' },
+  { n: 7, title: 'Data Storage and Security' },
+  { n: 8, title: 'Data Retention and Deletion' },
+  { n: 9, title: 'Your Rights Under the DPDPA' },
+  { n: 10, title: 'Cookies and Tracking Technologies' },
+  { n: 11, title: 'Changes to This Privacy Policy' },
+  { n: 12, title: 'Grievance Redressal' },
+  { n: 13, title: 'Contact Us' },
+];
 
 const Privacy: React.FC = () => {
   const { T } = useT();
+  const [showBackToTop, setShowBackToTop] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowBackToTop(window.scrollY > 400);
+    };
+    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   return (
     <div className="pt-24 pb-20 container mx-auto px-6">
       <SEO
         title={T("nav.privacy")}
         description="NeuraConcept Privacy Policy - How we collect, use, store, and protect your personal data."
+        keywords="GradeOwl privacy, NeuraConcept privacy policy, DPDPA, student data protection, Indian schools, AI grading privacy"
       />
       <div className="max-w-4xl mx-auto">
         <h1 className="text-4xl md:text-5xl font-bold mb-4 text-center text-gray-900">
@@ -20,9 +52,24 @@ const Privacy: React.FC = () => {
           <strong>Effective Date:</strong> April 2026 &middot; <strong>Last Updated:</strong> April 2026
         </p>
 
+        <div className="bg-gray-50 border border-gray-200 rounded-xl p-6 mb-12">
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">Table of Contents</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2">
+            {sections.map((s) => (
+              <a
+                key={s.n}
+                href={`#section-${s.n}`}
+                className="text-apple-blue hover:underline text-sm"
+              >
+                {s.n}. {s.title}
+              </a>
+            ))}
+          </div>
+        </div>
+
         <div className="prose prose-lg">
           {/* Section 1 */}
-          <h2 className="text-2xl font-bold mt-12 mb-4 text-gray-900">1. Introduction</h2>
+          <h2 id="section-1" className="text-2xl font-bold mt-12 mb-4 text-gray-900">1. Introduction</h2>
           <p className="text-gray-500 mb-4 leading-relaxed">
             NeuraConcept ("we," "us," or "our") operates GradeOwl, an AI-powered subjective exam grading platform for Indian schools. This Privacy Policy explains how we collect, use, store, and protect personal data when you use our website (neuraconcept.com), mobile application, and related services (collectively, the "Service").
           </p>
@@ -34,7 +81,7 @@ const Privacy: React.FC = () => {
           </p>
 
           {/* Section 2 */}
-          <h2 className="text-2xl font-bold mt-12 mb-4 text-gray-900">2. Who This Policy Applies To</h2>
+          <h2 id="section-2" className="text-2xl font-bold mt-12 mb-4 text-gray-900">2. Who This Policy Applies To</h2>
           <p className="text-gray-500 mb-4 leading-relaxed">GradeOwl is used by:</p>
           <ul className="list-disc pl-6 space-y-2 text-gray-500">
             <li><strong className="text-gray-700">Teachers and School Administrators</strong> who create accounts, upload question papers, answer keys, and student answer sheets for AI-assisted grading.</li>
@@ -44,7 +91,7 @@ const Privacy: React.FC = () => {
           </ul>
 
           {/* Section 3 */}
-          <h2 className="text-2xl font-bold mt-12 mb-4 text-gray-900">3. Data We Collect</h2>
+          <h2 id="section-3" className="text-2xl font-bold mt-12 mb-4 text-gray-900">3. Data We Collect</h2>
 
           <h3 className="text-xl font-semibold mt-8 mb-3 text-gray-900">3.1 Teacher and Administrator Data</h3>
           <p className="text-gray-500 mb-4 leading-relaxed">When teachers or administrators register and use GradeOwl, we collect:</p>
@@ -78,7 +125,7 @@ const Privacy: React.FC = () => {
           </p>
 
           {/* Section 4 */}
-          <h2 className="text-2xl font-bold mt-12 mb-4 text-gray-900">4. How We Use Your Data</h2>
+          <h2 id="section-4" className="text-2xl font-bold mt-12 mb-4 text-gray-900">4. How We Use Your Data</h2>
           <p className="text-gray-500 mb-4 leading-relaxed">We use the data we collect for the following purposes:</p>
           <div className="overflow-x-auto mb-6">
             <table className="w-full border-collapse">
@@ -138,7 +185,7 @@ const Privacy: React.FC = () => {
           </ul>
 
           {/* Section 5 */}
-          <h2 className="text-2xl font-bold mt-12 mb-4 text-gray-900">5. Children's Data Protection</h2>
+          <h2 id="section-5" className="text-2xl font-bold mt-12 mb-4 text-gray-900">5. Children's Data Protection</h2>
           <p className="text-gray-500 mb-4 leading-relaxed">
             Since GradeOwl processes data of students who are minors (under 18 years of age), we take the following measures in compliance with Section 9 of the DPDPA:
           </p>
@@ -166,7 +213,7 @@ const Privacy: React.FC = () => {
           </p>
 
           {/* Section 6 */}
-          <h2 className="text-2xl font-bold mt-12 mb-4 text-gray-900">6. How We Share Your Data</h2>
+          <h2 id="section-6" className="text-2xl font-bold mt-12 mb-4 text-gray-900">6. How We Share Your Data</h2>
           <p className="text-gray-500 mb-4 leading-relaxed">We share personal data only in the following circumstances:</p>
 
           <h3 className="text-xl font-semibold mt-8 mb-3 text-gray-900">6.1 Third-Party Service Providers</h3>
@@ -241,7 +288,7 @@ const Privacy: React.FC = () => {
           </p>
 
           {/* Section 7 */}
-          <h2 className="text-2xl font-bold mt-12 mb-4 text-gray-900">7. Data Storage and Security</h2>
+          <h2 id="section-7" className="text-2xl font-bold mt-12 mb-4 text-gray-900">7. Data Storage and Security</h2>
 
           <h3 className="text-xl font-semibold mt-8 mb-3 text-gray-900">7.1 Data Location</h3>
           <p className="text-gray-500 mb-4 leading-relaxed">
@@ -269,7 +316,7 @@ const Privacy: React.FC = () => {
           </ul>
 
           {/* Section 8 */}
-          <h2 className="text-2xl font-bold mt-12 mb-4 text-gray-900">8. Data Retention and Deletion</h2>
+          <h2 id="section-8" className="text-2xl font-bold mt-12 mb-4 text-gray-900">8. Data Retention and Deletion</h2>
 
           <h3 className="text-xl font-semibold mt-8 mb-3 text-gray-900">8.1 Retention Periods</h3>
           <p className="text-gray-500 mb-4 leading-relaxed">
@@ -296,7 +343,7 @@ const Privacy: React.FC = () => {
           </p>
 
           {/* Section 9 */}
-          <h2 className="text-2xl font-bold mt-12 mb-4 text-gray-900">9. Your Rights Under the DPDPA</h2>
+          <h2 id="section-9" className="text-2xl font-bold mt-12 mb-4 text-gray-900">9. Your Rights Under the DPDPA</h2>
           <p className="text-gray-500 mb-4 leading-relaxed">
             As a Data Principal under the Digital Personal Data Protection Act, 2023, you have the following rights:
           </p>
@@ -316,7 +363,7 @@ const Privacy: React.FC = () => {
           </p>
 
           {/* Section 10 */}
-          <h2 className="text-2xl font-bold mt-12 mb-4 text-gray-900">10. Cookies and Tracking Technologies</h2>
+          <h2 id="section-10" className="text-2xl font-bold mt-12 mb-4 text-gray-900">10. Cookies and Tracking Technologies</h2>
           <p className="text-gray-500 mb-4 leading-relaxed">
             GradeOwl uses only essential cookies and local storage necessary for the functioning of the Service:
           </p>
@@ -332,7 +379,7 @@ const Privacy: React.FC = () => {
           </ul>
 
           {/* Section 11 */}
-          <h2 className="text-2xl font-bold mt-12 mb-4 text-gray-900">11. Changes to This Privacy Policy</h2>
+          <h2 id="section-11" className="text-2xl font-bold mt-12 mb-4 text-gray-900">11. Changes to This Privacy Policy</h2>
           <p className="text-gray-500 mb-4 leading-relaxed">
             We may update this Privacy Policy from time to time to reflect changes in our practices, technology, or legal requirements. When we make changes:
           </p>
@@ -343,7 +390,7 @@ const Privacy: React.FC = () => {
           </ul>
 
           {/* Section 12 */}
-          <h2 className="text-2xl font-bold mt-12 mb-4 text-gray-900">12. Grievance Redressal</h2>
+          <h2 id="section-12" className="text-2xl font-bold mt-12 mb-4 text-gray-900">12. Grievance Redressal</h2>
           <p className="text-gray-500 mb-4 leading-relaxed">
             If you have any concerns about how your personal data is being processed, you may contact our Grievance Officer:
           </p>
@@ -357,7 +404,7 @@ const Privacy: React.FC = () => {
           </p>
 
           {/* Section 13 */}
-          <h2 className="text-2xl font-bold mt-12 mb-4 text-gray-900">13. Contact Us</h2>
+          <h2 id="section-13" className="text-2xl font-bold mt-12 mb-4 text-gray-900">13. Contact Us</h2>
           <p className="text-gray-500 mb-4 leading-relaxed">For any questions or concerns about this Privacy Policy:</p>
           <ul className="list-disc pl-6 space-y-2 text-gray-500">
             <li><strong className="text-gray-700">Privacy inquiries:</strong> privacy@neuraconcept.com</li>
@@ -376,6 +423,16 @@ const Privacy: React.FC = () => {
           </p>
         </div>
       </div>
+      <button
+        type="button"
+        onClick={scrollToTop}
+        aria-label="Back to top"
+        className={`fixed bottom-6 right-6 w-12 h-12 rounded-full bg-apple-blue hover:bg-apple-blue-dark text-white shadow-lg flex items-center justify-center transition-opacity z-50 ${
+          showBackToTop ? 'opacity-100' : 'opacity-0 pointer-events-none'
+        }`}
+      >
+        <ArrowUp className="w-5 h-5" />
+      </button>
     </div>
   );
 };

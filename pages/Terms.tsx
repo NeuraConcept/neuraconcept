@@ -1,16 +1,52 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useT } from 'talkr';
+import { ArrowUp } from 'lucide-react';
 import { SEO } from '../components/SEO';
+
+const sections = [
+  { n: 1, title: 'Introduction' },
+  { n: 2, title: 'Definitions' },
+  { n: 3, title: 'Service Description' },
+  { n: 4, title: 'AI Grading Disclaimer' },
+  { n: 5, title: 'Account Registration and Responsibilities' },
+  { n: 6, title: 'Subscription and Payment' },
+  { n: 7, title: 'Acceptable Use Policy' },
+  { n: 8, title: 'Intellectual Property' },
+  { n: 9, title: 'Data Handling and Privacy' },
+  { n: 10, title: 'Service Availability and Modifications' },
+  { n: 11, title: 'Limitation of Liability' },
+  { n: 12, title: 'Indemnification' },
+  { n: 13, title: 'Termination' },
+  { n: 14, title: 'Dispute Resolution' },
+  { n: 15, title: 'General Provisions' },
+  { n: 16, title: 'Changes to These Terms' },
+  { n: 17, title: 'Contact Us' },
+];
 
 const Terms: React.FC = () => {
   const { T } = useT();
+  const [showBackToTop, setShowBackToTop] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowBackToTop(window.scrollY > 400);
+    };
+    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   return (
     <div className="pt-24 pb-20 container mx-auto px-6">
       <SEO
         title={T("nav.terms")}
         description="NeuraConcept Terms of Service - Terms governing your use of GradeOwl."
+        keywords="GradeOwl terms, NeuraConcept terms of service, AI grading terms, school subscription terms, India edtech"
       />
       <div className="max-w-4xl mx-auto">
         <h1 className="text-4xl md:text-5xl font-bold mb-4 text-center text-gray-900">
@@ -20,9 +56,24 @@ const Terms: React.FC = () => {
           <strong>Effective Date:</strong> April 2026 &middot; <strong>Last Updated:</strong> April 2026
         </p>
 
+        <div className="bg-gray-50 border border-gray-200 rounded-xl p-6 mb-12">
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">Table of Contents</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2">
+            {sections.map((s) => (
+              <a
+                key={s.n}
+                href={`#section-${s.n}`}
+                className="text-apple-blue hover:underline text-sm"
+              >
+                {s.n}. {s.title}
+              </a>
+            ))}
+          </div>
+        </div>
+
         <div className="prose prose-lg">
           {/* Section 1 */}
-          <h2 className="text-2xl font-bold mt-12 mb-4 text-gray-900">1. Introduction</h2>
+          <h2 id="section-1" className="text-2xl font-bold mt-12 mb-4 text-gray-900">1. Introduction</h2>
           <p className="text-gray-500 mb-4 leading-relaxed">
             These Terms of Service ("Terms") govern your access to and use of GradeOwl, an AI-powered subjective exam grading platform operated by NeuraConcept ("we," "us," or "our"). GradeOwl is designed for Indian schools following CBSE, ICSE, and State Board curricula.
           </p>
@@ -34,7 +85,7 @@ const Terms: React.FC = () => {
           </p>
 
           {/* Section 2 */}
-          <h2 className="text-2xl font-bold mt-12 mb-4 text-gray-900">2. Definitions</h2>
+          <h2 id="section-2" className="text-2xl font-bold mt-12 mb-4 text-gray-900">2. Definitions</h2>
           <ul className="list-disc pl-6 space-y-2 text-gray-500">
             <li><strong className="text-gray-700">"Service"</strong> means the GradeOwl platform, including the web application, mobile application, API, and all related tools and features provided by NeuraConcept.</li>
             <li><strong className="text-gray-700">"User"</strong> means any teacher, school administrator, or authorized individual who creates an account and uses the Service.</li>
@@ -44,7 +95,7 @@ const Terms: React.FC = () => {
           </ul>
 
           {/* Section 3 */}
-          <h2 className="text-2xl font-bold mt-12 mb-4 text-gray-900">3. Service Description</h2>
+          <h2 id="section-3" className="text-2xl font-bold mt-12 mb-4 text-gray-900">3. Service Description</h2>
           <p className="text-gray-500 mb-4 leading-relaxed">
             GradeOwl provides the following capabilities to subscribed schools and their authorized teachers:
           </p>
@@ -57,7 +108,7 @@ const Terms: React.FC = () => {
           </ul>
 
           {/* Section 4 - AI Disclaimer (emphasized) */}
-          <h2 className="text-2xl font-bold mt-12 mb-4 text-gray-900">4. AI Grading Disclaimer</h2>
+          <h2 id="section-4" className="text-2xl font-bold mt-12 mb-4 text-gray-900">4. AI Grading Disclaimer</h2>
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
             <p className="text-blue-900 font-semibold mb-4">
               GradeOwl's AI grading is assistive, not authoritative. The teacher always has the final say.
@@ -73,7 +124,7 @@ const Terms: React.FC = () => {
           </div>
 
           {/* Section 5 */}
-          <h2 className="text-2xl font-bold mt-12 mb-4 text-gray-900">5. Account Registration and Responsibilities</h2>
+          <h2 id="section-5" className="text-2xl font-bold mt-12 mb-4 text-gray-900">5. Account Registration and Responsibilities</h2>
 
           <h3 className="text-xl font-semibold mt-8 mb-3 text-gray-900">5.1 Account Creation</h3>
           <p className="text-gray-500 mb-4 leading-relaxed">
@@ -97,7 +148,7 @@ const Terms: React.FC = () => {
           </p>
 
           {/* Section 6 */}
-          <h2 className="text-2xl font-bold mt-12 mb-4 text-gray-900">6. Subscription and Payment</h2>
+          <h2 id="section-6" className="text-2xl font-bold mt-12 mb-4 text-gray-900">6. Subscription and Payment</h2>
 
           <h3 className="text-xl font-semibold mt-8 mb-3 text-gray-900">6.1 Subscription Model</h3>
           <p className="text-gray-500 mb-4 leading-relaxed">
@@ -122,7 +173,7 @@ const Terms: React.FC = () => {
           </p>
 
           {/* Section 7 */}
-          <h2 className="text-2xl font-bold mt-12 mb-4 text-gray-900">7. Acceptable Use Policy</h2>
+          <h2 id="section-7" className="text-2xl font-bold mt-12 mb-4 text-gray-900">7. Acceptable Use Policy</h2>
           <p className="text-gray-500 mb-4 leading-relaxed">
             You agree to use the Service only for its intended purpose: grading student answer sheets for legitimate educational purposes within your school.
           </p>
@@ -142,7 +193,7 @@ const Terms: React.FC = () => {
           </p>
 
           {/* Section 8 */}
-          <h2 className="text-2xl font-bold mt-12 mb-4 text-gray-900">8. Intellectual Property</h2>
+          <h2 id="section-8" className="text-2xl font-bold mt-12 mb-4 text-gray-900">8. Intellectual Property</h2>
 
           <h3 className="text-xl font-semibold mt-8 mb-3 text-gray-900">8.1 Your Content</h3>
           <p className="text-gray-500 mb-4 leading-relaxed">
@@ -174,7 +225,7 @@ const Terms: React.FC = () => {
           </p>
 
           {/* Section 9 */}
-          <h2 className="text-2xl font-bold mt-12 mb-4 text-gray-900">9. Data Handling and Privacy</h2>
+          <h2 id="section-9" className="text-2xl font-bold mt-12 mb-4 text-gray-900">9. Data Handling and Privacy</h2>
           <p className="text-gray-500 mb-4 leading-relaxed">
             Our collection, use, and protection of personal data is governed by our{' '}
             <Link to="/privacy" className="text-apple-blue hover:underline">Privacy Policy</Link>,
@@ -193,7 +244,7 @@ const Terms: React.FC = () => {
           </p>
 
           {/* Section 10 */}
-          <h2 className="text-2xl font-bold mt-12 mb-4 text-gray-900">10. Service Availability and Modifications</h2>
+          <h2 id="section-10" className="text-2xl font-bold mt-12 mb-4 text-gray-900">10. Service Availability and Modifications</h2>
 
           <h3 className="text-xl font-semibold mt-8 mb-3 text-gray-900">10.1 Availability</h3>
           <p className="text-gray-500 mb-4 leading-relaxed">
@@ -211,7 +262,7 @@ const Terms: React.FC = () => {
           </p>
 
           {/* Section 11 */}
-          <h2 className="text-2xl font-bold mt-12 mb-4 text-gray-900">11. Limitation of Liability</h2>
+          <h2 id="section-11" className="text-2xl font-bold mt-12 mb-4 text-gray-900">11. Limitation of Liability</h2>
           <p className="text-gray-500 mb-4 leading-relaxed">
             <strong className="text-gray-700">To the maximum extent permitted by applicable Indian law:</strong>
           </p>
@@ -227,7 +278,7 @@ const Terms: React.FC = () => {
           </p>
 
           {/* Section 12 */}
-          <h2 className="text-2xl font-bold mt-12 mb-4 text-gray-900">12. Indemnification</h2>
+          <h2 id="section-12" className="text-2xl font-bold mt-12 mb-4 text-gray-900">12. Indemnification</h2>
           <p className="text-gray-500 mb-4 leading-relaxed">
             You agree to indemnify and hold harmless NeuraConcept, its founders, employees, and agents from any claims, damages, losses, or expenses (including reasonable legal fees) arising from:
           </p>
@@ -240,7 +291,7 @@ const Terms: React.FC = () => {
           </ul>
 
           {/* Section 13 */}
-          <h2 className="text-2xl font-bold mt-12 mb-4 text-gray-900">13. Termination</h2>
+          <h2 id="section-13" className="text-2xl font-bold mt-12 mb-4 text-gray-900">13. Termination</h2>
 
           <h3 className="text-xl font-semibold mt-8 mb-3 text-gray-900">13.1 Termination by You</h3>
           <p className="text-gray-500 mb-4 leading-relaxed">
@@ -265,7 +316,7 @@ const Terms: React.FC = () => {
           </ul>
 
           {/* Section 14 */}
-          <h2 className="text-2xl font-bold mt-12 mb-4 text-gray-900">14. Dispute Resolution</h2>
+          <h2 id="section-14" className="text-2xl font-bold mt-12 mb-4 text-gray-900">14. Dispute Resolution</h2>
 
           <h3 className="text-xl font-semibold mt-8 mb-3 text-gray-900">14.1 Governing Law</h3>
           <p className="text-gray-500 mb-4 leading-relaxed">
@@ -283,7 +334,7 @@ const Terms: React.FC = () => {
           </ol>
 
           {/* Section 15 */}
-          <h2 className="text-2xl font-bold mt-12 mb-4 text-gray-900">15. General Provisions</h2>
+          <h2 id="section-15" className="text-2xl font-bold mt-12 mb-4 text-gray-900">15. General Provisions</h2>
 
           <h3 className="text-xl font-semibold mt-8 mb-3 text-gray-900">15.1 Entire Agreement</h3>
           <p className="text-gray-500 mb-4 leading-relaxed">
@@ -311,7 +362,7 @@ const Terms: React.FC = () => {
           </p>
 
           {/* Section 16 */}
-          <h2 className="text-2xl font-bold mt-12 mb-4 text-gray-900">16. Changes to These Terms</h2>
+          <h2 id="section-16" className="text-2xl font-bold mt-12 mb-4 text-gray-900">16. Changes to These Terms</h2>
           <p className="text-gray-500 mb-4 leading-relaxed">We may update these Terms from time to time. When we make changes:</p>
           <ul className="list-disc pl-6 space-y-2 text-gray-500">
             <li>We will update the "Last Updated" date at the top of this page.</li>
@@ -320,7 +371,7 @@ const Terms: React.FC = () => {
           </ul>
 
           {/* Section 17 */}
-          <h2 className="text-2xl font-bold mt-12 mb-4 text-gray-900">17. Contact Us</h2>
+          <h2 id="section-17" className="text-2xl font-bold mt-12 mb-4 text-gray-900">17. Contact Us</h2>
           <p className="text-gray-500 mb-4 leading-relaxed">For questions about these Terms:</p>
           <ul className="list-disc pl-6 space-y-2 text-gray-500">
             <li><strong className="text-gray-700">General support:</strong> support@neuraconcept.com</li>
@@ -335,6 +386,16 @@ const Terms: React.FC = () => {
           </p>
         </div>
       </div>
+      <button
+        type="button"
+        onClick={scrollToTop}
+        aria-label="Back to top"
+        className={`fixed bottom-6 right-6 w-12 h-12 rounded-full bg-apple-blue hover:bg-apple-blue-dark text-white shadow-lg flex items-center justify-center transition-opacity z-50 ${
+          showBackToTop ? 'opacity-100' : 'opacity-0 pointer-events-none'
+        }`}
+      >
+        <ArrowUp className="w-5 h-5" />
+      </button>
     </div>
   );
 };

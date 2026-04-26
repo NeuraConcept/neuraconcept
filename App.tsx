@@ -14,6 +14,7 @@ import About from './pages/About';
 import Pricing from './pages/Pricing';
 import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
+import NotFound from './pages/NotFound';
 import en from './i18n/en.json';
 import hi from './i18n/hi.json';
 import kn from './i18n/kn.json';
@@ -48,6 +49,7 @@ const App: React.FC = () => {
               <Route path="/pricing" element={<Pricing />} />
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/terms" element={<Terms />} />
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </main>
           <Footer />

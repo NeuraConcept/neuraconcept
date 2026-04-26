@@ -294,6 +294,8 @@
     "founder_role": "Founder",
     "founder_location": "Bangalore, India",
     "founder_img_alt": "Dip Turkar, Founder of NeuraConcept",
+    "linkedin_label": "LinkedIn",
+    "email_label": "Email",
     "founder_bio": "Ex-Google Search engineer who shipped widgets impacting 340K+ users on Google Discover. BITS Pilani CS graduate. Previously worked on graph databases at Vaticle (TypeDB) \u2014 directly relevant to NeuraConcept's knowledge graph technology. Built NeuraConcept to make quality education affordable for every Indian school.",
     "company_name": "NeuraConcept EdTech",
     "company_status": "Currently in incorporation",
@@ -312,5 +314,10 @@
     "product_coming_soon": "Coming soon",
     "seo_desc": "About NeuraConcept \u2014 building AI education infrastructure to make quality education affordable for every Indian school. Meet the team and learn what we're building.",
     "seo_keywords": "NeuraConcept, about, AI education, Indian schools, GradeOwl, knowledge graph, edtech startup, Bangalore"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "message": "The page you're looking for doesn't exist.",
+    "cta": "Back to home"
   }
 }
