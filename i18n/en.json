@@ -7,7 +7,13 @@
     "about": "About",
     "pricing": "Pricing",
     "login": "Login",
-    "waitlist": "Join Waitlist"
+    "waitlist": "Join Waitlist",
+    "group_product": "Product",
+    "group_company": "Company",
+    "group_legal": "Legal",
+    "menu_open": "Open menu",
+    "menu_close": "Close menu",
+    "language": "Language"
   },
   "hero": {
     "badge": "Now in Early Access",

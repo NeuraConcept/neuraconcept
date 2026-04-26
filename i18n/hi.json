@@ -7,7 +7,13 @@
     "about": "हमारे बारे में",
     "pricing": "मूल्य निर्धारण",
     "login": "लॉगिन",
-    "waitlist": "वेटलिस्ट जॉइन करें"
+    "waitlist": "वेटलिस्ट जॉइन करें",
+    "group_product": "उत्पाद",
+    "group_company": "कंपनी",
+    "group_legal": "कानूनी",
+    "menu_open": "मेन्यू खोलें",
+    "menu_close": "मेन्यू बंद करें",
+    "language": "भाषा"
   },
   "hero": {
     "badge": "अर्ली एक्सेस में उपलब्ध",

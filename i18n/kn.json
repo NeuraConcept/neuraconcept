@@ -7,7 +7,13 @@
     "about": "ನಮ್ಮ ಬಗ್ಗೆ",
     "pricing": "ಬೆಲೆ",
     "login": "ಲಾಗಿನ್",
-    "waitlist": "ವೇಟ್‌ಲಿಸ್ಟ್ ಸೇರಿ"
+    "waitlist": "ವೇಟ್‌ಲಿಸ್ಟ್ ಸೇರಿ",
+    "group_product": "ಉತ್ಪಾದನೆ",
+    "group_company": "ಕಂಪನಿ",
+    "group_legal": "ಕಾನೂನು",
+    "menu_open": "ಮೆನು ತೆರೆಯಿರಿ",
+    "menu_close": "ಮೆನು ಮುಚ್ಚಿ",
+    "language": "ಭಾಷೆ"
   },
   "hero": {
     "badge": "ಈಗ ಅರ್ಲಿ ಆಕ್ಸೆಸ್‌ನಲ್ಲಿ ಲಭ್ಯ",
