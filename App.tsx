@@ -14,6 +14,8 @@ import About from './pages/About';
 import Pricing from './pages/Pricing';
 import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
+import Faq from './pages/Faq';
+import CoachingInstitutes from './pages/CoachingInstitutes';
 import NotFound from './pages/NotFound';
 import en from './i18n/en.json';
 import hi from './i18n/hi.json';
@@ -49,6 +51,8 @@ const App: React.FC = () => {
               <Route path="/pricing" element={<Pricing />} />
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/terms" element={<Terms />} />
+              <Route path="/faq" element={<Faq />} />
+              <Route path="/coaching-institutes" element={<CoachingInstitutes />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </main>

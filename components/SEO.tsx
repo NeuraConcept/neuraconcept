@@ -8,6 +8,7 @@ interface SEOProps {
   image?: string;
   url?: string;
   type?: string;
+  jsonLd?: Record<string, unknown> | Array<Record<string, unknown>>;
 }
 
 export const SEO = ({
@@ -16,7 +17,8 @@ export const SEO = ({
   keywords,
   image = "/assets/digital-brain.webp",
   url = "https://neuraconcept.com",
-  type = "website"
+  type = "website",
+  jsonLd,
 }: SEOProps) => {
   const { T, locale } = useT();
   const defaultKeywords = T("seo.default_keywords");
@@ -63,39 +65,46 @@ export const SEO = ({
     link.setAttribute('href', url);
 
     // JSON-LD Structured Data
+    const baseGraph: Array<Record<string, unknown>> = [
+      {
+        "@type": "Organization",
+        "name": "NeuraConcept",
+        "description": T("seo.org_desc"),
+        "url": "https://neuraconcept.com",
+        "logo": "https://neuraconcept.com/assets/digital-brain.webp",
+        "sameAs": [
+          "https://twitter.com/neuraconcept",
+          "https://linkedin.com/company/neuraconcept"
+        ]
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "GradeOwl",
+        "description": T("seo.app_desc"),
+        "applicationCategory": "EducationalApplication",
+        "operatingSystem": "Android, iOS",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "INR",
+          "description": T("seo.free_offer")
+        }
+      },
+      {
+        "@type": "WebSite",
+        "name": "NeuraConcept",
+        "url": "https://neuraconcept.com"
+      }
+    ];
+
+    // Merge any page-specific structured data into the @graph array
+    const pageGraph: Array<Record<string, unknown>> = jsonLd
+      ? Array.isArray(jsonLd) ? jsonLd : [jsonLd]
+      : [];
+
     const schemaData = {
       "@context": "https://schema.org",
-      "@graph": [
-        {
-          "@type": "Organization",
-          "name": "NeuraConcept",
-          "description": T("seo.org_desc"),
-          "url": "https://neuraconcept.com",
-          "logo": "https://neuraconcept.com/assets/digital-brain.webp",
-          "sameAs": [
-            "https://twitter.com/neuraconcept",
-            "https://linkedin.com/company/neuraconcept"
-          ]
-        },
-        {
-          "@type": "SoftwareApplication",
-          "name": "GradeOwl",
-          "description": T("seo.app_desc"),
-          "applicationCategory": "EducationalApplication",
-          "operatingSystem": "Android, iOS",
-          "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "INR",
-            "description": T("seo.free_offer")
-          }
-        },
-        {
-          "@type": "WebSite",
-          "name": "NeuraConcept",
-          "url": "https://neuraconcept.com"
-        }
-      ]
+      "@graph": [...baseGraph, ...pageGraph]
     };
 
     let script = document.querySelector('script[type="application/ld+json"]');
@@ -106,7 +115,7 @@ export const SEO = ({
     }
     script.textContent = JSON.stringify(schemaData);
 
-  }, [title, description, resolvedKeywords, image, url, type, locale]);
+  }, [title, description, resolvedKeywords, image, url, type, locale, jsonLd]);
 
   return null;
 };

@@ -65,7 +65,9 @@
     "copyright": "NeuraConcept EdTech. All rights reserved.",
     "legal": "Legal",
     "privacy": "Privacy Policy",
-    "terms": "Terms"
+    "terms": "Terms",
+    "coaching_institutes": "Coaching Institutes",
+    "faq": "FAQ"
   },
   "home": {
     "boards_heading": "Works with all major Indian boards",
@@ -80,7 +82,7 @@
     "cta_subheading": "Be among the first teachers to transform how they grade subjective exams.",
     "cta_waitlist": "Join the Waitlist",
     "cta_whatsapp": "Join WhatsApp Community",
-    "seo_desc": "GradeOwl by NeuraConcept — AI-powered subjective exam grading for CBSE, ICSE, and State Board schools. Built for Indian classrooms."
+    "seo_desc": "AI grading CBSE answer sheets — rubric-based evaluation for Indian schools. GradeOwl reduces copy-checking time so teachers escape grading burnout."
   },
   "gradeowl": {
     "badge": "Introducing GradeOwl",
@@ -125,8 +127,8 @@
     "bottom_heading": "Start grading smarter today",
     "bottom_subtitle": "Join the early access program and be among the first teachers to use GradeOwl.",
     "bottom_cta": "Join the Waitlist",
-    "seo_desc": "GradeOwl — AI-powered subjective exam grading for Indian schools. Grade CBSE, ICSE, and State Board answer sheets faster with rubric-based AI.",
-    "seo_keywords": "GradeOwl, AI grading, subjective exam grading, answer sheet checking, CBSE grading, ICSE grading, copy checking AI"
+    "seo_desc": "GradeOwl — AI grading CBSE, ICSE & State Board schools. Automated answer checking India with rubric-based evaluation for handwritten Hindi & English.",
+    "seo_keywords": "gradeowl, ai grading, subjective exam grading, answer sheet checking, cbse grading, icse grading, copy checking ai, ai grading cbse, automated answer checking india, edtech tools for teachers india, rubric based grading india, teacher burnout india, manual vs ai grading"
   },
   "schools": {
     "title_1": "Empower Your ",
@@ -148,7 +150,7 @@
     "love_6": "Export marks as CSV for school records",
     "cta_access": "Get Early Access",
     "cta_demo": "Schedule a Demo",
-    "seo_desc": "Give your teachers superpowers with GradeOwl. Grade subjective exams in minutes, not hours. Built for CBSE, ICSE, and State Board schools."
+    "seo_desc": "School exam management tools for India. GradeOwl brings automated answer checking and rubric-based AI grading to CBSE, ICSE, and State Board schools."
   },
   "vision": {
     "title_1": "Our Vision for ",
@@ -192,7 +194,7 @@
     "irt_desc": "Vector embeddings group similar student answers together, so teachers can review and adjust marks for entire clusters at once.",
     "privacy_title": "Prerequisite Discovery",
     "privacy_desc": "Dual embeddings — semantic and prerequisite — find concept dependencies across subjects and grades automatically.",
-    "seo_desc": "Our neuro-symbolic AI combines knowledge graphs with cognitive modeling to create a digital twin of the student's mind."
+    "seo_desc": "Neuro-symbolic AI for Indian schools — knowledge graphs, multi-language OCR, and rubric-based evaluation. Edtech AI India 2026 from NeuraConcept."
   },
   "waitlist": {
     "title_1": "Join the ",
@@ -227,7 +229,7 @@
     "subjects_label": "Subjects You Teach",
     "subjects_placeholder": "e.g., Science, Hindi, Social Studies",
     "submit": "Request Access",
-    "seo_desc": "Sign up for early access to GradeOwl — AI-powered subjective exam grading for Indian schools. Join our WhatsApp community.",
+    "seo_desc": "Join the GradeOwl early access waitlist — AI grading for CBSE, ICSE and State Board schools. Reduce copy checking time and teacher workload.",
     "seo_keywords": "GradeOwl waitlist, AI grading early access, teacher signup, CBSE grading tool"
   },
   "pricing": {
@@ -276,14 +278,14 @@
     "bottom_heading": "Ready to get started?",
     "bottom_subtitle": "Join the early access program today.",
     "bottom_demo": "Schedule a Demo",
-    "seo_desc": "Simple, school-friendly pricing for GradeOwl. Per-school subscription with no per-teacher fees. Currently free during early access.",
+    "seo_desc": "GradeOwl pricing for Indian schools — per-school subscription, no per-teacher fees. AI grading CBSE answer sheets, free during early access.",
     "seo_keywords": "GradeOwl pricing, AI grading cost, school subscription, CBSE grading tool pricing, early access free"
   },
   "seo": {
-    "default_keywords": "GradeOwl, NeuraConcept, AI grading, subjective exam grading, CBSE, ICSE, Indian schools, answer sheet checking, copy checking AI, Karnataka State Board",
+    "default_keywords": "gradeowl, neuraconcept, ai grading, subjective exam grading, cbse, icse, indian schools, answer sheet checking, copy checking ai, karnataka state board, ai grading cbse, automated answer checking india, edtech tools for teachers india, rubric based grading india, teacher burnout india, manual vs ai grading",
     "site_title": "NeuraConcept | GradeOwl - AI Grading for Indian Schools",
     "org_desc": "AI-powered education technology for Indian schools. Building personalized learning through knowledge graphs and intelligent assessment.",
-    "app_desc": "AI-powered subjective exam grading for CBSE, ICSE, and State Board schools. Grade answer sheets faster with rubric-based AI evaluation.",
+    "app_desc": "AI grading for CBSE, ICSE & State Board schools in India. Automated answer checking with rubric-based evaluation — built for Indian classrooms.",
     "free_offer": "Free during early access"
   },
   "about": {
@@ -296,7 +298,7 @@
     "founder_img_alt": "Dip Turkar, Founder of NeuraConcept",
     "linkedin_label": "LinkedIn",
     "email_label": "Email",
-    "founder_bio": "Ex-Google Search engineer who shipped widgets impacting 340K+ users on Google Discover. BITS Pilani CS graduate. Previously worked on graph databases at Vaticle (TypeDB) \u2014 directly relevant to NeuraConcept's knowledge graph technology. Built NeuraConcept to make quality education affordable for every Indian school.",
+    "founder_bio": "Ex-Google Search engineer who shipped widgets impacting 340K+ users on Google Discover. BITS Pilani CS graduate. Previously worked on graph databases at Vaticle (TypeDB) — directly relevant to NeuraConcept's knowledge graph technology. Built NeuraConcept to make quality education affordable for every Indian school.",
     "company_name": "NeuraConcept EdTech",
     "company_status": "Currently in incorporation",
     "company_location_label": "Location",
@@ -307,12 +309,12 @@
     "product_gradeowl_title": "GradeOwl",
     "product_gradeowl_desc": "AI-powered grading for subjective exams. Rubric-based evaluation for CBSE, ICSE, and State Board schools — designed to give teachers their time back.",
     "product_kg_title": "Knowledge Graph",
-    "product_kg_desc": "Mapping the entire Indian curriculum into an interconnected concept graph. Every topic, prerequisite, and relationship \u2014 structured for machine understanding.",
+    "product_kg_desc": "Mapping the entire Indian curriculum into an interconnected concept graph. Every topic, prerequisite, and relationship — structured for machine understanding.",
     "product_personalized_title": "Personalized Learning",
     "product_personalized_desc": "Using grading data and knowledge graphs to build a \"digital twin\" of each student's understanding. Precision guidance to exactly where they need help.",
     "product_learn_more": "Learn more",
     "product_coming_soon": "Coming soon",
-    "seo_desc": "About NeuraConcept \u2014 building AI education infrastructure to make quality education affordable for every Indian school. Meet the team and learn what we're building.",
+    "seo_desc": "About NeuraConcept — building AI education infrastructure to make quality education affordable for every Indian school. Meet the team and learn what we're building.",
     "seo_keywords": "NeuraConcept, about, AI education, Indian schools, GradeOwl, knowledge graph, edtech startup, Bangalore"
   },
   "notFound": {

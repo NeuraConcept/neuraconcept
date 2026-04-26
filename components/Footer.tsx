@@ -24,6 +24,7 @@ const Footer: React.FC = () => {
               <li><Link to="/gradeowl" className="text-gray-400 hover:text-apple-blue text-sm transition-colors">{T("footer.gradeowl")}</Link></li>
               <li><Link to="/technology" className="text-gray-400 hover:text-apple-blue text-sm transition-colors">{T("footer.technology")}</Link></li>
               <li><Link to="/schools" className="text-gray-400 hover:text-apple-blue text-sm transition-colors">{T("footer.schools")}</Link></li>
+              <li><Link to="/coaching-institutes" className="text-gray-400 hover:text-apple-blue text-sm transition-colors">{T("footer.coaching_institutes")}</Link></li>
             </ul>
           </div>
 
@@ -33,6 +34,7 @@ const Footer: React.FC = () => {
             <ul className="space-y-3">
               <li><Link to="/vision" className="text-gray-400 hover:text-apple-blue text-sm transition-colors">{T("footer.vision")}</Link></li>
               <li><Link to="/about" className="text-gray-400 hover:text-apple-blue text-sm transition-colors">{T("footer.about")}</Link></li>
+              <li><Link to="/faq" className="text-gray-400 hover:text-apple-blue text-sm transition-colors">{T("footer.faq")}</Link></li>
               <li><a href="mailto:dip@neuraconcept.com" className="text-gray-400 hover:text-apple-blue text-sm transition-colors">{T("footer.contact")}</a></li>
             </ul>
           </div>
