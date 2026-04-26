@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useT } from 'talkr';
@@ -40,7 +40,7 @@ const Navbar: React.FC = () => {
     setLangOpen(false);
   };
 
-  const currentLocale = locales.find(l => l.code === locale) || locales[0];
+  const currentLocale = useMemo(() => locales.find(l => l.code === locale) || locales[0], [locale]);
 
   return (
     <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${
