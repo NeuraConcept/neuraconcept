@@ -28,10 +28,7 @@ Open work surfaced during the 2026-04-26 marketing-site overhaul (commits `0114c
 
 ## UX / nice-to-have
 
-- **Top navbar reorganization** — added 4 new pages this overhaul (About, Pricing, FAQ, Coaching Institutes) but only About + Pricing made it into the nav. FAQ and Coaching Institutes are footer-only. Options if you want them more discoverable:
-  1. Swap Vision → FAQ in nav (Vision is philosophy-heavy, less clickable; FAQ is high-intent)
-  2. Add a "Solutions" dropdown grouping Schools + Coaching Institutes
-  3. Move About to footer-only, keep Pricing + FAQ in nav
+- ~~**Top navbar reorganization**~~ DONE — switched to always-burger drawer with grouped sections (Product / Company / Legal). All 11 pages now reachable from the nav drawer; Waitlist CTA + language switcher remain always-visible in the top bar. Trade-off: one extra click vs. inline links, in exchange for chrome that scales as more pages get added.
 - **Privacy / Terms section IDs are numeric (`section-1` … `section-N`)** — fragile if you reorder sections. Refactor to slug-based IDs (`#data-collection`, `#user-rights`) when there's time.
 - **404 page localization** — `pages/NotFound.tsx` does use Talkr keys (good), but the page is bare. Could add suggested links ("Back to Home, Pricing, FAQ") for better UX.
 - **OG image** uses `/assets/digital-brain.webp` (existing). Worth a custom 1200×630 social-share image with the GradeOwl wordmark for better link previews on LinkedIn/Twitter/WhatsApp.
