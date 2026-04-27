@@ -81,7 +81,7 @@ const Pricing: React.FC = () => {
       {/* Early Access Banner */}
       <section className="container mx-auto px-6 mb-20">
         <div className="max-w-3xl mx-auto bg-gray-50 border border-gray-200 rounded-3xl p-8 md:p-12 text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-apple-blue/10 text-apple-blue text-sm font-medium mb-6">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-apple-blue/15 text-apple-blue-dark text-sm font-medium mb-6">
             <Sparkles size={16} />
             {T("pricing.early_badge")}
           </div>

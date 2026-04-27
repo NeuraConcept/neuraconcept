@@ -90,7 +90,7 @@ const Waitlist: React.FC = () => {
               href="https://chat.whatsapp.com/HgeTpYJgkksAZYYOxwYMDj"
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-emerald-600 text-white font-semibold px-6 py-4 rounded-xl hover:bg-emerald-700 inline-flex items-center justify-center gap-2 w-full"
+              className="bg-emerald-700 text-white font-semibold px-6 py-4 rounded-xl hover:bg-emerald-800 inline-flex items-center justify-center gap-2 w-full"
             >
               <MessageCircle size={20} />
               {T("waitlist.whatsapp_cta")}
