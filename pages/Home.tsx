@@ -40,7 +40,7 @@ const Home: React.FC = () => {
           <blockquote className="text-2xl text-gray-600 italic mb-6">
             {T("home.quote")}
           </blockquote>
-          <p className="text-gray-400 font-medium">{T("home.quote_attr")}</p>
+          <p className="text-gray-500 font-medium">{T("home.quote_attr")}</p>
         </div>
       </section>
 
@@ -49,7 +49,7 @@ const Home: React.FC = () => {
         <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
           {T("home.cta_heading_1")}<span className="text-apple-blue">{T("home.cta_heading_2")}</span>
         </h2>
-        <p className="text-gray-400 max-w-2xl mx-auto mb-10 text-lg">
+        <p className="text-gray-500 max-w-2xl mx-auto mb-10 text-lg">
           {T("home.cta_subheading")}
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">

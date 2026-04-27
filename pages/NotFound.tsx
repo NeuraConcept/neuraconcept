@@ -23,7 +23,7 @@ const NotFound: React.FC = () => {
           <h1 className="text-4xl md:text-6xl font-bold mb-6 text-gray-900">
             {T("notFound.title")}
           </h1>
-          <p className="text-xl text-gray-400 leading-relaxed max-w-xl mx-auto mb-10">
+          <p className="text-xl text-gray-500 leading-relaxed max-w-xl mx-auto mb-10">
             {T("notFound.message")}
           </p>
           <Link

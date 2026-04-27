@@ -32,7 +32,7 @@ const Hero: React.FC = () => {
               {T("hero.title_1")}<span className="text-apple-blue">{T("hero.title_2")}</span>
             </h1>
 
-            <p className="text-lg text-gray-400 max-w-xl leading-relaxed">
+            <p className="text-lg text-gray-500 max-w-xl leading-relaxed">
               {T("hero.subtitle")}
             </p>
 
@@ -52,11 +52,11 @@ const Hero: React.FC = () => {
               </button>
             </div>
 
-            <div className="flex flex-wrap items-center gap-2 text-sm text-gray-300 pt-4">
+            <div className="flex flex-wrap items-center gap-2 text-sm text-gray-500 pt-4">
               <span>{T("hero.tag_classrooms")}</span>
-              <span className="text-gray-200">&bull;</span>
+              <span className="text-gray-400" aria-hidden="true">&bull;</span>
               <span>{T("hero.tag_handwritten")}</span>
-              <span className="text-gray-200">&bull;</span>
+              <span className="text-gray-400" aria-hidden="true">&bull;</span>
               <span>{T("hero.tag_boards")}</span>
             </div>
           </div>
@@ -68,7 +68,10 @@ const Hero: React.FC = () => {
                 src="/assets/hero-teacher.webp"
                 alt={T("hero.img_alt")}
                 className="rounded-2xl shadow-xl shadow-gray-200/50 w-full max-w-lg"
-                loading="lazy"
+                width={1200}
+                height={670}
+                fetchPriority="high"
+                decoding="async"
               />
               {/* Decorative elements */}
               <div className="absolute -top-4 -right-4 w-16 h-16 bg-blue-100 rounded-2xl -z-10 rotate-12"></div>

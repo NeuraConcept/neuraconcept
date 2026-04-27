@@ -32,8 +32,8 @@ const AnalyticsDemo: React.FC = () => {
                 1
               </div>
               <div>
-                <h4 className="text-gray-900 font-semibold text-lg mb-1">{T("analytics.step1_title")}</h4>
-                <p className="text-gray-400 leading-relaxed">
+                <h3 className="text-gray-900 font-semibold text-lg mb-1">{T("analytics.step1_title")}</h3>
+                <p className="text-gray-500 leading-relaxed">
                   {T("analytics.step1_desc")}
                 </p>
               </div>
@@ -43,8 +43,8 @@ const AnalyticsDemo: React.FC = () => {
                 2
               </div>
               <div>
-                <h4 className="text-gray-900 font-semibold text-lg mb-1">{T("analytics.step2_title")}</h4>
-                <p className="text-gray-400 leading-relaxed">
+                <h3 className="text-gray-900 font-semibold text-lg mb-1">{T("analytics.step2_title")}</h3>
+                <p className="text-gray-500 leading-relaxed">
                   {T("analytics.step2_desc")}
                 </p>
               </div>
@@ -54,8 +54,8 @@ const AnalyticsDemo: React.FC = () => {
                 3
               </div>
               <div>
-                <h4 className="text-gray-900 font-semibold text-lg mb-1">{T("analytics.step3_title")}</h4>
-                <p className="text-gray-400 leading-relaxed">
+                <h3 className="text-gray-900 font-semibold text-lg mb-1">{T("analytics.step3_title")}</h3>
+                <p className="text-gray-500 leading-relaxed">
                   {T("analytics.step3_desc")}
                 </p>
               </div>
@@ -72,8 +72,8 @@ const AnalyticsDemo: React.FC = () => {
                 <AreaChart data={timeSavingsData}>
                   <defs>
                     <linearGradient id="colorGradeOwl" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#007AFF" stopOpacity={0.2} />
-                      <stop offset="95%" stopColor="#007AFF" stopOpacity={0} />
+                      <stop offset="5%" stopColor="#0071E3" stopOpacity={0.2} />
+                      <stop offset="95%" stopColor="#0071E3" stopOpacity={0} />
                     </linearGradient>
                     <linearGradient id="colorManual" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="5%" stopColor="#86868B" stopOpacity={0.15} />
@@ -115,7 +115,7 @@ const AnalyticsDemo: React.FC = () => {
                   <Area
                     type="monotone"
                     dataKey="gradeowl"
-                    stroke="#007AFF"
+                    stroke="#0071E3"
                     strokeWidth={3}
                     fillOpacity={1}
                     fill="url(#colorGradeOwl)"

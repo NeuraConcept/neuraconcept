@@ -122,7 +122,7 @@ const CoachingInstitutes: React.FC = () => {
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
               Built for the way coaching works
             </h2>
-            <p className="text-lg text-gray-400 max-w-2xl mx-auto">
+            <p className="text-lg text-gray-500 max-w-2xl mx-auto">
               Mock test checking automation that fits how Indian coaching institutes actually operate — weekly cycles, multiple batches, and exams that need to be returned fast.
             </p>
           </div>

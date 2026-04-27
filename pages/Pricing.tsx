@@ -72,7 +72,7 @@ const Pricing: React.FC = () => {
           <h1 className="text-4xl md:text-6xl font-bold mb-6 text-gray-900">
             {T("pricing.title_1")}<span className="text-apple-blue">{T("pricing.title_2")}</span>
           </h1>
-          <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-500 max-w-3xl mx-auto">
             {T("pricing.subtitle")}
           </p>
         </div>
@@ -88,7 +88,7 @@ const Pricing: React.FC = () => {
           <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
             {T("pricing.early_heading")}
           </h2>
-          <p className="text-gray-400 text-lg max-w-xl mx-auto mb-8">
+          <p className="text-gray-500 text-lg max-w-xl mx-auto mb-8">
             {T("pricing.early_desc")}
           </p>
           <Link
@@ -120,7 +120,7 @@ const Pricing: React.FC = () => {
                 </div>
               )}
               <h3 className="text-2xl font-bold text-gray-900 mb-2">{T(tier.nameKey)}</h3>
-              <p className="text-gray-400 mb-6">{T(tier.bestForKey)}</p>
+              <p className="text-gray-500 mb-6">{T(tier.bestForKey)}</p>
               <div className="text-3xl font-bold text-gray-900 mb-6">{T("pricing.contact_us")}</div>
               {tier.includesKey && (
                 <p className="text-sm text-gray-500 font-medium mb-4">{T(tier.includesKey)}</p>
@@ -158,7 +158,7 @@ const Pricing: React.FC = () => {
             {faqs.map((faq, i) => (
               <div key={i} className="bg-white p-6 rounded-xl border border-gray-200">
                 <h3 className="font-bold text-gray-900 mb-2">{T(faq.qKey)}</h3>
-                <p className="text-gray-400">{T(faq.aKey)}</p>
+                <p className="text-gray-500">{T(faq.aKey)}</p>
               </div>
             ))}
           </div>
@@ -170,7 +170,7 @@ const Pricing: React.FC = () => {
         <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
           {T("pricing.bottom_heading")}
         </h2>
-        <p className="text-gray-400 text-lg max-w-xl mx-auto mb-10">
+        <p className="text-gray-500 text-lg max-w-xl mx-auto mb-10">
           {T("pricing.bottom_subtitle")}
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">

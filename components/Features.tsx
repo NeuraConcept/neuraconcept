@@ -19,7 +19,7 @@ const Features: React.FC = () => {
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
             {T("features.heading")}
           </h2>
-          <p className="text-gray-400 text-lg leading-relaxed">
+          <p className="text-gray-500 text-lg leading-relaxed">
             {T("features.subheading")}
           </p>
         </div>
@@ -36,7 +36,7 @@ const Features: React.FC = () => {
               <h3 className="text-xl font-bold text-gray-900 mb-3">
                 {T(feature.titleKey)}
               </h3>
-              <p className="text-gray-400 leading-relaxed">
+              <p className="text-gray-500 leading-relaxed">
                 {T(feature.descKey)}
               </p>
             </div>

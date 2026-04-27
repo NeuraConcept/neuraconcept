@@ -304,7 +304,7 @@ const KnowledgeGraph: React.FC = () => {
       
       {hoveredNode && (
         <div className="absolute top-4 right-4 z-20 glass-panel p-4 rounded-xl border border-white/10 animate-fade-in max-w-xs">
-          <h4 className="font-bold text-lg text-white mb-1">{hoveredNode.label}</h4>
+          <h3 className="font-bold text-lg text-white mb-1">{hoveredNode.label}</h3>
           <span className={`text-xs px-2 py-1 rounded-full text-black font-semibold bg-white/80`}>
             {hoveredNode.type}
           </span>

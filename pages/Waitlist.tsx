@@ -60,7 +60,7 @@ const Waitlist: React.FC = () => {
           <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4 tracking-tight">
             {T("waitlist.title_1")}<span className="text-apple-blue">{T("waitlist.title_2")}</span>{T("waitlist.title_3")}
           </h1>
-          <p className="text-lg text-gray-400">
+          <p className="text-lg text-gray-500">
             {T("waitlist.subtitle")}
           </p>
         </div>
@@ -95,7 +95,7 @@ const Waitlist: React.FC = () => {
               <MessageCircle size={20} />
               {T("waitlist.whatsapp_cta")}
             </a>
-            <p className="text-sm text-gray-400 text-center mt-3">
+            <p className="text-sm text-gray-500 text-center mt-3">
               <Users size={14} className="inline mr-1" />
               {T("waitlist.teachers_count")}
             </p>
@@ -109,7 +109,7 @@ const Waitlist: React.FC = () => {
                   <CheckCircle className="text-apple-blue" size={32} />
                 </div>
                 <h2 className="text-2xl font-bold text-gray-900 mb-3">{T("waitlist.success_title")}</h2>
-                <p className="text-gray-400 mb-6">{T("waitlist.success_desc")}</p>
+                <p className="text-gray-500 mb-6">{T("waitlist.success_desc")}</p>
                 <a
                   href="https://chat.whatsapp.com/HgeTpYJgkksAZYYOxwYMDj"
                   target="_blank"
@@ -123,7 +123,7 @@ const Waitlist: React.FC = () => {
             ) : (
               <>
                 <h2 className="text-2xl font-bold text-gray-900 mb-2">{T("waitlist.form_title")}</h2>
-                <p className="text-gray-400 mb-6">{T("waitlist.form_subtitle")}</p>
+                <p className="text-gray-500 mb-6">{T("waitlist.form_subtitle")}</p>
                 <form onSubmit={handleSubmit} className="space-y-5">
                   <div>
                     <label className="block text-sm font-medium text-gray-600 mb-1.5">
@@ -135,7 +135,7 @@ const Waitlist: React.FC = () => {
                       required
                       value={formData.name}
                       onChange={(e) => setFormData({...formData, name: e.target.value})}
-                      className="w-full border border-gray-200 rounded-lg py-3 px-4 text-gray-900 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-apple-blue focus:border-transparent"
+                      className="w-full border border-gray-200 rounded-lg py-3 px-4 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-apple-blue focus:border-transparent"
                       placeholder={T("waitlist.name_placeholder")}
                     />
                   </div>
@@ -149,7 +149,7 @@ const Waitlist: React.FC = () => {
                       required
                       value={formData.school}
                       onChange={(e) => setFormData({...formData, school: e.target.value})}
-                      className="w-full border border-gray-200 rounded-lg py-3 px-4 text-gray-900 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-apple-blue focus:border-transparent"
+                      className="w-full border border-gray-200 rounded-lg py-3 px-4 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-apple-blue focus:border-transparent"
                       placeholder={T("waitlist.school_placeholder")}
                     />
                   </div>
@@ -163,7 +163,7 @@ const Waitlist: React.FC = () => {
                       required
                       value={formData.phone}
                       onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                      className="w-full border border-gray-200 rounded-lg py-3 px-4 text-gray-900 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-apple-blue focus:border-transparent"
+                      className="w-full border border-gray-200 rounded-lg py-3 px-4 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-apple-blue focus:border-transparent"
                       placeholder={T("waitlist.phone_placeholder")}
                     />
                   </div>
@@ -192,7 +192,7 @@ const Waitlist: React.FC = () => {
                       type="text"
                       value={formData.subjects}
                       onChange={(e) => setFormData({...formData, subjects: e.target.value})}
-                      className="w-full border border-gray-200 rounded-lg py-3 px-4 text-gray-900 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-apple-blue focus:border-transparent"
+                      className="w-full border border-gray-200 rounded-lg py-3 px-4 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-apple-blue focus:border-transparent"
                       placeholder={T("waitlist.subjects_placeholder")}
                     />
                   </div>

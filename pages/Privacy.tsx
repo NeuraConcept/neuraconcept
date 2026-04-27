@@ -418,7 +418,7 @@ const Privacy: React.FC = () => {
           </p>
 
           <hr className="my-12 border-gray-200" />
-          <p className="text-gray-400 text-sm">
+          <p className="text-gray-500 text-sm">
             NeuraConcept<br />
             Bangalore, Karnataka, India
           </p>

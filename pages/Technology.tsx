@@ -24,7 +24,7 @@ const Technology: React.FC = () => {
         <h1 className="text-4xl md:text-6xl font-bold mb-6 text-gray-900">
           <span className="text-apple-blue">{T("tech.title_1")}</span>{T("tech.title_2")}
         </h1>
-        <p className="text-xl text-gray-400">
+        <p className="text-xl text-gray-500">
           {T("tech.subtitle")}
         </p>
       </div>
@@ -33,7 +33,7 @@ const Technology: React.FC = () => {
         <div className="bg-white p-8 rounded-2xl border border-gray-200 shadow-sm hover:border-blue-500 transition-colors">
           <Network className="text-gray-900 mb-6" size={48} />
           <h3 className="text-2xl font-bold mb-4 text-gray-900">{T("tech.kg_title")}</h3>
-          <p className="text-gray-400 leading-relaxed">
+          <p className="text-gray-500 leading-relaxed">
             {T("tech.kg_desc")}
           </p>
         </div>
@@ -47,14 +47,17 @@ const Technology: React.FC = () => {
           <img
             src="/assets/network-graph.webp"
             alt="Curriculum knowledge graph showing concept relationships across subjects"
+            width={1024}
+            height={1024}
             loading="lazy"
+            decoding="async"
             className="rounded-2xl border border-gray-200 shadow-sm"
           />
         </div>
         <div className="bg-white p-8 rounded-2xl border border-gray-200 shadow-sm hover:border-blue-500 transition-colors order-1 md:order-2">
           <GitBranch className="text-gray-900 mb-6" size={48} />
           <h3 className="text-2xl font-bold mb-4 text-gray-900">{T("tech.cognitive_title")}</h3>
-          <p className="text-gray-400 leading-relaxed">
+          <p className="text-gray-500 leading-relaxed">
             {T("tech.cognitive_desc")}
           </p>
         </div>
@@ -64,8 +67,8 @@ const Technology: React.FC = () => {
         {techCards.map((card, i) => (
           <div key={i} className="bg-gray-50 p-6 rounded-xl border border-gray-200 hover:border-blue-500 transition-colors">
             <card.icon className="text-gray-900 mb-4" size={32} />
-            <h4 className="text-lg font-bold mb-2 text-gray-900">{T(card.titleKey)}</h4>
-            <p className="text-sm text-gray-400">{T(card.descKey)}</p>
+            <h3 className="text-lg font-bold mb-2 text-gray-900">{T(card.titleKey)}</h3>
+            <p className="text-sm text-gray-500">{T(card.descKey)}</p>
           </div>
         ))}
       </div>
