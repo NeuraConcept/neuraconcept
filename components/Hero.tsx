@@ -68,8 +68,8 @@ const Hero: React.FC = () => {
                 src="/assets/hero-teacher.webp"
                 alt={T("hero.img_alt")}
                 className="rounded-2xl shadow-xl shadow-gray-200/50 w-full max-w-lg"
-                width={1200}
-                height={670}
+                width={800}
+                height={447}
                 fetchPriority="high"
                 decoding="async"
               />

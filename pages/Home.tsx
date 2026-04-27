@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, MessageCircle } from 'lucide-react';
 import { useT } from 'talkr';
 import { SEO } from '../components/SEO';
 import Hero from '../components/Hero';
 import Features from '../components/Features';
-import AnalyticsDemo from '../components/AnalyticsDemo';
+
+const AnalyticsDemo = lazy(() => import('../components/AnalyticsDemo'));
 
 const Home: React.FC = () => {
   const { T } = useT();
@@ -19,7 +20,9 @@ const Home: React.FC = () => {
       />
       <Hero />
       <Features />
-      <AnalyticsDemo />
+      <Suspense fallback={<div className="py-24 bg-gray-50" style={{ minHeight: 600 }} aria-hidden="true" />}>
+        <AnalyticsDemo />
+      </Suspense>
 
       {/* Social Proof / Board Support Section */}
       <section className="py-16 container mx-auto px-6">
