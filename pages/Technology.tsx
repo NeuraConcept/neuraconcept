@@ -32,7 +32,7 @@ const Technology: React.FC = () => {
       <div className="grid md:grid-cols-2 gap-12 items-center mb-20">
         <div className="bg-white p-8 rounded-2xl border border-gray-200 shadow-sm hover:border-blue-500 transition-colors">
           <Network className="text-gray-900 mb-6" size={48} />
-          <h3 className="text-2xl font-bold mb-4 text-gray-900">{T("tech.kg_title")}</h3>
+          <h2 className="text-2xl font-bold mb-4 text-gray-900">{T("tech.kg_title")}</h2>
           <p className="text-gray-500 leading-relaxed">
             {T("tech.kg_desc")}
           </p>
@@ -56,7 +56,7 @@ const Technology: React.FC = () => {
         </div>
         <div className="bg-white p-8 rounded-2xl border border-gray-200 shadow-sm hover:border-blue-500 transition-colors order-1 md:order-2">
           <GitBranch className="text-gray-900 mb-6" size={48} />
-          <h3 className="text-2xl font-bold mb-4 text-gray-900">{T("tech.cognitive_title")}</h3>
+          <h2 className="text-2xl font-bold mb-4 text-gray-900">{T("tech.cognitive_title")}</h2>
           <p className="text-gray-500 leading-relaxed">
             {T("tech.cognitive_desc")}
           </p>

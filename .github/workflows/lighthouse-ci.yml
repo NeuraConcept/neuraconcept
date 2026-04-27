@@ -24,19 +24,21 @@ jobs:
           site_name: neuraconcept
           max_timeout: 240
 
-      - name: Run Lighthouse CI
-        id: lhci
+      - name: Install Lighthouse CI
+        run: npm install -g @lhci/cli@0.13.x
+
+      - name: Collect
         run: |
-          npm install -g @lhci/cli@0.13.x
-          lhci autorun \
-            --collect.url="${{ steps.netlify.outputs.url }}/" \
-            --collect.url="${{ steps.netlify.outputs.url }}/gradeowl" \
-            --collect.url="${{ steps.netlify.outputs.url }}/technology" \
-            --collect.url="${{ steps.netlify.outputs.url }}/pricing" \
-            --collect.url="${{ steps.netlify.outputs.url }}/waitlist" \
-            --upload.target=temporary-public-storage \
-        env:
-          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+          lhci collect \
+            --url="${{ steps.netlify.outputs.url }}/" \
+            --url="${{ steps.netlify.outputs.url }}/gradeowl" \
+            --url="${{ steps.netlify.outputs.url }}/technology" \
+            --url="${{ steps.netlify.outputs.url }}/pricing" \
+            --url="${{ steps.netlify.outputs.url }}/waitlist"
+
+      - name: Upload (so scores survive assert failure)
+        if: always()
+        run: lhci upload --target=temporary-public-storage
 
       - name: Comment scores on PR
         if: always()
@@ -50,16 +52,38 @@ jobs:
               core.warning('No Lighthouse output found.');
               return;
             }
-            const manifest = JSON.parse(fs.readFileSync(path.join(dir, 'manifest.json'), 'utf8'));
-            const summary = manifest.map(run => {
-              const { url, summary: s } = run;
-              const pct = (k) => Math.round((s[k] || 0) * 100);
-              return `| ${url.replace(/^https?:\/\/[^/]+/, '')} | ${pct('performance')} | ${pct('accessibility')} | ${pct('best-practices')} | ${pct('seo')} | ${pct('pwa')} |`;
-            }).join('\n');
-            const body = `### Lighthouse CI\n\n| Route | Perf | A11y | BP | SEO | PWA |\n|---|---:|---:|---:|---:|---:|\n${summary}\n\nThresholds: perf >= 85, a11y >= 95, bp >= 95, seo >= 95.`;
+            const lhrFiles = fs.readdirSync(dir).filter(f => f.startsWith('lhr-') && f.endsWith('.json'));
+            if (!lhrFiles.length) {
+              core.warning('No lhr-*.json files in .lighthouseci/');
+              return;
+            }
+            const rows = lhrFiles.map(f => {
+              const lhr = JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8'));
+              const url = new URL(lhr.finalUrl);
+              const route = url.pathname || '/';
+              const pct = (k) => Math.round(((lhr.categories[k]?.score) ?? 0) * 100);
+              const ms = (k) => {
+                const v = lhr.audits[k]?.numericValue;
+                return v ? `${(v / 1000).toFixed(1)}s` : '—';
+              };
+              return `| \`${route}\` | ${pct('performance')} | ${pct('accessibility')} | ${pct('best-practices')} | ${pct('seo')} | ${ms('largest-contentful-paint')} | ${ms('total-blocking-time')} | ${(lhr.audits['cumulative-layout-shift']?.numericValue ?? 0).toFixed(3)} |`;
+            });
+            const body = [
+              '### Lighthouse CI',
+              '',
+              '| Route | Perf | A11y | BP | SEO | LCP | TBT | CLS |',
+              '|---|---:|---:|---:|---:|---:|---:|---:|',
+              ...rows,
+              '',
+              'Hard fails: color-contrast, image-alt, html-has-lang, meta-description, document-title, a11y >= 0.95, bp >= 0.95, CLS <= 0.1, perf >= 0.85 on `/`/`/pricing`/`/waitlist`.',
+              'Warn-only (won\'t block): heading-order, perf on image-heavy pages, SEO, render-blocking, image budgets.'
+            ].join('\n');
             await github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
               body
             });
+
+      - name: Assert
+        run: lhci assert
