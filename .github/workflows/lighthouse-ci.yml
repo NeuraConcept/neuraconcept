@@ -1,0 +1,65 @@
+name: Lighthouse CI
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+
+jobs:
+  lighthouse:
+    name: Audit Netlify deploy preview
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Wait for Netlify deploy preview
+        id: netlify
+        uses: jakepartusch/wait-for-netlify-action@f1e137043864b9ab9034ae3a5adc1c108e3f1a48 # v1.4
+        with:
+          site_name: neuraconcept
+          max_timeout: 240
+
+      - name: Run Lighthouse CI
+        id: lhci
+        run: |
+          npm install -g @lhci/cli@0.13.x
+          lhci autorun \
+            --collect.url="${{ steps.netlify.outputs.url }}/" \
+            --collect.url="${{ steps.netlify.outputs.url }}/gradeowl" \
+            --collect.url="${{ steps.netlify.outputs.url }}/technology" \
+            --collect.url="${{ steps.netlify.outputs.url }}/pricing" \
+            --collect.url="${{ steps.netlify.outputs.url }}/waitlist" \
+            --upload.target=temporary-public-storage \
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+
+      - name: Comment scores on PR
+        if: always()
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+            const dir = '.lighthouseci';
+            if (!fs.existsSync(dir)) {
+              core.warning('No Lighthouse output found.');
+              return;
+            }
+            const manifest = JSON.parse(fs.readFileSync(path.join(dir, 'manifest.json'), 'utf8'));
+            const summary = manifest.map(run => {
+              const { url, summary: s } = run;
+              const pct = (k) => Math.round((s[k] || 0) * 100);
+              return `| ${url.replace(/^https?:\/\/[^/]+/, '')} | ${pct('performance')} | ${pct('accessibility')} | ${pct('best-practices')} | ${pct('seo')} | ${pct('pwa')} |`;
+            }).join('\n');
+            const body = `### Lighthouse CI\n\n| Route | Perf | A11y | BP | SEO | PWA |\n|---|---:|---:|---:|---:|---:|\n${summary}\n\nThresholds: perf >= 85, a11y >= 95, bp >= 95, seo >= 95.`;
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body
+            });
