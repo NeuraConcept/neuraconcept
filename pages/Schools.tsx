@@ -23,6 +23,7 @@ const Schools: React.FC = () => {
       <SEO
         title={T("nav.schools")}
         description={T("schools.seo_desc")}
+        url="https://neuraconcept.com/schools"
       />
       <div className="text-center mb-16">
         <h1 className="text-4xl md:text-6xl font-bold mb-6 text-gray-900">

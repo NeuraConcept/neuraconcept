@@ -1,5 +1,5 @@
 import React from 'react';
-import { Network, Brain, Database, Lock } from 'lucide-react';
+import { Network, GitBranch, Languages, Layers, Link2 } from 'lucide-react';
 import { useT } from 'talkr';
 import { SEO } from '../components/SEO';
 import KnowledgeGraph from '../components/KnowledgeGraph';
@@ -8,9 +8,9 @@ const Technology: React.FC = () => {
   const { T } = useT();
 
   const techCards = [
-    { icon: Database, titleKey: "tech.vector_title", descKey: "tech.vector_desc" },
-    { icon: Brain, titleKey: "tech.irt_title", descKey: "tech.irt_desc" },
-    { icon: Lock, titleKey: "tech.privacy_title", descKey: "tech.privacy_desc" },
+    { icon: Languages, titleKey: "tech.vector_title", descKey: "tech.vector_desc" },
+    { icon: Layers, titleKey: "tech.irt_title", descKey: "tech.irt_desc" },
+    { icon: Link2, titleKey: "tech.privacy_title", descKey: "tech.privacy_desc" },
   ];
 
   return (
@@ -18,6 +18,7 @@ const Technology: React.FC = () => {
       <SEO
         title={T("nav.technology")}
         description={T("tech.seo_desc")}
+        url="https://neuraconcept.com/technology"
       />
       <div className="max-w-4xl mx-auto text-center mb-16">
         <h1 className="text-4xl md:text-6xl font-bold mb-6 text-gray-900">
@@ -44,14 +45,14 @@ const Technology: React.FC = () => {
       <div className="grid md:grid-cols-2 gap-12 items-center mb-20 md:flex-row-reverse">
         <div className="order-2 md:order-1">
           <img
-            src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
-            alt="AI Processing"
+            src="/assets/network-graph.webp"
+            alt="Curriculum knowledge graph showing concept relationships across subjects"
             loading="lazy"
             className="rounded-2xl border border-gray-200 shadow-sm"
           />
         </div>
         <div className="bg-white p-8 rounded-2xl border border-gray-200 shadow-sm hover:border-blue-500 transition-colors order-1 md:order-2">
-          <Brain className="text-gray-900 mb-6" size={48} />
+          <GitBranch className="text-gray-900 mb-6" size={48} />
           <h3 className="text-2xl font-bold mb-4 text-gray-900">{T("tech.cognitive_title")}</h3>
           <p className="text-gray-400 leading-relaxed">
             {T("tech.cognitive_desc")}
