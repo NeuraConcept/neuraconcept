@@ -218,7 +218,7 @@ const Navbar: React.FC = () => {
         <div className="p-6 pb-12 space-y-10">
           {linkGroups.map(group => (
             <div key={group.headingKey}>
-              <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">
+              <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4">
                 {T(group.headingKey)}
               </h3>
               <ul className="space-y-3">
@@ -241,7 +241,7 @@ const Navbar: React.FC = () => {
             <Link
               to="/login"
               onClick={() => setDrawerOpen(false)}
-              className="block text-sm text-gray-400 hover:text-gray-600 transition-colors"
+              className="block text-sm text-gray-500 hover:text-gray-700 transition-colors"
             >
               {T('nav.login')}
             </Link>

@@ -54,7 +54,7 @@ const GradeOwl: React.FC = () => {
             {T("gradeowl.title_1")}<br />
             <span className="text-apple-blue">{T("gradeowl.title_2")}</span>
           </h1>
-          <p className="text-xl text-gray-400 max-w-2xl mx-auto mb-10">
+          <p className="text-xl text-gray-500 max-w-2xl mx-auto mb-10">
             {T("gradeowl.subtitle")}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -73,7 +73,10 @@ const GradeOwl: React.FC = () => {
             src="/assets/gradeowl-hero.webp"
             alt={T("gradeowl.img_alt")}
             className="rounded-2xl shadow-lg w-full"
+            width={1200}
+            height={670}
             loading="lazy"
+            decoding="async"
           />
         </div>
       </section>
@@ -84,7 +87,7 @@ const GradeOwl: React.FC = () => {
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 text-center mb-4">
             {T("gradeowl.walkthrough_heading")}
           </h2>
-          <p className="text-gray-400 text-lg text-center max-w-2xl mx-auto mb-16">
+          <p className="text-gray-500 text-lg text-center max-w-2xl mx-auto mb-16">
             {T("gradeowl.walkthrough_subheading")}
           </p>
 
@@ -97,7 +100,7 @@ const GradeOwl: React.FC = () => {
                     <step.icon className={step.iconColor} size={24} />
                     <h3 className="text-xl font-bold text-gray-900">{T(step.titleKey)}</h3>
                   </div>
-                  <p className="text-gray-400">{T(step.descKey)}</p>
+                  <p className="text-gray-500">{T(step.descKey)}</p>
                 </div>
               </div>
             ))}
@@ -115,7 +118,7 @@ const GradeOwl: React.FC = () => {
                 <card.icon className={card.iconColor} size={32} />
               </div>
               <h3 className="font-bold text-gray-900 mb-2">{T(card.titleKey)}</h3>
-              <p className="text-gray-400 text-sm">{T(card.descKey)}</p>
+              <p className="text-gray-500 text-sm">{T(card.descKey)}</p>
             </div>
           ))}
         </div>
@@ -129,7 +132,7 @@ const GradeOwl: React.FC = () => {
             {faqs.map((faq, i) => (
               <div key={i} className="bg-white p-6 rounded-xl border border-gray-200">
                 <h3 className="font-bold text-gray-900 mb-2">{T(faq.qKey)}</h3>
-                <p className="text-gray-400">{T(faq.aKey)}</p>
+                <p className="text-gray-500">{T(faq.aKey)}</p>
               </div>
             ))}
           </div>
@@ -141,7 +144,7 @@ const GradeOwl: React.FC = () => {
         <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
           {T("gradeowl.bottom_heading")}
         </h2>
-        <p className="text-gray-400 text-lg max-w-xl mx-auto mb-10">
+        <p className="text-gray-500 text-lg max-w-xl mx-auto mb-10">
           {T("gradeowl.bottom_subtitle")}
         </p>
         <Link to="/waitlist" className="bg-apple-blue text-white font-semibold px-8 py-4 rounded-xl hover:bg-apple-blue-dark shadow-lg shadow-apple-blue/20 inline-flex items-center gap-2">

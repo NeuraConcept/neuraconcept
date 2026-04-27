@@ -32,8 +32,8 @@ const AnalyticsDemo: React.FC = () => {
                 1
               </div>
               <div>
-                <h4 className="text-gray-900 font-semibold text-lg mb-1">{T("analytics.step1_title")}</h4>
-                <p className="text-gray-400 leading-relaxed">
+                <h3 className="text-gray-900 font-semibold text-lg mb-1">{T("analytics.step1_title")}</h3>
+                <p className="text-gray-500 leading-relaxed">
                   {T("analytics.step1_desc")}
                 </p>
               </div>
@@ -43,8 +43,8 @@ const AnalyticsDemo: React.FC = () => {
                 2
               </div>
               <div>
-                <h4 className="text-gray-900 font-semibold text-lg mb-1">{T("analytics.step2_title")}</h4>
-                <p className="text-gray-400 leading-relaxed">
+                <h3 className="text-gray-900 font-semibold text-lg mb-1">{T("analytics.step2_title")}</h3>
+                <p className="text-gray-500 leading-relaxed">
                   {T("analytics.step2_desc")}
                 </p>
               </div>
@@ -54,8 +54,8 @@ const AnalyticsDemo: React.FC = () => {
                 3
               </div>
               <div>
-                <h4 className="text-gray-900 font-semibold text-lg mb-1">{T("analytics.step3_title")}</h4>
-                <p className="text-gray-400 leading-relaxed">
+                <h3 className="text-gray-900 font-semibold text-lg mb-1">{T("analytics.step3_title")}</h3>
+                <p className="text-gray-500 leading-relaxed">
                   {T("analytics.step3_desc")}
                 </p>
               </div>

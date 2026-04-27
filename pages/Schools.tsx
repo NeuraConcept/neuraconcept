@@ -29,7 +29,7 @@ const Schools: React.FC = () => {
         <h1 className="text-4xl md:text-6xl font-bold mb-6 text-gray-900">
           {T("schools.title_1")}<span className="text-apple-blue">{T("schools.title_2")}</span>
         </h1>
-        <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+        <p className="text-xl text-gray-500 max-w-3xl mx-auto">
           {T("schools.subtitle")}
         </p>
       </div>
@@ -40,7 +40,10 @@ const Schools: React.FC = () => {
           src="/assets/schools-classroom.webp"
           alt={T("schools.img_alt")}
           className="rounded-2xl shadow-lg w-full"
+          width={1376}
+          height={768}
           loading="lazy"
+          decoding="async"
         />
       </div>
 
@@ -49,7 +52,7 @@ const Schools: React.FC = () => {
           <div key={i} className="bg-white p-8 rounded-2xl border border-gray-200 shadow-sm hover:border-blue-500 transition-colors">
             <prop.icon className={`${prop.iconColor} mb-6`} size={40} />
             <h3 className="text-xl font-bold mb-4 text-gray-900">{T(prop.titleKey)}</h3>
-            <p className="text-gray-400">{T(prop.descKey)}</p>
+            <p className="text-gray-500">{T(prop.descKey)}</p>
           </div>
         ))}
       </div>

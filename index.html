@@ -3,6 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/favicon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="GradeOwl by NeuraConcept — AI-powered subjective exam grading for CBSE, ICSE, and State Board schools. Grade answer sheets in a fraction of the time." />
     <meta name="theme-color" content="#007AFF" />
@@ -22,110 +24,13 @@
     <meta name="twitter:title" content="NeuraConcept | GradeOwl - AI Grading for Indian Schools" />
     <meta name="twitter:description" content="GradeOwl by NeuraConcept — AI-powered subjective exam grading for CBSE, ICSE, and State Board schools. Grade answer sheets in a fraction of the time." />
     <meta name="twitter:image" content="https://neuraconcept.com/assets/digital-brain.webp" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              apple: {
-                blue: '#007AFF',
-                'blue-dark': '#0056CC',
-              },
-              gray: {
-                50: '#F5F5F7',
-                100: '#E8E8ED',
-                200: '#D2D2D7',
-                300: '#AEAEB2',
-                400: '#86868B',
-                500: '#6E6E73',
-                600: '#48484A',
-                700: '#3A3A3C',
-                800: '#2C2C2E',
-                900: '#1D1D1F',
-              }
-            },
-            fontFamily: {
-              sans: ['Inter', 'sans-serif'],
-              mono: ['Fira Code', 'monospace'],
-            },
-            animation: {
-              'fade-in': 'fadeIn 0.5s ease-out forwards',
-            },
-            keyframes: {
-              fadeIn: {
-                '0%': { opacity: '0', transform: 'translateY(10px)' },
-                '100%': { opacity: '1', transform: 'translateY(0)' },
-              }
-            }
-          },
-        },
-      }
-    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
-    <style>
-      body {
-        font-family: 'Inter', sans-serif;
-        background-color: #FFFFFF;
-        color: #1D1D1F;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-      }
-      .card {
-        background-color: #FFFFFF;
-        border-radius: 1rem;
-        box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.04);
-        border: 1px solid #D2D2D7;
-      }
-      .btn-primary {
-        background-color: #007AFF;
-        color: #FFFFFF;
-        border-radius: 0.75rem;
-        padding: 0.5rem 1.25rem;
-        font-weight: 600;
-        transition: background-color 0.2s;
-      }
-      .btn-primary:hover {
-        background-color: #0056CC;
-      }
-      .btn-secondary {
-        border: 1px solid #D2D2D7;
-        color: #1D1D1F;
-        border-radius: 0.75rem;
-        padding: 0.5rem 1.25rem;
-        font-weight: 600;
-        transition: all 0.2s;
-      }
-      .btn-secondary:hover {
-        background-color: #F5F5F7;
-      }
-      .section-light {
-        background-color: #F5F5F7;
-      }
-      .gradient-text {
-        background-clip: text;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-image: linear-gradient(to right, #1D1D1F, #6E6E73);
-      }
-    </style>
-  <script type="importmap">
-{
-  "imports": {
-    "d3": "https://esm.sh/d3@^7.9.0",
-    "react": "https://esm.sh/react@^19.2.3",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-    "react/": "https://esm.sh/react@^19.2.3/",
-    "lucide-react": "https://esm.sh/lucide-react@^0.563.0",
-    "recharts": "https://esm.sh/recharts@^3.7.0",
-    "talkr": "https://esm.sh/talkr@latest"
-  }
-}
-</script>
-<link rel="stylesheet" href="/index.css">
-</head>
+  </head>
   <body>
     <div id="root"></div>
-  <script type="module" src="/index.tsx"></script>
-</body>
+    <script type="module" src="/index.tsx"></script>
+  </body>
 </html>

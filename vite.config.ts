@@ -20,9 +20,16 @@ export default defineConfig(({ mode }) => {
         }
       },
       build: {
+        target: 'es2020',
+        sourcemap: false,
         rollupOptions: {
-          external: ['react', 'react-dom', 'react-dom/client', 'react/jsx-runtime', 'lucide-react', 'd3', 'recharts', 'talkr'],
-        }
-      }
+          output: {
+            manualChunks: {
+              'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+              'charts': ['d3', 'recharts'],
+            },
+          },
+        },
+      },
     };
 });

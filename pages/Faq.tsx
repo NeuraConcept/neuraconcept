@@ -80,7 +80,7 @@ const Faq: React.FC = () => {
           <h1 className="text-4xl md:text-6xl font-bold mb-6 text-gray-900">
             Frequently Asked <span className="text-apple-blue">Questions</span>
           </h1>
-          <p className="text-xl text-gray-400 leading-relaxed max-w-2xl mx-auto">
+          <p className="text-xl text-gray-500 leading-relaxed max-w-2xl mx-auto">
             Honest answers about how GradeOwl helps Indian teachers grade subjective exams faster, without giving up control.
           </p>
         </div>
@@ -119,7 +119,7 @@ const Faq: React.FC = () => {
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
             Still have questions?
           </h2>
-          <p className="text-gray-400 text-lg mb-8">
+          <p className="text-gray-500 text-lg mb-8">
             Join the early-access waitlist or write to us directly. We respond to every email.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">

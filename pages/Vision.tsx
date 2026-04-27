@@ -25,10 +25,10 @@ const Vision: React.FC = () => {
         </h1>
 
         <div className="prose prose-lg mx-auto mb-20">
-          <p className="text-xl text-gray-400 leading-relaxed mb-6">
+          <p className="text-xl text-gray-500 leading-relaxed mb-6">
             {T("vision.para1")}
           </p>
-          <p className="text-xl text-gray-400 leading-relaxed">
+          <p className="text-xl text-gray-500 leading-relaxed">
             {T("vision.para2_1")}<strong className="text-gray-900">{T("vision.para2_bold")}</strong>{T("vision.para2_2")}
           </p>
         </div>
@@ -39,7 +39,10 @@ const Vision: React.FC = () => {
             src="/assets/vision-education.webp"
             alt={T("vision.img_alt")}
             className="rounded-2xl shadow-lg w-full"
+            width={1376}
+            height={768}
             loading="lazy"
+            decoding="async"
           />
         </div>
 
@@ -50,7 +53,7 @@ const Vision: React.FC = () => {
                 <pillar.icon className={pillar.iconColor} size={32} />
               </div>
               <h3 className="text-xl font-bold mb-3 text-gray-900">{T(pillar.titleKey)}</h3>
-              <p className="text-gray-400">{T(pillar.descKey)}</p>
+              <p className="text-gray-500">{T(pillar.descKey)}</p>
             </div>
           ))}
         </div>

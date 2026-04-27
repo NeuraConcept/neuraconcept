@@ -18,19 +18,19 @@ const Login: React.FC = () => {
       <div className="w-full max-w-md bg-white border border-gray-200 p-8 rounded-2xl shadow-sm">
         <div className="text-center mb-8">
           <h2 className="text-2xl font-bold text-gray-900 mb-2">{T("login.title")}</h2>
-          <p className="text-gray-400">{T("login.subtitle")}</p>
+          <p className="text-gray-500">{T("login.subtitle")}</p>
         </div>
 
         <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
           <div>
             <label className="block text-sm font-medium text-gray-600 mb-2">{T("login.email")}</label>
             <div className="relative">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-300" size={20} />
+              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" size={20} />
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full bg-white border border-gray-200 rounded-lg py-3 pl-10 pr-4 text-gray-900 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-apple-blue focus:border-transparent transition-colors"
+                className="w-full bg-white border border-gray-200 rounded-lg py-3 pl-10 pr-4 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-apple-blue focus:border-transparent transition-colors"
                 placeholder={T("login.email_placeholder")}
               />
             </div>
@@ -42,12 +42,12 @@ const Login: React.FC = () => {
               <a href="#" className="text-xs text-apple-blue hover:text-apple-blue-dark">{T("login.forgot")}</a>
             </div>
             <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-300" size={20} />
+              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" size={20} />
               <input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-white border border-gray-200 rounded-lg py-3 pl-10 pr-4 text-gray-900 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-apple-blue focus:border-transparent transition-colors"
+                className="w-full bg-white border border-gray-200 rounded-lg py-3 pl-10 pr-4 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-apple-blue focus:border-transparent transition-colors"
                 placeholder="••••••••"
               />
             </div>
@@ -58,7 +58,7 @@ const Login: React.FC = () => {
           </button>
         </form>
 
-        <div className="mt-8 text-center text-sm text-gray-400">
+        <div className="mt-8 text-center text-sm text-gray-500">
           {T("login.no_account")} <Link to="/schools" className="text-apple-blue hover:text-apple-blue-dark font-medium">{T("login.contact_sales")}</Link>
         </div>
       </div>

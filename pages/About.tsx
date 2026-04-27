@@ -52,7 +52,7 @@ const About: React.FC = () => {
           <h1 className="text-4xl md:text-6xl font-bold mb-6 text-gray-900">
             {T("about.title_1")}<span className="text-apple-blue">{T("about.title_2")}</span>
           </h1>
-          <p className="text-xl text-gray-400 leading-relaxed max-w-2xl mx-auto">
+          <p className="text-xl text-gray-500 leading-relaxed max-w-2xl mx-auto">
             {T("about.subtitle")}
           </p>
         </div>
@@ -68,17 +68,20 @@ const About: React.FC = () => {
                   src="/assets/dip-turkar.jpg"
                   alt={T("about.founder_img_alt")}
                   className="w-36 h-36 rounded-full object-cover shadow-lg"
+                  width={206}
+                  height={206}
                   loading="lazy"
+                  decoding="async"
                 />
               </div>
               <div className="text-center md:text-left">
                 <h2 className="text-2xl font-bold text-gray-900 mb-1">{T("about.founder_name")}</h2>
                 <p className="text-apple-blue font-medium mb-1">{T("about.founder_role")}</p>
-                <div className="flex items-center justify-center md:justify-start gap-1 text-gray-400 text-sm mb-4">
+                <div className="flex items-center justify-center md:justify-start gap-1 text-gray-500 text-sm mb-4">
                   <MapPin size={14} />
                   <span>{T("about.founder_location")}</span>
                 </div>
-                <p className="text-gray-400 leading-relaxed mb-6">
+                <p className="text-gray-500 leading-relaxed mb-6">
                   {T("about.founder_bio")}
                 </p>
                 <div className="flex items-center justify-center md:justify-start gap-4">
@@ -86,14 +89,14 @@ const About: React.FC = () => {
                     href="https://linkedin.com/in/Dip707"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-gray-400 hover:text-apple-blue transition-colors"
+                    className="text-gray-500 hover:text-apple-blue transition-colors"
                     aria-label={T("about.linkedin_label")}
                   >
                     <Linkedin size={20} />
                   </a>
                   <a
                     href="mailto:dip@neuraconcept.com"
-                    className="text-gray-400 hover:text-apple-blue transition-colors"
+                    className="text-gray-500 hover:text-apple-blue transition-colors"
                     aria-label={T("about.email_label")}
                   >
                     <Mail size={20} />
@@ -115,16 +118,16 @@ const About: React.FC = () => {
               </div>
               <div>
                 <h2 className="text-2xl font-bold text-gray-900">{T("about.company_name")}</h2>
-                <p className="text-gray-400 text-sm">{T("about.company_status")}</p>
+                <p className="text-gray-500 text-sm">{T("about.company_status")}</p>
               </div>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div>
-                <p className="text-sm text-gray-400 mb-1">{T("about.company_location_label")}</p>
+                <p className="text-sm text-gray-500 mb-1">{T("about.company_location_label")}</p>
                 <p className="text-gray-900 font-medium">{T("about.company_location")}</p>
               </div>
               <div>
-                <p className="text-sm text-gray-400 mb-1">{T("about.company_contact_label")}</p>
+                <p className="text-sm text-gray-500 mb-1">{T("about.company_contact_label")}</p>
                 <a href="mailto:dip@neuraconcept.com" className="text-apple-blue font-medium hover:underline">
                   dip@neuraconcept.com
                 </a>
@@ -140,7 +143,7 @@ const About: React.FC = () => {
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 text-center mb-4">
             {T("about.building_title")}
           </h2>
-          <p className="text-gray-400 text-center mb-12 max-w-2xl mx-auto">
+          <p className="text-gray-500 text-center mb-12 max-w-2xl mx-auto">
             {T("about.building_subtitle")}
           </p>
 
@@ -154,7 +157,7 @@ const About: React.FC = () => {
                   <product.icon className={product.iconColor} size={28} />
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-3">{T(product.titleKey)}</h3>
-                <p className="text-gray-400 leading-relaxed flex-grow">{T(product.descKey)}</p>
+                <p className="text-gray-500 leading-relaxed flex-grow">{T(product.descKey)}</p>
                 {product.link ? (
                   <Link
                     to={product.link}
