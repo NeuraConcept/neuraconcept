@@ -15,15 +15,23 @@ What runs automatically vs. what needs human review when shipping marketing-site
 
 ### Lighthouse thresholds
 
-`lighthouserc.json` enforces (per route, on the deployed preview):
+`lighthouserc.json` enforces (per route, on the deployed preview, median of 3 runs):
 
-- Performance >= 0.85
+**Hard fail (block PR):**
+- `color-contrast`, `image-alt`, `html-has-lang`, `meta-description`, `document-title`
+- CLS <= 0.1
+
+**Warn (visible in PR comment, non-blocking):**
+- Performance >= 0.75
 - Accessibility >= 0.95
 - Best Practices >= 0.95
-- SEO >= 0.95
-- PWA >= 0.60 (warning)
+- SEO >= 0.90
+- PWA >= 0.60
+- `heading-order`, `render-blocking-resources`, `uses-responsive-images`, `modern-image-formats`
+- LCP <= 5s, FCP <= 4s, TBT <= 500ms
+- JS budget 600 KB, CSS 50 KB, image 300 KB, total request count <= 30
 
-Plus specific assertions: color-contrast, heading-order, image-alt, LCP <= 3s, CLS <= 0.1, total request count <= 30, JS budget 600 KB, CSS 50 KB, image budget 250 KB.
+Tighten warns to errors once we have a stable baseline across 5+ deploys (PR #7 prod baseline was 80–98 mobile depending on route; cold deploy previews lose ~10 points).
 
 Routes audited: `/`, `/gradeowl`, `/technology`, `/pricing`, `/waitlist`. Add new conversion-critical routes to `lighthouse-ci.yml` as the site grows.
 

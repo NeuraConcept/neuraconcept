@@ -10,7 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      pull-requests: write
 
     steps:
       - name: Checkout repository
@@ -49,4 +48,4 @@ jobs:
             echo "| ${f##*/} | ${sz_kb} KB |" >> $GITHUB_STEP_SUMMARY
           done
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "Lighthouse CI enforces budgets (JS 600 KB, CSS 50 KB, image 250 KB)." >> $GITHUB_STEP_SUMMARY
+          echo "Lighthouse CI enforces budgets (JS 600 KB, CSS 50 KB, image 300 KB)." >> $GITHUB_STEP_SUMMARY

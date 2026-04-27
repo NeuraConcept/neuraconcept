@@ -50,6 +50,7 @@ for (const l of locales) {
     if (missing.length > 20) console.log(`    ... and ${missing.length - 20} more`);
   }
   if (extra.length) {
+    failed = true;
     console.log(`  EXTRA  (${extra.length}, not in en — likely typos or stale):`);
     extra.slice(0, 10).forEach((k) => console.log(`    - ${k}`));
     if (extra.length > 10) console.log(`    ... and ${extra.length - 10} more`);
@@ -59,7 +60,7 @@ for (const l of locales) {
 }
 
 if (failed) {
-  console.error('i18n parity check FAILED — at least one locale is missing English keys.');
+  console.error('i18n parity check FAILED — fix missing/extra keys before merging.');
   process.exit(1);
 }
 console.log('i18n parity: OK');

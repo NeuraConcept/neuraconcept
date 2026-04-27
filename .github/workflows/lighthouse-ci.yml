@@ -59,8 +59,13 @@ jobs:
               core.warning('No lhr-*.json files in .lighthouseci/');
               return;
             }
-            const rows = lhrFiles.map(f => {
+            // numberOfRuns > 1 produces multiple lhr files per URL; group + take the last (highest-numbered) run per URL.
+            const byUrl = new Map();
+            for (const f of lhrFiles.sort()) {
               const lhr = JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8'));
+              byUrl.set(lhr.finalUrl, lhr);
+            }
+            const rows = [...byUrl.values()].map((lhr) => {
               const url = new URL(lhr.finalUrl);
               const route = url.pathname || '/';
               const pct = (k) => Math.round(((lhr.categories[k]?.score) ?? 0) * 100);
@@ -70,7 +75,9 @@ jobs:
               };
               return `| \`${route}\` | ${pct('performance')} | ${pct('accessibility')} | ${pct('best-practices')} | ${pct('seo')} | ${ms('largest-contentful-paint')} | ${ms('total-blocking-time')} | ${(lhr.audits['cumulative-layout-shift']?.numericValue ?? 0).toFixed(3)} |`;
             });
+            const marker = '<!-- lighthouse-ci-comment -->';
             const body = [
+              marker,
               '### Lighthouse CI',
               '',
               '| Route | Perf | A11y | BP | SEO | LCP | TBT | CLS |',
@@ -78,14 +85,19 @@ jobs:
               ...rows,
               '',
               'Hard fails (block PR): color-contrast, image-alt, html-has-lang, meta-description, document-title, CLS > 0.1.',
-              'Warn-only (visible, non-blocking): category scores, heading-order, render-blocking, LCP, FCP, TBT, resource budgets. Tighten once we have a stable baseline across 5+ deploys.'
+              'Warn-only (visible, non-blocking): category scores, heading-order, render-blocking, LCP, FCP, TBT, resource budgets.'
             ].join('\n');
-            await github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body
-            });
+
+            // Find existing comment by marker; update in place to avoid spamming the PR.
+            const { owner, repo } = context.repo;
+            const issue_number = context.issue.number;
+            const existing = await github.paginate(github.rest.issues.listComments, { owner, repo, issue_number, per_page: 100 });
+            const prior = existing.find((c) => (c.body || '').includes(marker));
+            if (prior) {
+              await github.rest.issues.updateComment({ owner, repo, comment_id: prior.id, body });
+            } else {
+              await github.rest.issues.createComment({ owner, repo, issue_number, body });
+            }
 
       - name: Assert
         run: lhci assert
