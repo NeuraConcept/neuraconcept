@@ -14,12 +14,33 @@ const Waitlist: React.FC = () => {
     subjects: '',
   });
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // For now, just show success state
-    // TODO: Connect to backend or Google Sheets API
-    setSubmitted(true);
+    setLoading(true);
+    setError('');
+
+    const apiUrl = import.meta.env.VITE_API_URL || 'https://api.neuraconcept.com';
+
+    try {
+      const res = await fetch(`${apiUrl}/waitlist`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      if (res.status === 201) {
+        setSubmitted(true);
+      } else {
+        setError(T("waitlist.error_generic"));
+      }
+    } catch {
+      setError(T("waitlist.error_generic"));
+    } finally {
+      setLoading(false);
+    }
   };
 
   const benefits = ["waitlist.benefit_1", "waitlist.benefit_2", "waitlist.benefit_3"];
@@ -30,6 +51,7 @@ const Waitlist: React.FC = () => {
         title={T("nav.waitlist")}
         description={T("waitlist.seo_desc")}
         keywords={T("waitlist.seo_keywords")}
+        url="https://neuraconcept.com/waitlist"
       />
 
       <div className="container mx-auto px-6">
@@ -174,11 +196,15 @@ const Waitlist: React.FC = () => {
                       placeholder={T("waitlist.subjects_placeholder")}
                     />
                   </div>
+                  {error && (
+                    <p className="text-sm text-red-600">{error}</p>
+                  )}
                   <button
                     type="submit"
-                    className="w-full bg-apple-blue text-white font-semibold py-3.5 rounded-xl hover:bg-apple-blue-dark transition-colors flex items-center justify-center gap-2"
+                    disabled={loading}
+                    className="w-full bg-apple-blue text-white font-semibold py-3.5 rounded-xl hover:bg-apple-blue-dark transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    {T("waitlist.submit")} <ArrowRight size={18} />
+                    {loading ? T("waitlist.submitting") : <>{T("waitlist.submit")} <ArrowRight size={18} /></>}
                   </button>
                 </form>
               </>

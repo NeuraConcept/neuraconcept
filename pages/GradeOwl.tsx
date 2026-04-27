@@ -40,6 +40,7 @@ const GradeOwl: React.FC = () => {
         title="GradeOwl"
         description={T("gradeowl.seo_desc")}
         keywords={T("gradeowl.seo_keywords")}
+        url="https://neuraconcept.com/gradeowl"
       />
 
       {/* Hero */}
