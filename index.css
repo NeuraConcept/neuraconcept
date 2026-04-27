@@ -21,7 +21,7 @@
   }
 
   .btn-primary {
-    background-color: #007AFF;
+    background-color: #0071E3;
     color: #FFFFFF;
     border-radius: 0.75rem;
     padding: 0.5rem 1.25rem;
@@ -55,5 +55,11 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-image: linear-gradient(to right, #1D1D1F, #6E6E73);
+  }
+
+  .glass-panel {
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
   }
 }

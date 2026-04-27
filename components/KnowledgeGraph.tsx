@@ -284,7 +284,7 @@ const KnowledgeGraph: React.FC = () => {
       <div className="absolute top-4 left-4 z-10 pointer-events-none">
         <h3 className="text-cyan-400 font-mono text-sm tracking-wider uppercase mb-1">Live Mental Model</h3>
         <h2 className="text-2xl font-bold text-white tracking-tight">Concept Dependencies</h2>
-        <p className="text-gray-500 text-xs mt-2 max-w-[250px]">
+        <p className="text-gray-300 text-xs mt-2 max-w-[250px]">
           Showing how <span className="text-green-300">Biology</span> builds upon <span className="text-purple-300">Chemistry</span> & <span className="text-blue-300">Physics</span>.
         </p>
       </div>

@@ -54,9 +54,9 @@ const Hero: React.FC = () => {
 
             <div className="flex flex-wrap items-center gap-2 text-sm text-gray-500 pt-4">
               <span>{T("hero.tag_classrooms")}</span>
-              <span className="text-gray-200">&bull;</span>
+              <span className="text-gray-400" aria-hidden="true">&bull;</span>
               <span>{T("hero.tag_handwritten")}</span>
-              <span className="text-gray-200">&bull;</span>
+              <span className="text-gray-400" aria-hidden="true">&bull;</span>
               <span>{T("hero.tag_boards")}</span>
             </div>
           </div>
