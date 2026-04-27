@@ -29,12 +29,14 @@ jobs:
 
       - name: Collect
         run: |
+          BASE="${{ steps.netlify.outputs.url }}"
+          BASE="${BASE%/}"
           lhci collect \
-            --url="${{ steps.netlify.outputs.url }}/" \
-            --url="${{ steps.netlify.outputs.url }}/gradeowl" \
-            --url="${{ steps.netlify.outputs.url }}/technology" \
-            --url="${{ steps.netlify.outputs.url }}/pricing" \
-            --url="${{ steps.netlify.outputs.url }}/waitlist"
+            --url="${BASE}/" \
+            --url="${BASE}/gradeowl" \
+            --url="${BASE}/technology" \
+            --url="${BASE}/pricing" \
+            --url="${BASE}/waitlist"
 
       - name: Upload (so scores survive assert failure)
         if: always()
@@ -75,8 +77,8 @@ jobs:
               '|---|---:|---:|---:|---:|---:|---:|---:|',
               ...rows,
               '',
-              'Hard fails: color-contrast, image-alt, html-has-lang, meta-description, document-title, a11y >= 0.95, bp >= 0.95, CLS <= 0.1, perf >= 0.85 on `/`/`/pricing`/`/waitlist`.',
-              'Warn-only (won\'t block): heading-order, perf on image-heavy pages, SEO, render-blocking, image budgets.'
+              'Hard fails (block PR): color-contrast, image-alt, html-has-lang, meta-description, document-title, CLS > 0.1.',
+              'Warn-only (visible, non-blocking): category scores, heading-order, render-blocking, LCP, FCP, TBT, resource budgets. Tighten once we have a stable baseline across 5+ deploys.'
             ].join('\n');
             await github.rest.issues.createComment({
               issue_number: context.issue.number,
