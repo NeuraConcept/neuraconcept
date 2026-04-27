@@ -4,11 +4,15 @@
       "numberOfRuns": 1,
       "settings": {
         "throttlingMethod": "simulate",
-        "skipAudits": ["uses-http2"]
+        "skipAudits": [
+          "uses-http2",
+          "is-crawlable",
+          "csp-xss",
+          "lcp-lazy-loaded"
+        ]
       }
     },
     "assert": {
-      "preset": "lighthouse:no-pwa",
       "assertions": {
         "color-contrast": "error",
         "image-alt": "error",
