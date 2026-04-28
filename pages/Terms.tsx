@@ -44,7 +44,7 @@ const Terms: React.FC = () => {
   return (
     <div className="pt-24 pb-20 container mx-auto px-6">
       <SEO
-        title={T("nav.terms")}
+        title={T("footer.terms")}
         description="NeuraConcept Terms of Service - Terms governing your use of GradeOwl."
         keywords="GradeOwl terms, NeuraConcept terms of service, AI grading terms, school subscription terms, India edtech"
         url="https://neuraconcept.com/terms"
