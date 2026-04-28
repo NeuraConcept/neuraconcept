@@ -40,7 +40,7 @@ const Privacy: React.FC = () => {
   return (
     <div className="pt-24 pb-20 container mx-auto px-6">
       <SEO
-        title={T("nav.privacy")}
+        title={T("footer.privacy")}
         description="NeuraConcept Privacy Policy - How we collect, use, store, and protect your personal data."
         keywords="GradeOwl privacy, NeuraConcept privacy policy, DPDPA, student data protection, Indian schools, AI grading privacy"
         url="https://neuraconcept.com/privacy"
