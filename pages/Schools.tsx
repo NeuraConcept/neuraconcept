@@ -3,6 +3,7 @@ import { Clock, Scale, BarChart, CheckCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useT } from 'talkr';
 import { SEO } from '../components/SEO';
+import { breadcrumbsJsonLd } from '../components/breadcrumbs';
 
 const Schools: React.FC = () => {
   const { T } = useT();
@@ -24,6 +25,7 @@ const Schools: React.FC = () => {
         title={T("nav.schools")}
         description={T("schools.seo_desc")}
         url="https://neuraconcept.com/schools"
+        jsonLd={breadcrumbsJsonLd("For Schools", "/schools")}
       />
       <div className="text-center mb-16">
         <h1 className="text-4xl md:text-6xl font-bold mb-6 text-gray-900">

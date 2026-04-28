@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useT } from 'talkr';
 import { SEO } from '../components/SEO';
+import { breadcrumbsJsonLd } from '../components/breadcrumbs';
 import { MessageCircle, Users, ArrowRight, CheckCircle, Phone, School, BookOpen, User } from 'lucide-react';
 
 const Waitlist: React.FC = () => {
@@ -52,6 +53,7 @@ const Waitlist: React.FC = () => {
         description={T("waitlist.seo_desc")}
         keywords={T("waitlist.seo_keywords")}
         url="https://neuraconcept.com/waitlist"
+        jsonLd={breadcrumbsJsonLd("Waitlist", "/waitlist")}
       />
 
       <div className="container mx-auto px-6">

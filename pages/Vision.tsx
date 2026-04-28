@@ -2,6 +2,7 @@ import React from 'react';
 import { Lightbulb, Target, Globe } from 'lucide-react';
 import { useT } from 'talkr';
 import { SEO } from '../components/SEO';
+import { breadcrumbsJsonLd } from '../components/breadcrumbs';
 
 const Vision: React.FC = () => {
   const { T } = useT();
@@ -18,6 +19,7 @@ const Vision: React.FC = () => {
         title={T("nav.vision")}
         description={T("vision.seo_desc")}
         url="https://neuraconcept.com/vision"
+        jsonLd={breadcrumbsJsonLd("Vision", "/vision")}
       />
       <div className="max-w-4xl mx-auto">
         <h1 className="text-4xl md:text-6xl font-bold mb-10 text-center text-gray-900">
