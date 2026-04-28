@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Clock, Scale, BarChart3, CheckCircle, ArrowRight } from 'lucide-react';
 import { SEO } from '../components/SEO';
+import { breadcrumbsJsonLd } from '../components/breadcrumbs';
 
 const coachingJsonLd = {
   "@type": "Service",
@@ -69,7 +70,7 @@ const CoachingInstitutes: React.FC = () => {
         description="GradeOwl for coaching institutes — automated test series grading, mock test checking, rubric-based marking. Built for JEE/NEET prep centers and multi-batch tutoring chains across India."
         keywords="test series grading tool india, mock test checking automation, ai grading coaching institute, automated answer checking india, JEE NEET mock grading, coaching institute software"
         url="https://neuraconcept.com/coaching-institutes"
-        jsonLd={coachingJsonLd}
+        jsonLd={[breadcrumbsJsonLd("Coaching Institutes", "/coaching-institutes"), coachingJsonLd]}
       />
 
       <div className="container mx-auto px-6">
