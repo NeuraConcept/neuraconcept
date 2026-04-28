@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useT } from 'talkr';
 import { SEO } from '../components/SEO';
+import { breadcrumbsJsonLd } from '../components/breadcrumbs';
 import {
   CheckCircle, Brain, Sparkles,
   Linkedin, Mail, MapPin, Building2, ArrowRight
@@ -44,6 +45,7 @@ const About: React.FC = () => {
         description={T("about.seo_desc")}
         keywords={T("about.seo_keywords")}
         url="https://neuraconcept.com/about"
+        jsonLd={breadcrumbsJsonLd("About", "/about")}
       />
 
       {/* Header */}

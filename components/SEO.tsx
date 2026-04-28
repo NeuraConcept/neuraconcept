@@ -11,6 +11,12 @@ interface SEOProps {
   jsonLd?: Record<string, unknown> | Array<Record<string, unknown>>;
 }
 
+// Canonical URLs of pages where identity schemas (Organization, WebSite,
+// SoftwareApplication) attach. Anything else falls through to whatever the
+// page passes via the `jsonLd` prop.
+const HOME_URL = "https://neuraconcept.com/";
+const GRADEOWL_URL = "https://neuraconcept.com/gradeowl";
+
 export const SEO = ({
   title,
   description,
@@ -73,37 +79,67 @@ export const SEO = ({
     }
 
     // JSON-LD Structured Data
-    const baseGraph: Array<Record<string, unknown>> = [
-      {
+    //
+    // Identity schemas land on the page where they're canonical, so Google
+    // associates them with the correct URL:
+    //   - Organization + WebSite → home (/)
+    //   - SoftwareApplication    → /gradeowl
+    //
+    // Everything else (FAQPage, BreadcrumbList, Service) comes through the
+    // `jsonLd` prop and gets appended to the @graph below.
+    const baseGraph: Array<Record<string, unknown>> = [];
+
+    if (url === HOME_URL) {
+      baseGraph.push({
         "@type": "Organization",
         "name": "NeuraConcept",
-        "description": T("seo.org_desc"),
         "url": "https://neuraconcept.com",
         "logo": "https://neuraconcept.com/assets/digital-brain.webp",
+        "description": T("seo.org_desc"),
+        "founder": {
+          "@type": "Person",
+          "name": "Dip Turkar",
+          "jobTitle": "Founder",
+        },
+        // Only include URLs that actually resolve. Twitter / LinkedIn
+        // company pages don't exist yet — listing fake `sameAs` URLs is
+        // worse than empty for entity disambiguation.
         "sameAs": [
-          "https://twitter.com/neuraconcept",
-          "https://linkedin.com/company/neuraconcept"
-        ]
-      },
-      {
+          "https://chat.whatsapp.com/HgeTpYJgkksAZYYOxwYMDj",
+        ],
+      });
+      baseGraph.push({
+        "@type": "WebSite",
+        "name": "NeuraConcept",
+        "url": "https://neuraconcept.com",
+      });
+    }
+
+    if (url === GRADEOWL_URL) {
+      baseGraph.push({
         "@type": "SoftwareApplication",
         "name": "GradeOwl",
-        "description": T("seo.app_desc"),
+        "description": T("gradeowl.seo_desc"),
         "applicationCategory": "EducationalApplication",
-        "operatingSystem": "Android, iOS",
+        "operatingSystem": "Web, iOS, Android",
         "offers": {
           "@type": "Offer",
           "price": "0",
           "priceCurrency": "INR",
-          "description": T("seo.free_offer")
-        }
-      },
-      {
-        "@type": "WebSite",
-        "name": "NeuraConcept",
-        "url": "https://neuraconcept.com"
-      }
-    ];
+          "availability": "https://schema.org/PreOrder",
+          "description": T("seo.free_offer"),
+        },
+        "audience": {
+          "@type": "EducationalAudience",
+          "educationalRole": "teacher",
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "NeuraConcept",
+          "url": "https://neuraconcept.com",
+        },
+      });
+    }
 
     // Merge any page-specific structured data into the @graph array
     const pageGraph: Array<Record<string, unknown>> = jsonLd
@@ -112,7 +148,7 @@ export const SEO = ({
 
     const schemaData = {
       "@context": "https://schema.org",
-      "@graph": [...baseGraph, ...pageGraph]
+      "@graph": [...baseGraph, ...pageGraph],
     };
 
     let script = document.querySelector('script[type="application/ld+json"]');

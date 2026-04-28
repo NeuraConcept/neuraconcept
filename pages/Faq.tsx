@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { HelpCircle, ArrowRight } from 'lucide-react';
 import { SEO } from '../components/SEO';
+import { breadcrumbsJsonLd } from '../components/breadcrumbs';
 
 interface FaqItem {
   question: string;
@@ -71,7 +72,7 @@ const Faq: React.FC = () => {
         description="Common questions about GradeOwl AI grading for Indian schools — accuracy vs manual checking, CBSE/ICSE support, teacher workload, pricing, and student data protection."
         keywords="GradeOwl FAQ, AI grading FAQ, ai grading cbse, manual vs ai grading india, teacher burnout india, automated answer checking india, rubric based grading"
         url="https://neuraconcept.com/faq"
-        jsonLd={faqJsonLd}
+        jsonLd={[breadcrumbsJsonLd("FAQ", "/faq"), faqJsonLd]}
       />
 
       {/* Header */}
