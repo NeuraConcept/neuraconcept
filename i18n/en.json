@@ -88,7 +88,7 @@
     "cta_subheading": "Be among the first teachers to transform how they grade subjective exams.",
     "cta_waitlist": "Join the Waitlist",
     "cta_whatsapp": "Join WhatsApp Community",
-    "seo_desc": "AI grading CBSE answer sheets — rubric-based evaluation for Indian schools. GradeOwl reduces copy-checking time so teachers escape grading burnout."
+    "seo_desc": "AI grading for Indian schools — scan answer sheets, auto-score against your rubric, review by similarity cluster. Built for CBSE, ICSE & State Board."
   },
   "gradeowl": {
     "badge": "Introducing GradeOwl",
@@ -133,7 +133,7 @@
     "bottom_heading": "Start grading smarter today",
     "bottom_subtitle": "Join the early access program and be among the first teachers to use GradeOwl.",
     "bottom_cta": "Join the Waitlist",
-    "seo_desc": "GradeOwl — AI grading CBSE, ICSE & State Board schools. Automated answer checking India with rubric-based evaluation for handwritten Hindi & English.",
+    "seo_desc": "GradeOwl uses AI vision and rubric clustering to grade handwritten subjective exams in minutes, not weeks. Free pilot for CBSE, ICSE & State Board schools.",
     "seo_keywords": "gradeowl, ai grading, subjective exam grading, answer sheet checking, cbse grading, icse grading, copy checking ai, ai grading cbse, automated answer checking india, edtech tools for teachers india, rubric based grading india, teacher burnout india, manual vs ai grading"
   },
   "schools": {
@@ -156,7 +156,7 @@
     "love_6": "Export marks as CSV for school records",
     "cta_access": "Get Early Access",
     "cta_demo": "Schedule a Demo",
-    "seo_desc": "School exam management tools for India. GradeOwl brings automated answer checking and rubric-based AI grading to CBSE, ICSE, and State Board schools."
+    "seo_desc": "GradeOwl saves teachers 8-12 hours per week — automated rubric grading, batch cluster review, CSV exports. Built for CBSE, ICSE & State Board schools in India."
   },
   "vision": {
     "title_1": "Our Vision for ",
@@ -172,7 +172,7 @@
     "precision_desc": "No more wasted time studying what you already know. We guide you to the exact frontier of your knowledge.",
     "access_title": "Universal Access",
     "access_desc": "Quality personal tutoring is a luxury in India. We're using AI to make expert-level assessment affordable for every school — from Bangalore to Bhopal.",
-    "seo_desc": "We are building the infrastructure for affordable, quality education at scale in India. Starting with GradeOwl."
+    "seo_desc": "Personalized education for every Indian student. NeuraConcept builds digital mental models — knowledge graphs that adapt to each child's learning path."
   },
   "login": {
     "title": "Welcome Back",
@@ -184,7 +184,7 @@
     "submit": "Sign In",
     "no_account": "Don't have an account?",
     "contact_sales": "Contact Sales",
-    "seo_desc": "Access your NeuraConcept dashboard."
+    "seo_desc": "Sign in to your GradeOwl dashboard. Review pending grading, manage rubrics, and finish subjective exams faster — for CBSE, ICSE & State Board teachers in India."
   },
   "tech": {
     "title_1": "Neuro-Symbolic",
@@ -200,7 +200,7 @@
     "irt_desc": "Vector embeddings group similar student answers together, so teachers can review and adjust marks for entire clusters at once.",
     "privacy_title": "Prerequisite Discovery",
     "privacy_desc": "Dual embeddings — semantic and prerequisite — find concept dependencies across subjects and grades automatically.",
-    "seo_desc": "Neuro-symbolic AI for Indian schools — knowledge graphs, multi-language OCR, and rubric-based evaluation. Edtech AI India 2026 from NeuraConcept."
+    "seo_desc": "Knowledge graphs and LLM grading: how NeuraConcept turns NCERT textbooks and student answers into a personalized mental model for every Indian learner."
   },
   "waitlist": {
     "title_1": "Join the ",
@@ -235,7 +235,7 @@
     "subjects_label": "Subjects You Teach",
     "subjects_placeholder": "e.g., Science, Hindi, Social Studies",
     "submit": "Request Access",
-    "seo_desc": "Join the GradeOwl early access waitlist — AI grading for CBSE, ICSE and State Board schools. Reduce copy checking time and teacher workload.",
+    "seo_desc": "Join the GradeOwl waitlist — free early-access pilot for CBSE, ICSE & State Board schools in India. Grade subjective exams with AI in your classroom this term.",
     "seo_keywords": "GradeOwl waitlist, AI grading early access, teacher signup, CBSE grading tool",
     "error_generic": "Something went wrong. Please try again.",
     "submitting": "Submitting..."
@@ -292,8 +292,8 @@
   "seo": {
     "default_keywords": "gradeowl, neuraconcept, ai grading, subjective exam grading, cbse, icse, indian schools, answer sheet checking, copy checking ai, karnataka state board, ai grading cbse, automated answer checking india, edtech tools for teachers india, rubric based grading india, teacher burnout india, manual vs ai grading",
     "site_title": "NeuraConcept | GradeOwl - AI Grading for Indian Schools",
-    "org_desc": "AI-powered education technology for Indian schools. Building personalized learning through knowledge graphs and intelligent assessment.",
-    "app_desc": "AI grading for CBSE, ICSE & State Board schools in India. Automated answer checking with rubric-based evaluation — built for Indian classrooms.",
+    "org_desc": "AI-powered education infrastructure for Indian schools — knowledge graphs, multi-language OCR, and rubric-based grading from NeuraConcept (Bangalore).",
+    "app_desc": "Grade 60+ subjective answer sheets in under 2 hours. AI rubric generation, cluster review, CSV export — built for CBSE, ICSE & State Board teachers in India.",
     "free_offer": "Free during early access"
   },
   "about": {
@@ -322,13 +322,13 @@
     "product_personalized_desc": "Using grading data and knowledge graphs to build a \"digital twin\" of each student's understanding. Precision guidance to exactly where they need help.",
     "product_learn_more": "Learn more",
     "product_coming_soon": "Coming soon",
-    "seo_desc": "About NeuraConcept — building AI education infrastructure to make quality education affordable for every Indian school. Meet the team and learn what we're building.",
+    "seo_desc": "About NeuraConcept — building AI-native learning infrastructure for Indian schools, starting with subjective exam grading and personalized knowledge graphs.",
     "seo_keywords": "NeuraConcept, about, AI education, Indian schools, GradeOwl, knowledge graph, edtech startup, Bangalore"
   },
   "notFound": {
     "title": "Page not found",
     "message": "The page you're looking for doesn't exist.",
     "cta": "Back to home",
-    "seo_desc": "Page not found on NeuraConcept. Return to the home page or browse GradeOwl, FAQ, pricing, and more."
+    "seo_desc": "Page not found on NeuraConcept. Head back to the home page or explore GradeOwl, our technology, schools pricing, FAQs, and the early-access waitlist."
   }
 }
