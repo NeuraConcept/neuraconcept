@@ -14,10 +14,11 @@ const Login: React.FC = () => {
       <SEO
         title={T("nav.login")}
         description={T("login.seo_desc")}
+        noindex
       />
       <div className="w-full max-w-md bg-white border border-gray-200 p-8 rounded-2xl shadow-sm">
         <div className="text-center mb-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">{T("login.title")}</h2>
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">{T("login.title")}</h1>
           <p className="text-gray-500">{T("login.subtitle")}</p>
         </div>
 
@@ -39,7 +40,9 @@ const Login: React.FC = () => {
           <div>
             <div className="flex justify-between items-center mb-2">
               <label className="block text-sm font-medium text-gray-600">{T("login.password")}</label>
-              <a href="#" className="text-xs text-apple-blue hover:text-apple-blue-dark">{T("login.forgot")}</a>
+              <button type="button" className="text-xs text-apple-blue hover:text-apple-blue-dark">
+                {T("login.forgot")}
+              </button>
             </div>
             <div className="relative">
               <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" size={20} />
