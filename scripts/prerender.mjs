@@ -34,6 +34,7 @@ import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { homedir } from 'node:os';
 import express from 'express';
+import { rateLimit } from 'express-rate-limit';
 import puppeteer from 'puppeteer';
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -142,6 +143,12 @@ function outputPathFor(route) {
  */
 function startStaticServer() {
   const app = express();
+  app.use(rateLimit({
+    windowMs: 60_000,
+    limit: 2_000,
+    standardHeaders: false,
+    legacyHeaders: false,
+  }));
   app.use(express.static(distDir, { extensions: ['html'], dotfiles: 'allow' }));
   // SPA fallback — any path not resolved by static() returns index.html.
   app.get(/.*/, (_req, res) => {
