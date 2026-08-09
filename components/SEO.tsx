@@ -8,6 +8,7 @@ interface SEOProps {
   image?: string;
   url?: string;
   type?: string;
+  noindex?: boolean;
   jsonLd?: Record<string, unknown> | Array<Record<string, unknown>>;
 }
 
@@ -24,6 +25,7 @@ export const SEO = ({
   image = "/assets/digital-brain.webp",
   url,
   type = "website",
+  noindex = false,
   jsonLd,
 }: SEOProps) => {
   const { T, locale } = useT();
@@ -48,6 +50,7 @@ export const SEO = ({
     // Standard Meta
     updateMeta('name', 'description', description);
     updateMeta('name', 'keywords', resolvedKeywords);
+    updateMeta('name', 'robots', noindex ? 'noindex,follow' : 'index,follow');
 
     // Open Graph
     updateMeta('property', 'og:title', fullTitle);
@@ -159,7 +162,7 @@ export const SEO = ({
     }
     script.textContent = JSON.stringify(schemaData);
 
-  }, [title, description, resolvedKeywords, image, url, type, locale, jsonLd]);
+  }, [title, description, resolvedKeywords, image, url, type, noindex, locale, jsonLd]);
 
   return null;
 };

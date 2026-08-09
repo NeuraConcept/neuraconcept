@@ -1,7 +1,6 @@
-# Search engines — index everything except /login
+# Search engines — crawl public routes. /login exposes noindex in HTML.
 User-agent: *
 Allow: /
-Disallow: /login
 
 # AI training crawlers — disallowed.
 # These bots are documented to respect robots.txt. The list mirrors what
