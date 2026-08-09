@@ -2,6 +2,7 @@ import React from 'react';
 import { Network, GitBranch, Languages, Layers, Link2 } from 'lucide-react';
 import { useT } from 'talkr';
 import { SEO } from '../components/SEO';
+import { breadcrumbsJsonLd } from '../components/breadcrumbs';
 import KnowledgeGraph from '../components/KnowledgeGraph';
 
 const Technology: React.FC = () => {
@@ -19,6 +20,7 @@ const Technology: React.FC = () => {
         title={T("nav.technology")}
         description={T("tech.seo_desc")}
         url="https://neuraconcept.com/technology"
+        jsonLd={breadcrumbsJsonLd("Technology", "/technology")}
       />
       <div className="max-w-4xl mx-auto text-center mb-16">
         <h1 className="text-4xl md:text-6xl font-bold mb-6 text-gray-900">

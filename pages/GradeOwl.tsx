@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useT } from 'talkr';
 import { SEO } from '../components/SEO';
+import { breadcrumbsJsonLd } from '../components/breadcrumbs';
 import {
   Camera, FileText, Brain, CheckCircle, Users,
   ArrowRight, Smartphone, Clock, Shield,
@@ -41,6 +42,7 @@ const GradeOwl: React.FC = () => {
         description={T("gradeowl.seo_desc")}
         keywords={T("gradeowl.seo_keywords")}
         url="https://neuraconcept.com/gradeowl"
+        jsonLd={breadcrumbsJsonLd("GradeOwl", "/gradeowl")}
       />
 
       {/* Hero */}

@@ -7,10 +7,25 @@ import { CheckCircle, ArrowRight, Sparkles } from 'lucide-react';
 const Pricing: React.FC = () => {
   const { T } = useT();
 
-  const tiers = [
+  type Tier = {
+    nameKey: string;
+    bestForKey: string;
+    priceKey: string;
+    priceUnitKey: string;
+    badgeKey?: string;
+    altLineKey?: string;
+    includesKey?: string;
+    includesDetailKey?: string;
+    features: string[];
+    highlighted: boolean;
+  };
+
+  const tiers: Tier[] = [
     {
       nameKey: "pricing.starter_name",
       bestForKey: "pricing.starter_best_for",
+      priceKey: "pricing.starter_price",
+      priceUnitKey: "pricing.starter_price_unit",
       features: [
         "pricing.starter_f1",
         "pricing.starter_f2",
@@ -25,7 +40,11 @@ const Pricing: React.FC = () => {
       nameKey: "pricing.school_name",
       bestForKey: "pricing.school_best_for",
       badgeKey: "pricing.school_badge",
+      priceKey: "pricing.school_price",
+      priceUnitKey: "pricing.school_price_unit",
+      altLineKey: "pricing.school_alt",
       includesKey: "pricing.school_includes",
+      includesDetailKey: "pricing.school_includes_detail",
       features: [
         "pricing.school_f1",
         "pricing.school_f2",
@@ -38,6 +57,8 @@ const Pricing: React.FC = () => {
     {
       nameKey: "pricing.district_name",
       bestForKey: "pricing.district_best_for",
+      priceKey: "pricing.district_price",
+      priceUnitKey: "pricing.district_price_unit",
       includesKey: "pricing.district_includes",
       features: [
         "pricing.district_f1",
@@ -121,9 +142,18 @@ const Pricing: React.FC = () => {
               )}
               <h3 className="text-2xl font-bold text-gray-900 mb-2">{T(tier.nameKey)}</h3>
               <p className="text-gray-500 mb-6">{T(tier.bestForKey)}</p>
-              <div className="text-3xl font-bold text-gray-900 mb-6">{T("pricing.contact_us")}</div>
+              <div className="mb-6">
+                <div className="text-3xl font-bold text-gray-900">{T(tier.priceKey)}</div>
+                <div className="text-sm text-gray-500 mt-1">{T(tier.priceUnitKey)}</div>
+                {tier.altLineKey && (
+                  <div className="text-sm text-apple-blue-dark mt-2">{T(tier.altLineKey)}</div>
+                )}
+              </div>
               {tier.includesKey && (
-                <p className="text-sm text-gray-500 font-medium mb-4">{T(tier.includesKey)}</p>
+                <p className="text-sm text-gray-500 font-medium mb-2">{T(tier.includesKey)}</p>
+              )}
+              {tier.includesDetailKey && (
+                <p className="text-sm text-gray-500 mb-4">{T(tier.includesDetailKey)}</p>
               )}
               <div className="space-y-3">
                 {tier.features.map((featureKey, j) => (

@@ -20,9 +20,13 @@ npm install                    # first time
 npm run dev                    # Vite dev server on :3000
 npx tsc --noEmit               # type check (CI step)
 node scripts/i18n-parity.mjs   # check en/hi/kn parity (CI step)
-npm run build                  # production build → dist/
+npm run build                  # full build: vite build + per-route prerender
+npm run build:client           # vite build only (skip prerender — fast smoke test)
+npm run prerender              # run prerender on existing dist/ (after build:client)
 npm run preview                # serve dist/ on :4173 to spot-check
 ```
+
+`npm run build` runs **vite build then `node scripts/prerender.mjs`** — Puppeteer (full Chrome from `~/.cache/puppeteer/chrome/`) loads each route from `public/sitemap.xml`, waits for the `<SEO>` effect to flush per-page `<title>` / `<meta description>` / `<link rel="canonical">`, and writes `dist/<route>/index.html` for each. The site continues to behave as a SPA after first paint (BrowserRouter takes over). On CI Puppeteer downloads ~250 MB of Chrome on first run; cached on subsequent runs.
 
 ## Architecture
 
@@ -68,7 +72,7 @@ Thresholds + assertions: see `lighthouserc.json`. Tightening criteria documented
 ## Known Tradeoffs / Tech Debt
 
 See `FOLLOWUPS.md` for the full list. Summary:
-- SEO 100 in CI, but per-page meta is JS-injected — Googlebot sees home meta on subpages until SSR/prerender lands. Highest-leverage fix: add `react-snap` or `vite-plugin-prerender`.
+- `pages/Privacy.tsx` and `pages/Terms.tsx` pass `T("nav.privacy")` / `T("nav.terms")` to `<SEO title={...}>` but those keys live under `footer.*`, not `nav.*` — the prerendered HTML has empty `<title>` text. Fix: switch to `footer.privacy` / `footer.terms`.
 - `/faq` and `/coaching-institutes` are English-only (not yet i18n-extracted)
 - Hindi/Kannada SEO descriptions drifted vs English after PR #6 (parity is keys-only, not values)
 - `/gradeowl` and `/technology` cap at perf ~73–85 mobile because they ship the full bundle to render — needs route-based code splitting
@@ -80,3 +84,5 @@ See `FOLLOWUPS.md` for the full list. Summary:
 - **Tailwind `purge` requires explicit `content`** — `tailwind.config.js` lists `App.tsx`, `index.tsx`, `components/**`, `pages/**`. New top-level dirs need entries.
 - **Brand color in 4 places**: `tailwind.config.js` (apple.blue), `index.css` (`.btn-primary` background), `index.html` (theme-color meta), `public/manifest.webmanifest` (theme_color). Update all four together.
 - **LCP image preload** in `index.html` — `<link rel="preload" as="image" href="/assets/hero-teacher.webp" fetchpriority="high">`. Update if hero swaps.
+- **Prerender route source = `public/sitemap.xml`** — adding a new route means: (a) add it to `App.tsx` `<Routes>`, (b) add it to `public/sitemap.xml`, (c) ensure the page passes `url=` to `<SEO>`. The prerender script picks it up automatically.
+- **Prerender requires the full Chrome binary**, not `chrome-headless-shell`. Puppeteer 24 + chrome-headless-shell hit `Network.enable timed out` on every page; full Chrome works in classic headless mode. The script auto-locates the cached binary in `~/.cache/puppeteer/chrome/`.
