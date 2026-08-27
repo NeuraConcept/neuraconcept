@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { Network, GitBranch, Languages, Layers, Link2 } from 'lucide-react';
 import { useT } from 'talkr';
 import { SEO } from '../components/SEO';
 import { breadcrumbsJsonLd } from '../components/breadcrumbs';
-import KnowledgeGraph from '../components/KnowledgeGraph';
+
+const KnowledgeGraph = lazy(() => import('../components/KnowledgeGraph'));
 
 const Technology: React.FC = () => {
   const { T } = useT();
@@ -31,17 +32,20 @@ const Technology: React.FC = () => {
         </p>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-12 items-center mb-20">
-        <div className="bg-white p-8 rounded-2xl border border-gray-200 shadow-sm hover:border-blue-500 transition-colors">
+      <div className="mx-auto mb-8 max-w-3xl">
+        <div className="bg-white p-8 rounded-2xl border border-gray-200 shadow-sm hover:border-blue-500 transition-colors sm:p-10">
           <Network className="text-gray-900 mb-6" size={48} />
           <h2 className="text-2xl font-bold mb-4 text-gray-900">{T("tech.kg_title")}</h2>
           <p className="text-gray-500 leading-relaxed">
             {T("tech.kg_desc")}
           </p>
         </div>
-        <div className="h-[500px] md:h-[600px] w-full">
+      </div>
+
+      <div className="mb-24 w-full">
+        <Suspense fallback={<div className="min-h-[620px] animate-pulse rounded-3xl bg-slate-950" aria-hidden="true" />}>
           <KnowledgeGraph />
-        </div>
+        </Suspense>
       </div>
 
       <div className="grid md:grid-cols-2 gap-12 items-center mb-20 md:flex-row-reverse">
