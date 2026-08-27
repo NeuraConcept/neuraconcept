@@ -41,6 +41,20 @@ i18n/{en,hi,kn}.json (300 keys flat with dotted paths)
 
 `AnalyticsDemo` is `React.lazy()` so recharts (378KB) doesn't block first paint.
 
+### Curriculum Graph Asset
+
+`components/KnowledgeGraph.tsx` powers the interactive graph on `/technology` and
+fetches `public/concept-graph.json` at runtime. The asset is generated locally from
+the read-only sibling `../kg-pipeline/output/` with:
+
+    npm run export:concept-graph
+    npm run test:concept-graph-export
+
+Run the export whenever the source curriculum output changes. It de-duplicates concepts
+and edges, removes dangling links, precomputes node positions, and deliberately excludes
+embeddings and other raw pipeline fields; do not replace it with a raw pipeline export or
+import it into the JavaScript bundle.
+
 ## Conventions
 
 - **Color palette** in `tailwind.config.js`. **Brand blue is `#0071E3`** (Apple macOS link blue, 4.74:1 vs white). Do NOT regress to `#007AFF` (4.06, fails WCAG AA).
