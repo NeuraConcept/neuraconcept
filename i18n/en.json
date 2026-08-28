@@ -207,6 +207,7 @@
     "graph_concepts": "concepts",
     "graph_edges": "extracted prerequisite links",
     "graph_scope": "NCERT Mathematics · Classes 6–8",
+    "graph_legend": "Topics",
     "graph_search_label": "Search concepts",
     "graph_search_placeholder": "Search a concept…",
     "graph_clear_search": "Clear search",
