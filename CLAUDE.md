@@ -2,16 +2,16 @@
 
 Marketing site for NeuraConcept (`neuraconcept.com`). React 19 + Vite 6 SPA, hosted on Netlify. **This is a marketing site — perf and SEO matter more than feature breadth.**
 
-*Last updated: 2026-04-28*
+*Last updated: 2026-08-31*
 
 ## Stack
 
-- React 19, Vite 6, TypeScript ~5.8 — bundled locally (do NOT bring back the `external` array in `vite.config.ts`; that was the 49/100 perf disaster from PR #7)
+- React 19, Vite 6, TypeScript ~5.8 — production dependencies are bundled locally; Vite uses explicit `manualChunks` for cacheable vendor groups
 - Tailwind CSS 3.4 (PostCSS build, NOT the CDN script — see `tailwind.config.js` + `index.css` for theme + components)
-- Talkr i18n: `en` / `hi` / `kn` (300 keys each, parity enforced in CI)
+- Talkr i18n: `en` / `hi` / `kn` (340 flattened keys each, parity enforced in CI)
 - React Router v7 (BrowserRouter + SPA fallback via Netlify `_redirects`)
 - D3 + Recharts (in `charts` chunk via `manualChunks`); `lucide-react` in `icons` chunk
-- Lighthouse-CI baseline: Perf 80–90, A11y 99, BP 100, SEO 100, PWA installable
+- Lighthouse CI audits a local production preview (five routes); category thresholds are warn-only while hard accessibility/SEO/CLS assertions block the workflow
 
 ## Dev Commands
 
@@ -36,7 +36,7 @@ index.tsx → App.tsx (BrowserRouter, Talkr provider, Routes for 12 pages)
 components/{Hero, Features, AnalyticsDemo (lazy), KnowledgeGraph, Navbar, Footer, SEO}
 pages/{Home, GradeOwl, Technology, Schools, CoachingInstitutes, Pricing, Waitlist,
        About, Vision, Faq, Privacy, Terms, NotFound, Login}
-i18n/{en,hi,kn}.json (300 keys flat with dotted paths)
+i18n/{en,hi,kn}.json (340 keys flat with dotted paths)
 ```
 
 `AnalyticsDemo` is `React.lazy()` so recharts (378KB) doesn't block first paint.
@@ -67,7 +67,7 @@ import it into the JavaScript bundle.
 
 Every PR runs:
 - `quality-checks.yml` — tsc + i18n parity + build + bundle summary
-- `lighthouse-ci.yml` — waits for Netlify preview, audits 5 routes (`/`, `/gradeowl`, `/technology`, `/pricing`, `/waitlist`), comments scores
+- `lighthouse-ci.yml` — builds and serves a local production preview, audits 5 routes (`/`, `/gradeowl`, `/technology`, `/pricing`, `/waitlist`), comments scores
 - `claude-code-review.yml` — Claude Code PR review
 
 Hard fails (block PR): color-contrast, image-alt, html-has-lang, meta-description, document-title, CLS > 0.1.
@@ -86,15 +86,13 @@ Thresholds + assertions: see `lighthouserc.json`. Tightening criteria documented
 ## Known Tradeoffs / Tech Debt
 
 See `FOLLOWUPS.md` for the full list. Summary:
-- `pages/Privacy.tsx` and `pages/Terms.tsx` pass `T("nav.privacy")` / `T("nav.terms")` to `<SEO title={...}>` but those keys live under `footer.*`, not `nav.*` — the prerendered HTML has empty `<title>` text. Fix: switch to `footer.privacy` / `footer.terms`.
 - `/faq` and `/coaching-institutes` are English-only (not yet i18n-extracted)
-- Hindi/Kannada SEO descriptions drifted vs English after PR #6 (parity is keys-only, not values)
 - `/gradeowl` and `/technology` cap at perf ~73–85 mobile because they ship the full bundle to render — needs route-based code splitting
 - Privacy/Terms English-only (DPDPA Section 5 may require translations — legal review)
 
 ## Key Patterns
 
-- **Bundle deps locally, never externalize** — `vite.config.ts` has explicit `manualChunks` for `react-vendor`, `charts`, `icons`. Do not add `external: [...]`.
+- **Bundle dependencies locally** — `vite.config.ts` has explicit `manualChunks` for `react-vendor`, `charts`, and `icons`; there is no production `external` dependency list or CDN import map.
 - **Tailwind `purge` requires explicit `content`** — `tailwind.config.js` lists `App.tsx`, `index.tsx`, `components/**`, `pages/**`. New top-level dirs need entries.
 - **Brand color in 4 places**: `tailwind.config.js` (apple.blue), `index.css` (`.btn-primary` background), `index.html` (theme-color meta), `public/manifest.webmanifest` (theme_color). Update all four together.
 - **LCP image preload** in `index.html` — `<link rel="preload" as="image" href="/assets/hero-teacher.webp" fetchpriority="high">`. Update if hero swaps.

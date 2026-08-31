@@ -5,18 +5,16 @@ Open work surfaced during the 2026-04-26 marketing-site overhaul (commits `0114c
 ## Backend / infra
 
 - **CORS for production waitlist** — `projects/gradeowl/backend/main.py:53` defaults `ALLOWED_ORIGINS` to localhost-only. Production needs `https://neuraconcept.com,https://www.neuraconcept.com` so the new `/waitlist` POST works in browsers. Deferred per `for now, just merge to main in whatever order ... will anyways migrate it to aws later`. Re-evaluate during AWS migration.
-- **Production build verification** — `vite.config.ts` `build.rollupOptions.external` lists `react`, `react-dom`, `lucide-react`, `d3`, `recharts`, `talkr` as externals. This means `npm run build` produces a bundle assuming these come from a CDN/import-map. Verify the Netlify deployment actually has the import map / CDN setup, otherwise prod is broken.
 
 ## Content / copy follow-ups
 
 - **`/faq` and `/coaching-institutes` are English-only.** Both pages hardcode their copy in JSX rather than going through Talkr `T()`. To translate: extract strings into `faq.*` and `coachingInstitutes.*` namespaces in `i18n/en.json`, then add Hindi + Kannada translations.
-- **Hindi / Kannada content drift across multiple keys.** Key parity holds (291 each in en/hi/kn), but the VALUES of these keys in `hi.json` and `kn.json` still describe the pre-rewrite messaging while `en.json` has been updated:
+- **Hindi / Kannada content drift across selected keys.** Key parity holds (340 each in en/hi/kn), but the VALUES of these keys in `hi.json` and `kn.json` still describe the pre-rewrite messaging while `en.json` has been updated:
   - `tech.cognitive_*`, `tech.vector_*`, `tech.irt_*`, `tech.privacy_*` (en is now Curriculum Mapping / Multi-Language OCR / Answer Clustering / Prerequisite Discovery; hi/kn still describe Cognitive Modeling / IRT etc.)
   - `home.quote`, `home.quote_attr`, `home.cta_subheading`, `home.seo_desc`
   - `schools.time_title`, `schools.time_desc`, `schools.love_heading`
   - `waitlist.teachers_count` (en moved from "127+ teachers" to "Join teachers across India"; hi/kn still claim 127+)
   - SEO descriptions across `home.seo_desc`, `gradeowl.seo_desc`, `schools.seo_desc`, `tech.seo_desc`, `pricing.seo_desc`, `waitlist.seo_desc`, `seo.app_desc` — now ATP-keyword-flavored in English, untouched in hi/kn.
-- **Pricing page has no actual numbers** — all three tiers say "Contact us". Add even rough INR ranges (e.g., "₹50–200/student/year") so visitors can self-qualify. Investors definitely will ask.
 
 ## Legal / compliance (founder + legal review needed)
 
@@ -40,9 +38,8 @@ Open work surfaced during the 2026-04-26 marketing-site overhaul (commits `0114c
 
 ## What was deliberately NOT done
 
-- **Smoke testing of `npm run build`** — only `tsc --noEmit` was run (clean). Visual smoke in dev (`npm run dev` on localhost:3001) was confirmed working. Production build has not been validated against the externalized-deps Vite config.
+- **Smoke testing of `npm run build`** — covered by the current quality workflow and release verification; visual smoke remains a manual check.
 - **Hindi/Kannada translations of new SEO content** — deferred (English-only on the new pages and the updated SEO descriptions).
-- **Pricing tier numbers** — deferred (founder business call).
 - **Top navbar reorganization** — deferred (UX layout judgment call).
 
 ## Where this is from

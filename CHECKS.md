@@ -9,13 +9,13 @@ What runs automatically vs. what needs human review when shipping marketing-site
 | TypeScript | `quality-checks.yml` | Type errors before they reach review |
 | i18n parity | `quality-checks.yml` -> `scripts/i18n-parity.mjs` | Missing/extra keys across `en` / `hi` / `kn` |
 | Bundle size diff | `quality-checks.yml` | JS/CSS regressions vs. base branch |
-| Lighthouse CI | `lighthouse-ci.yml` | Perf, a11y, best-practices, SEO, PWA — runs against the Netlify deploy preview, asserts thresholds |
+| Lighthouse CI | `lighthouse-ci.yml` | Perf, a11y, best-practices, SEO, PWA — builds and audits a local production preview, then asserts thresholds |
 | Claude review | `claude-code-review.yml` | Logic bugs, accessibility regressions, undefined classes |
 | Dependabot | GitHub-native | Security alerts on dev/prod deps |
 
 ### Lighthouse thresholds
 
-`lighthouserc.json` enforces (per route, on the deployed preview, median of 3 runs):
+`lighthouserc.json` enforces (per route, on the local production preview, median of 3 runs):
 
 **Hard fail (block PR):**
 - `color-contrast`, `image-alt`, `html-has-lang`, `meta-description`, `document-title`
@@ -42,7 +42,7 @@ Things automation either can't catch reliably, or that drift slowly. Run through
 ### Content audit
 - [ ] **Vision balance**: read `research/2026-03-14-neuraconcept-website-product-visibility-analysis.md` (the original product-visibility analysis). The site should not skew >70% toward any single product. Re-score after the overhaul.
 - [ ] **i18n value drift**: parity check only verifies key presence. Translated *content* drifts when English copy is updated alone. Spot-check 5-10 high-traffic keys per locale.
-- [ ] **Pricing tier numbers** and **stats** (e.g., "X teachers waitlisted"): grep for hardcoded numbers in JSX, confirm they are still accurate.
+- [ ] **Stats** (e.g., teacher counts): grep for hardcoded numbers in JSX or locale strings, confirm they are still accurate.
 - [ ] **Effective dates** in `pages/Privacy.tsx` and `pages/Terms.tsx`: still hardcoded; bump if the policy text changed.
 
 ### Visual regression
@@ -58,8 +58,7 @@ Things automation either can't catch reliably, or that drift slowly. Run through
 ### Perf
 - [ ] LCP image still under 50 KB and dimensioned for 1200x slot at 2x DPI. Add new hero images to the resize step (1200px max width).
 - [ ] No new render-blocking external scripts/styles (Lighthouse warns at 2 — exceeded means rethink).
-- [ ] No new dependencies pulled from `esm.sh` or other CDNs in markup; bundle locally.
-- [ ] `vite.config.ts` does NOT bring back the `external` array — that was the root cause of the 49/100 score we fixed in PR #7.
+- [ ] No new dependencies pulled from `esm.sh` or other CDNs in markup; production dependencies remain bundled locally.
 
 ## Lessons from PRs #5/#6/#7
 
@@ -67,7 +66,7 @@ The audits above came directly from what we caught (or missed) on the marketing-
 
 | Issue | Caught by | Now caught earlier by |
 |---|---|---|
-| Vite externals + esm.sh importmap (216 requests) | Manual Lighthouse | `lighthouserc.json` request-count budget |
+| Vite externals + esm.sh importmap (216 requests) | Manual Lighthouse | local-preview Lighthouse request-count budget |
 | Tailwind from CDN | Manual Lighthouse | Lighthouse "render-blocking" + manual checklist |
 | `text-gray-400` body (3.62:1) | Lighthouse contrast audit | Lighthouse `color-contrast` assertion |
 | Heading order h1 -> h4 | Lighthouse | Lighthouse `heading-order` assertion |
@@ -89,10 +88,13 @@ npm run build
 ls -la dist/assets/   # JS+CSS sizes
 npm run preview       # then run Lighthouse via Chrome DevTools
 
-# Lighthouse CI locally (mirrors what runs on PRs)
+# Lighthouse CI locally (the workflow serves the built preview before collecting)
+npm run build
 npx -y @lhci/cli@0.13.x autorun \
   --collect.staticDistDir=dist \
   --collect.url=/ \
   --collect.url=/gradeowl \
-  --collect.url=/pricing
+  --collect.url=/technology \
+  --collect.url=/pricing \
+  --collect.url=/waitlist
 ```
