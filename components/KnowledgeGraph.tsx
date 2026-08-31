@@ -7,15 +7,53 @@ type ConceptNode = { n: string; t: number; g: number; d: number; x: number; y: n
 type PrerequisiteEdge = { s: number; t: number; c: number; k: 0 | 1; r: string };
 type GraphAsset = {
   v: number;
-  m: { sourceConcepts: number; sourceHardEdges: number; renderedEdges: number; renderedHardEdges: number; danglingEdges: number; topics: string[] };
+  m: { sourceConcepts: number; sourceHardEdges: number; renderedEdges: number; renderedHardEdges: number; danglingEdges: number; topics: string[]; gradeZones: { grade: number; path: string; labelX: number; labelY: number }[] };
   n: ConceptNode[];
   e: PrerequisiteEdge[];
 };
 type Trace = { nodes: Map<number, number>; edges: Set<number> };
 
+export const relatedEdges = (graph: GraphAsset, nodeIndex: number) => ({
+  prerequisites: graph.e.filter((edge) => edge.s === nodeIndex),
+  dependents: graph.e.filter((edge) => edge.t === nodeIndex),
+});
+
 const VIEWBOX = { width: 1200, height: 760 };
 const TOPIC_COLOURS = ['#67e8f9', '#a78bfa', '#fbbf24', '#fb7185', '#34d399', '#60a5fa', '#f472b6', '#c084fc', '#fb923c', '#2dd4bf', '#facc15', '#818cf8'];
+const GRADE_ZONE_COLOURS: Record<number, string> = { 6: '#7dd3fc', 7: '#86efac', 8: '#fdba74' };
 const topicColour = (node: ConceptNode) => TOPIC_COLOURS[node.t % TOPIC_COLOURS.length] ?? '#67e8f9';
+
+// Concept names run up to 92 chars; the in-graph label only needs to identify which dot is
+// which while the chain is on screen — the full name already appears in the detail panel.
+// Capping it here keeps every label on the fixed stage regardless of viewport width.
+const graphLabel = (name: string) => (name.length > 26 ? `${name.slice(0, 25).trimEnd()}…` : name);
+
+// Fixed on-canvas positions for a focused prerequisite chain (depth 0 = selected, 1-2 = hops
+// upstream). Selection always lays the chain out here instead of the nodes' real force-layout
+// positions, so the trace never inherits the ambient graph's crowding and reads the same way
+// (and fits the same camera transform) no matter which node was clicked.
+const STAGE: { x: number; y: number }[] = [
+  { x: 300, y: 260 },
+  { x: 560, y: 420 },
+  { x: 820, y: 580 },
+];
+
+const buildTrace = (start: number, graph: GraphAsset, prerequisitesByDependent: Map<number, number[]>): Trace => {
+  const nodes = new Map<number, number>();
+  const edges = new Set<number>();
+  nodes.set(start, 0);
+  let dependent = start;
+  for (let depth = 1; depth <= 2; depth += 1) {
+    const edgeIndex = prerequisitesByDependent.get(dependent)?.[0];
+    if (edgeIndex === undefined) break;
+    const edge = graph.e[edgeIndex];
+    edges.add(edgeIndex);
+    if (nodes.has(edge.t)) break;
+    nodes.set(edge.t, depth);
+    dependent = edge.t;
+  }
+  return { nodes, edges };
+};
 
 const KnowledgeGraph: React.FC = () => {
   const { T } = useT();
@@ -80,35 +118,48 @@ const KnowledgeGraph: React.FC = () => {
   }, [graph]);
 
   const trace = useMemo<Trace>(() => {
-    const nodes = new Map<number, number>();
-    const edges = new Set<number>();
-    if (selectedNode === null || !graph) return { nodes, edges };
-    nodes.set(selectedNode, 0);
-    let dependent = selectedNode;
-    for (let depth = 1; depth <= 2; depth += 1) {
-      const edgeIndex = prerequisitesByDependent.get(dependent)?.[0];
-      if (edgeIndex === undefined) break;
-      const edge = graph.e[edgeIndex];
-      edges.add(edgeIndex);
-      if (nodes.has(edge.t)) break;
-      nodes.set(edge.t, depth);
-      dependent = edge.t;
-    }
-    return { nodes, edges };
+    if (selectedNode === null || !graph) return { nodes: new Map(), edges: new Set() };
+    return buildTrace(selectedNode, graph, prerequisitesByDependent);
   }, [graph, prerequisitesByDependent, selectedNode]);
 
+  const traceStage = useMemo(() => {
+    const positions = new Map<number, { x: number; y: number }>();
+    trace.nodes.forEach((depth, nodeIndex) => positions.set(nodeIndex, STAGE[Math.min(depth, STAGE.length - 1)]));
+    return positions;
+  }, [trace]);
+
+  const nodeRadius = useMemo(() => {
+    const map = new Map<number, number>();
+    graph?.n.forEach((node, index) => {
+      map.set(index, 4.2 + Math.min(3.8, Math.sqrt(degree.get(index) ?? 0) * 0.52) + Math.min(1.5, node.d * 0.15));
+    });
+    return map;
+  }, [graph, degree]);
+
+  // Trace nodes render at a minimum radius (bigger than most base radii) so the fixed stage
+  // reads clearly at its zoom level; edges trim to this same radius so an arrowhead lands in
+  // the open gap beside a node's circle instead of underneath it, where it would be invisible.
+  const renderRadius = useCallback((nodeIndex: number) => {
+    const base = nodeRadius.get(nodeIndex) ?? 4.2;
+    return trace.nodes.has(nodeIndex) ? Math.max(base, 7.5) : base;
+  }, [nodeRadius, trace]);
+
   const focusNode = useCallback((nodeIndex: number) => {
-    const node = graph?.n[nodeIndex];
-    if (!node || !svgRef.current || !zoomRef.current) return;
+    if (!graph || !svgRef.current || !zoomRef.current) return;
+    const depth = Math.max(...buildTrace(nodeIndex, graph, prerequisitesByDependent).nodes.values());
+    const stagePoints = STAGE.slice(0, depth + 1);
+    const midX = (Math.min(...stagePoints.map((p) => p.x)) + Math.max(...stagePoints.map((p) => p.x))) / 2;
+    const midY = (Math.min(...stagePoints.map((p) => p.y)) + Math.max(...stagePoints.map((p) => p.y))) / 2;
     const desktop = window.matchMedia('(min-width: 1024px)').matches;
+    const scale = depth === 0 ? (desktop ? 2.3 : 2.1) : depth === 1 ? (desktop ? 1.85 : 1.5) : (desktop ? 1.5 : 1.05);
     const nextTransform = d3.zoomIdentity
       .translate(desktop ? VIEWBOX.width * 0.34 : VIEWBOX.width / 2, VIEWBOX.height * 0.48)
-      .scale(desktop ? 1.58 : 1.75)
-      .translate(-node.x, -node.y);
+      .scale(scale)
+      .translate(-midX, -midY);
     const selection = d3.select(svgRef.current);
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) selection.call(zoomRef.current.transform, nextTransform);
     else selection.transition().duration(420).call(zoomRef.current.transform, nextTransform);
-  }, [graph]);
+  }, [graph, prerequisitesByDependent]);
 
   const selectNode = useCallback((nodeIndex: number, suppressInitialEdgeHover = false) => {
     suppressEdgeHoverRef.current = suppressInitialEdgeHover;
@@ -136,6 +187,7 @@ const KnowledgeGraph: React.FC = () => {
   const primaryEdge = selectedNode === null ? null : prerequisitesByDependent.get(selectedNode)?.[0] ?? null;
   const displayedEdge = activeEdge ?? primaryEdge;
   const selected = selectedNode === null ? null : graph?.n[selectedNode] ?? null;
+  const selectedRelationships = selectedNode === null || !graph ? null : relatedEdges(graph, selectedNode);
 
   if (loadError) return <div className="min-h-[520px] rounded-2xl bg-[#08111f] p-8 text-sm text-gray-300">{T('tech.graph_unavailable')}</div>;
   if (!graph) return <div className="min-h-[520px] animate-pulse rounded-2xl bg-[#08111f]" aria-label={T('tech.graph_loading')} />;
@@ -148,8 +200,12 @@ const KnowledgeGraph: React.FC = () => {
         </p>
         <h3 className="mt-2 text-lg font-bold leading-tight text-white">{selected.n}</h3>
         <p className="mt-2 text-sm leading-relaxed text-slate-300">{selected.s}</p>
-        <div className="mt-3 flex flex-wrap gap-x-2 gap-y-1 text-xs text-slate-300">
-          <span>{T('tech.graph_grade')} {selected.g}</span><span>·</span><span>{graph.m.topics[selected.t]}</span>
+        <div className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-slate-300">
+          <span>{T('tech.graph_grade')} {selected.g}</span><span>·</span>
+          <span className="inline-flex items-center gap-1.5">
+            <span className="h-2 w-2 shrink-0 rounded-full" style={{ backgroundColor: topicColour(selected) }} aria-hidden="true" />
+            {graph.m.topics[selected.t]}
+          </span>
           {selected.c && <><span>·</span><span>{selected.c}</span></>}
         </div>
         {primaryEdge === null ? <p className="mt-4 text-sm font-semibold text-amber-200">{T('tech.graph_foundational')}</p> : (
@@ -161,6 +217,17 @@ const KnowledgeGraph: React.FC = () => {
       </> : <>
         <p className="text-sm font-bold text-white">{T('tech.graph_edge_hero')}</p>
         <p className="mt-2 text-sm leading-relaxed text-slate-300">{T('tech.graph_help')}</p>
+        <div className="mt-4 border-t border-white/10 pt-3">
+          <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-cyan-200">{T('tech.graph_legend')}</p>
+          <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1.5">
+            {graph.m.topics.map((topic, topicIndex) => (
+              <span key={topic} className="inline-flex items-center gap-1.5 text-xs text-slate-300">
+                <span className="h-2 w-2 shrink-0 rounded-full" style={{ backgroundColor: TOPIC_COLOURS[topicIndex % TOPIC_COLOURS.length] }} aria-hidden="true" />
+                {topic}
+              </span>
+            ))}
+          </div>
+        </div>
       </>}
       {displayedEdge !== null && (
         <div className="mt-4 rounded-xl border border-cyan-200/25 bg-cyan-300/10 p-3">
@@ -203,37 +270,62 @@ const KnowledgeGraph: React.FC = () => {
             {searchResults.length > 0 ? searchResults.map(({ node, index }) => <button key={index} type="button" onClick={() => selectNode(index, true)} className="flex w-full items-center justify-between gap-3 rounded-lg px-3 py-2 text-left text-sm text-white hover:bg-cyan-300/10"><span className="truncate">{node.n}</span><span className="shrink-0 text-xs text-slate-400">{T('tech.graph_grade')} {node.g}</span></button>) : <p className="px-3 py-2 text-sm text-slate-300">{T('tech.graph_no_results')}</p>}
           </div>}
         </div>
-        <svg ref={svgRef} viewBox={`0 0 ${VIEWBOX.width} ${VIEWBOX.height}`} className="absolute inset-0 h-full w-full touch-none" role="img" aria-label={T('tech.graph_aria_label')} onPointerMove={() => { suppressEdgeHoverRef.current = false; }} onClick={(event) => { if (event.target === event.currentTarget) resetGraph(); }}>
+        <svg ref={svgRef} viewBox={`0 0 ${VIEWBOX.width} ${VIEWBOX.height}`} className="absolute inset-0 h-full w-full touch-none" role="presentation" aria-hidden="true" onPointerMove={() => { suppressEdgeHoverRef.current = false; }} onClick={(event) => { if (event.target === event.currentTarget) resetGraph(); }}>
         <defs>
           <filter id="concept-glow" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="3.5" result="blur" /><feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
-          <marker id="prerequisite-arrow" viewBox="0 -5 11 10" refX="13" refY="0" markerWidth="10" markerHeight="10" orient="auto-start-reverse"><path d="M0,-5L11,0L0,5Z" fill="#f8fafc" /></marker>
+          <filter id="cloud-blur" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="20" /></filter>
+          <marker id="prerequisite-arrow" viewBox="0 -4.2 8.5 8.5" refX="8" refY="0" markerWidth="7.5" markerHeight="7.5" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,-3.6L8,0L0,3.6Z" fill="#f8fafc" /></marker>
         </defs>
         <g transform={transform}>
+          <g aria-hidden="true">{graph.m.gradeZones.map((zone) => (
+            <g key={zone.grade} className="transition-opacity duration-300" opacity={selectedNode === null ? 1 : 0.35}>
+              <path d={zone.path} fill={GRADE_ZONE_COLOURS[zone.grade] ?? '#67e8f9'} opacity={0.6} filter="url(#cloud-blur)" style={{ mixBlendMode: 'screen' }} />
+              <text x={zone.labelX} y={zone.labelY} textAnchor="middle" fill={GRADE_ZONE_COLOURS[zone.grade] ?? '#67e8f9'} opacity={0.75} fontSize={13} fontWeight={700} className="font-mono uppercase tracking-[0.16em]">
+                {T('tech.graph_grade')} {zone.grade}
+              </text>
+            </g>
+          ))}</g>
           <g aria-hidden="true">{graph.e.map((edge, edgeIndex) => {
             const source = graph.n[edge.s]; const target = graph.n[edge.t]; const inTrace = trace.edges.has(edgeIndex); const isActive = activeEdge === edgeIndex;
+            const sourceStage = traceStage.get(edge.s); const targetStage = traceStage.get(edge.t);
+            const sx = sourceStage?.x ?? source.x; const sy = sourceStage?.y ?? source.y;
+            const tx = targetStage?.x ?? target.x; const ty = targetStage?.y ?? target.y;
+            const showMarker = inTrace || isActive;
+            // A marker at the raw endpoint would land on the node's own centre and render
+            // underneath its opaque circle (nodes paint after edges), so trim the visible line
+            // back to each node's boundary whenever an arrowhead needs somewhere to sit.
+            let lineSx = sx, lineSy = sy, lineTx = tx, lineTy = ty;
+            if (showMarker) {
+              const dx = tx - sx; const dy = ty - sy; const length = Math.hypot(dx, dy) || 1;
+              const ux = dx / length; const uy = dy / length;
+              lineSx = sx + ux * renderRadius(edge.s); lineSy = sy + uy * renderRadius(edge.s);
+              lineTx = tx - ux * renderRadius(edge.t); lineTy = ty - uy * renderRadius(edge.t);
+            }
             const opacity = selectedNode === null ? (edge.k ? 0.42 : 0.08) : (inTrace ? 1 : 0.025);
             const activateEdge = (event: React.PointerEvent<SVGElement> | React.MouseEvent<SVGElement>) => { event.stopPropagation(); setActiveEdge(edgeIndex); };
             const previewEdge = () => { if (!suppressEdgeHoverRef.current) setActiveEdge(edgeIndex); };
             return <g key={edgeIndex} className="transition-opacity duration-300">
-              {inTrace && <line x1={source.x} y1={source.y} x2={target.x} y2={target.y} stroke="#22d3ee" strokeWidth={10} opacity={0.34} filter="url(#concept-glow)" />}
-              <line x1={source.x} y1={source.y} x2={target.x} y2={target.y} stroke={isActive || inTrace ? '#f8fafc' : edge.k ? '#38bdf8' : '#64748b'} strokeWidth={isActive || inTrace ? 4.2 : edge.k ? 1.3 : 0.7} strokeDasharray={edge.k ? undefined : '2 4'} opacity={isActive ? 1 : opacity} markerStart={inTrace || isActive ? 'url(#prerequisite-arrow)' : undefined} />
-              <line x1={source.x} y1={source.y} x2={target.x} y2={target.y} stroke="transparent" strokeWidth={16} className="cursor-pointer" onPointerEnter={previewEdge} onPointerLeave={() => setActiveEdge(null)} onClick={activateEdge} />
-              <circle cx={(source.x + target.x) / 2} cy={(source.y + target.y) / 2} r={9} fill="transparent" className="cursor-pointer" onPointerEnter={previewEdge} onPointerLeave={() => setActiveEdge(null)} onClick={activateEdge} />
+              {inTrace && <line x1={lineSx} y1={lineSy} x2={lineTx} y2={lineTy} stroke="#22d3ee" strokeWidth={10} opacity={0.34} filter="url(#concept-glow)" className="transition-all duration-300" />}
+              <line x1={lineSx} y1={lineSy} x2={lineTx} y2={lineTy} stroke={isActive || inTrace ? '#f8fafc' : edge.k ? '#38bdf8' : '#64748b'} strokeWidth={isActive || inTrace ? 2.6 : edge.k ? 1.3 : 0.7} strokeDasharray={edge.k ? undefined : '2 4'} opacity={isActive ? 1 : opacity} markerStart={showMarker ? 'url(#prerequisite-arrow)' : undefined} className="transition-all duration-300" />
+              <line x1={sx} y1={sy} x2={tx} y2={ty} stroke="transparent" strokeWidth={16} className="cursor-pointer" onPointerEnter={previewEdge} onPointerLeave={() => setActiveEdge(null)} onClick={activateEdge} />
+              <circle cx={(sx + tx) / 2} cy={(sy + ty) / 2} r={9} fill="transparent" className="cursor-pointer" onPointerEnter={previewEdge} onPointerLeave={() => setActiveEdge(null)} onClick={activateEdge} />
             </g>;
           })}</g>
           <g>{graph.n.map((node, nodeIndex) => {
             const depth = trace.nodes.get(nodeIndex); const isTraceNode = depth !== undefined; const isSelected = selectedNode === nodeIndex;
-            const radius = 4.2 + Math.min(3.8, Math.sqrt(degree.get(nodeIndex) ?? 0) * 0.52) + Math.min(1.5, node.d * 0.15);
+            const stagePos = traceStage.get(nodeIndex);
+            const posX = stagePos?.x ?? node.x; const posY = stagePos?.y ?? node.y;
+            const radius = renderRadius(nodeIndex);
             const opacity = selectedNode === null ? 0.56 + Math.min(0.24, (degree.get(nodeIndex) ?? 0) * 0.018) : isTraceNode ? 1 : 0.055;
             const colour = isSelected ? '#f8fafc' : depth === 1 ? '#fbbf24' : depth === 2 ? '#c4b5fd' : topicColour(node);
-            const compactTrace = window.matchMedia('(max-width: 1023px)').matches;
-            const labelX = isSelected || compactTrace ? -radius - 12 : radius + 10;
-            const labelY = isSelected ? -radius - 8 : depth === 1 ? -radius - 7 : 6;
-            const labelSize = compactTrace ? 19 : isSelected ? 10 : 17;
-            return <g key={nodeIndex} transform={`translate(${node.x},${node.y})`} className="cursor-pointer transition-opacity duration-300" onClick={(event) => { event.stopPropagation(); selectNode(nodeIndex); }}>
-              <circle r={radius + (isTraceNode ? 9 : 3)} fill={colour} opacity={isTraceNode ? 0.32 : opacity * 0.12} filter={isTraceNode ? 'url(#concept-glow)' : undefined} />
-              <circle r={radius + (isSelected ? 2.5 : 0)} fill={colour} opacity={opacity} stroke={isSelected ? '#67e8f9' : '#ffffff'} strokeWidth={isSelected ? 2.2 : 0.55} filter={isTraceNode ? 'url(#concept-glow)' : undefined} />
-              {isTraceNode && <text x={labelX} y={labelY} textAnchor={isSelected || compactTrace ? 'end' : 'start'} fill="#f8fafc" fontSize={labelSize} fontWeight={isSelected ? 800 : 700} className="pointer-events-none [paint-order:stroke] stroke-[#08111f] stroke-[5px]">{node.n}</text>}
+            const labelOnLeft = isSelected;
+            const labelX = labelOnLeft ? -radius - 14 : radius + 14;
+            const labelY = radius + 22;
+            const labelSize = isSelected ? 15 : 14;
+            return <g key={nodeIndex} transform={`translate(${posX},${posY})`} className="cursor-pointer transition-all duration-300 ease-out" onClick={(event) => { event.stopPropagation(); selectNode(nodeIndex); }}>
+              <circle r={radius + (isTraceNode ? 9 : 3)} fill={colour} opacity={isTraceNode ? 0.32 : opacity * 0.12} filter={isTraceNode ? 'url(#concept-glow)' : undefined} className="transition-opacity duration-300" />
+              <circle r={radius + (isSelected ? 2.5 : 0)} fill={colour} opacity={opacity} stroke={isSelected ? '#67e8f9' : '#ffffff'} strokeWidth={isSelected ? 2.2 : 0.55} filter={isTraceNode ? 'url(#concept-glow)' : undefined} className="transition-opacity duration-300" />
+              {isTraceNode && <text x={labelX} y={labelY} textAnchor={labelOnLeft ? 'end' : 'start'} fill="#f8fafc" fontSize={labelSize} fontWeight={isSelected ? 800 : 700} className="pointer-events-none [paint-order:stroke] stroke-[#08111f] stroke-[5px]">{graphLabel(node.n)}</text>}
             </g>;
           })}</g>
         </g>
@@ -245,6 +337,36 @@ const KnowledgeGraph: React.FC = () => {
       </div>
       <div className="relative z-30 border-t border-white/10 p-5 lg:hidden">
         {detailPanel}
+      </div>
+      <div data-accessibility-route="concept-relationships" className="relative z-30 border-t border-white/10 bg-slate-950/70 p-5 sm:p-7" aria-labelledby="accessible-graph-title">
+        <h3 id="accessible-graph-title" className="text-lg font-bold text-white">{T('tech.graph_accessible_label')}</h3>
+        <p id="accessible-graph-help" className="mt-1 max-w-2xl text-sm leading-relaxed text-slate-300">{T('tech.graph_accessible_help')}</p>
+        <label htmlFor="accessible-concept-select" className="mt-4 block text-sm font-semibold text-white">{T('tech.graph_choose_concept')}</label>
+        <select id="accessible-concept-select" value={selectedNode ?? ''} onChange={(event) => { if (event.target.value === '') { resetGraph(); return; } const value = Number(event.target.value); if (Number.isInteger(value)) selectNode(value, true); }} aria-describedby="accessible-graph-help" className="mt-2 min-h-11 w-full max-w-xl rounded-xl border border-white/20 bg-slate-900 px-3 text-sm text-white focus:border-cyan-300 focus:outline-none focus:ring-2 focus:ring-cyan-300/40">
+          <option value="">{T('tech.graph_choose_concept')}</option>
+          {graph.n.map((node, index) => <option key={index} value={index}>{node.n} ({T('tech.graph_grade')} {node.g})</option>)}
+        </select>
+        {selected && selectedRelationships && <div className="mt-5 grid gap-5 lg:grid-cols-2">
+          {(['prerequisites', 'dependents'] as const).map((relationship) => {
+            const edges = selectedRelationships[relationship];
+            const heading = relationship === 'prerequisites' ? T('tech.graph_prerequisites') : T('tech.graph_dependents');
+            return <section key={relationship} aria-labelledby={`accessible-${relationship}-title`}>
+              <h4 id={`accessible-${relationship}-title`} className="text-sm font-bold uppercase tracking-[0.12em] text-cyan-200">{heading}</h4>
+              {edges.length === 0 ? <p className="mt-2 text-sm text-slate-300">{relationship === 'prerequisites' ? T('tech.graph_no_prerequisites') : T('tech.graph_no_dependents')}</p> : <ul className="mt-2 space-y-2">
+                {edges.map((edge) => {
+                  const relatedIndex = relationship === 'prerequisites' ? edge.t : edge.s;
+                  return <li key={`${relationship}-${relatedIndex}`} className="rounded-xl border border-white/10 bg-white/5 p-3">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <button type="button" onClick={() => selectNode(relatedIndex, true)} className="text-left text-sm font-semibold text-white underline decoration-cyan-300/70 underline-offset-2 hover:text-cyan-100 focus:outline-none focus:ring-2 focus:ring-cyan-300/70">{graph.n[relatedIndex].n}</button>
+                      <span className={`rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${edge.k === 1 ? 'bg-amber-300/20 text-amber-200' : 'bg-slate-300/15 text-slate-200'}`}>{edge.k === 1 ? T('tech.graph_relationship_prerequisite') : T('tech.graph_relationship_related')}</span>
+                    </div>
+                    <p className="mt-1 text-xs leading-relaxed text-slate-300">{edge.r}</p>
+                  </li>;
+                })}
+              </ul>}
+            </section>;
+          })}
+        </div>}
       </div>
       <p className="sr-only" aria-live="polite">{selected ? `${selected.n}. ${trace.nodes.size > 1 ? T('tech.graph_two_hop') : T('tech.graph_foundational')}` : ''}</p>
     </section>

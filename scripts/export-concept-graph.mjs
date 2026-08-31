@@ -61,7 +61,13 @@ const cleanEdges = [...validByPair.values()].sort((left, right) => (
   || compareEdges(left, right)
 ));
 
-const layoutNodes = concepts.map((_concept, index) => ({ id: index }));
+// Grade cohorts settle into their own horizontal region (x only — y is left free so each
+// cohort spreads into an organic blob rather than a rigid strip) while link/charge still
+// drive the finer topic-level clustering within a cohort.
+const GRADE_CENTER_X = { 6: -320, 7: 0, 8: 320 };
+const GRADE_CLUSTER_STRENGTH = 0.8;
+
+const layoutNodes = concepts.map((concept, index) => ({ id: index, grade: Number(concept.grade_introduced) || 0 }));
 const layoutLinks = cleanEdges.map((edge) => ({
   source: indexById.get(edge.from_id),
   target: indexById.get(edge.to_id),
@@ -76,13 +82,50 @@ const simulation = d3.forceSimulation(layoutNodes)
   .force('charge', d3.forceManyBody().strength(-34))
   .force('collide', d3.forceCollide().radius(4))
   .force('center', d3.forceCenter(0, 0))
+  .force('gradeX', d3.forceX((node) => GRADE_CENTER_X[node.grade] ?? 0)
+    .strength((node) => (node.grade in GRADE_CENTER_X ? GRADE_CLUSTER_STRENGTH : 0)))
+  // Constraining x per cohort pushes mutual repulsion into y instead, stretching each cloud
+  // into a tall sliver. A weak pull back toward the shared centerline keeps each cohort round.
+  .force('gradeY', d3.forceY(0).strength(0.16))
   .stop();
 
-for (let tick = 0; tick < 520; tick += 1) simulation.tick();
+for (let tick = 0; tick < 600; tick += 1) simulation.tick();
 const xExtent = d3.extent(layoutNodes, (node) => node.x ?? 0);
 const yExtent = d3.extent(layoutNodes, (node) => node.y ?? 0);
 const scaleX = d3.scaleLinear().domain(xExtent).range([LAYOUT.padding, LAYOUT.width - LAYOUT.padding]);
 const scaleY = d3.scaleLinear().domain(yExtent).range([LAYOUT.padding, LAYOUT.height - LAYOUT.padding]);
+
+// X stays on one shared scale so the three grade cohorts keep their left-to-right separation.
+// Y is normalised PER GRADE instead: grade 6 has 375 concepts vs grade 8's 110, so sharing one
+// vertical scale let the biggest cohort's repulsion dominate and left the others looking
+// squashed. Scaling each cohort's own y-extent to the same target height gives three
+// comparably-sized clouds regardless of how many concepts each grade has.
+const yScaleByGrade = new Map(Object.keys(GRADE_CENTER_X).map(Number).map((grade) => {
+  const gradeYExtent = d3.extent(layoutNodes.filter((node) => node.grade === grade), (node) => node.y ?? 0);
+  return [grade, d3.scaleLinear().domain(gradeYExtent).range([LAYOUT.padding, LAYOUT.height - LAYOUT.padding])];
+}));
+const resolveY = (node) => (yScaleByGrade.get(node.grade) ?? scaleY)(node.y ?? 0);
+
+// A soft "cloud" outline per grade cohort: convex hull of its final node positions, inflated
+// outward from the centroid for breathing room, then smoothed into a closed spline so it reads
+// as an organic blob instead of a polygon or a bounding box.
+const CLOUD_PADDING = 34;
+const cloudLine = d3.line().curve(d3.curveCatmullRomClosed);
+const gradeZones = Object.keys(GRADE_CENTER_X).map(Number).sort((a, b) => a - b).map((grade) => {
+  const points = layoutNodes
+    .filter((node) => node.grade === grade)
+    .map((node) => [scaleX(node.x ?? 0), resolveY(node)]);
+  const hull = d3.polygonHull(points);
+  if (!hull) return null;
+  const [cx, cy] = d3.polygonCentroid(hull);
+  const padded = hull.map(([x, y]) => {
+    const dx = x - cx; const dy = y - cy; const length = Math.hypot(dx, dy) || 1;
+    return [x + (dx / length) * CLOUD_PADDING, y + (dy / length) * CLOUD_PADDING];
+  });
+  const labelX = cx;
+  const labelY = Math.min(...padded.map(([, y]) => y)) - 12;
+  return { grade, path: cloudLine(padded), labelX: Math.round(labelX), labelY: Math.round(labelY) };
+}).filter(Boolean);
 
 const graph = {
   v: 1,
@@ -93,6 +136,7 @@ const graph = {
     renderedHardEdges: cleanEdges.filter((edge) => edge.type === 'hard').length,
     danglingEdges,
     topics,
+    gradeZones,
   },
   n: concepts.map((concept, index) => ({
     n: clip(concept.name, 92),
@@ -100,7 +144,7 @@ const graph = {
     g: Number(concept.grade_introduced) || 0,
     d: Number(concept.estimated_difficulty) || 1,
     x: Math.round(scaleX(layoutNodes[index].x ?? 0)),
-    y: Math.round(scaleY(layoutNodes[index].y ?? 0)),
+    y: Math.round(resolveY(layoutNodes[index])),
     s: clip(concept.description, 220),
     c: clip(concept.concept_type, 42),
   })),

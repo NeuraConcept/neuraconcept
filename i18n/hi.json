@@ -207,6 +207,7 @@
     "graph_concepts": "कॉन्सेप्ट",
     "graph_edges": "निकाले गए पूर्वापेक्षा लिंक",
     "graph_scope": "NCERT गणित · कक्षा 6–8",
+    "graph_legend": "विषय",
     "graph_search_label": "कॉन्सेप्ट खोजें",
     "graph_search_placeholder": "कॉन्सेप्ट खोजें…",
     "graph_clear_search": "खोज साफ़ करें",
@@ -222,7 +223,16 @@
     "graph_help": "पैन करने के लिए खींचें, ज़ूम के लिए स्क्रॉल करें और वास्तविक सीखने की निर्भरता जानने के लिए एक बिंदु या रेखा चुनें।",
     "graph_aria_label": "कक्षा 6 से 8 के लिए इंटरैक्टिव NCERT गणित पूर्वापेक्षा ग्राफ़",
     "graph_loading": "पाठ्यक्रम ग्राफ़ लोड हो रहा है",
-    "graph_unavailable": "पाठ्यक्रम ग्राफ़ अभी उपलब्ध नहीं है।"
+    "graph_unavailable": "पाठ्यक्रम ग्राफ़ अभी उपलब्ध नहीं है।",
+    "graph_accessible_label": "कीबोर्ड से ग्राफ़ देखें",
+    "graph_accessible_help": "किसी कॉन्सेप्ट को चुनकर उसकी पूर्वापेक्षाएँ और उस पर निर्भर कॉन्सेप्ट देखें। हर संबंध के साथ लिंक का कारण दिया गया है और संबंधित कॉन्सेप्ट सीधे चुने जा सकते हैं।",
+    "graph_choose_concept": "कॉन्सेप्ट चुनें",
+    "graph_prerequisites": "पूर्वापेक्षाएँ",
+    "graph_dependents": "इस पर निर्भर कॉन्सेप्ट",
+    "graph_no_prerequisites": "इस कॉन्सेप्ट के लिए कोई पूर्वापेक्षा लिंक दर्ज नहीं है।",
+    "graph_no_dependents": "इस कॉन्सेप्ट पर निर्भर कोई लिंक दर्ज नहीं है।",
+    "graph_relationship_prerequisite": "पक्की पूर्वापेक्षा",
+    "graph_relationship_related": "संबंधित कॉन्सेप्ट"
   },
   "waitlist": {
     "title_1": "",
