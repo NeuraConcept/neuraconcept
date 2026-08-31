@@ -7,6 +7,7 @@
     "dev": "vite",
     "export:concept-graph": "node scripts/export-concept-graph.mjs",
     "test:concept-graph-export": "node scripts/test-export-concept-graph.mjs",
+    "test:knowledge-graph-accessibility": "node scripts/test-knowledge-graph-accessibility.mjs",
     "build": "vite build && node scripts/prerender.mjs",
     "build:client": "vite build",
     "prerender": "node scripts/prerender.mjs",

@@ -13,6 +13,11 @@ type GraphAsset = {
 };
 type Trace = { nodes: Map<number, number>; edges: Set<number> };
 
+export const relatedEdges = (graph: GraphAsset, nodeIndex: number) => ({
+  prerequisites: graph.e.filter((edge) => edge.s === nodeIndex),
+  dependents: graph.e.filter((edge) => edge.t === nodeIndex),
+});
+
 const VIEWBOX = { width: 1200, height: 760 };
 const TOPIC_COLOURS = ['#67e8f9', '#a78bfa', '#fbbf24', '#fb7185', '#34d399', '#60a5fa', '#f472b6', '#c084fc', '#fb923c', '#2dd4bf', '#facc15', '#818cf8'];
 const GRADE_ZONE_COLOURS: Record<number, string> = { 6: '#7dd3fc', 7: '#86efac', 8: '#fdba74' };
@@ -182,6 +187,7 @@ const KnowledgeGraph: React.FC = () => {
   const primaryEdge = selectedNode === null ? null : prerequisitesByDependent.get(selectedNode)?.[0] ?? null;
   const displayedEdge = activeEdge ?? primaryEdge;
   const selected = selectedNode === null ? null : graph?.n[selectedNode] ?? null;
+  const selectedRelationships = selectedNode === null || !graph ? null : relatedEdges(graph, selectedNode);
 
   if (loadError) return <div className="min-h-[520px] rounded-2xl bg-[#08111f] p-8 text-sm text-gray-300">{T('tech.graph_unavailable')}</div>;
   if (!graph) return <div className="min-h-[520px] animate-pulse rounded-2xl bg-[#08111f]" aria-label={T('tech.graph_loading')} />;
@@ -264,7 +270,7 @@ const KnowledgeGraph: React.FC = () => {
             {searchResults.length > 0 ? searchResults.map(({ node, index }) => <button key={index} type="button" onClick={() => selectNode(index, true)} className="flex w-full items-center justify-between gap-3 rounded-lg px-3 py-2 text-left text-sm text-white hover:bg-cyan-300/10"><span className="truncate">{node.n}</span><span className="shrink-0 text-xs text-slate-400">{T('tech.graph_grade')} {node.g}</span></button>) : <p className="px-3 py-2 text-sm text-slate-300">{T('tech.graph_no_results')}</p>}
           </div>}
         </div>
-        <svg ref={svgRef} viewBox={`0 0 ${VIEWBOX.width} ${VIEWBOX.height}`} className="absolute inset-0 h-full w-full touch-none" role="img" aria-label={T('tech.graph_aria_label')} onPointerMove={() => { suppressEdgeHoverRef.current = false; }} onClick={(event) => { if (event.target === event.currentTarget) resetGraph(); }}>
+        <svg ref={svgRef} viewBox={`0 0 ${VIEWBOX.width} ${VIEWBOX.height}`} className="absolute inset-0 h-full w-full touch-none" role="presentation" aria-hidden="true" onPointerMove={() => { suppressEdgeHoverRef.current = false; }} onClick={(event) => { if (event.target === event.currentTarget) resetGraph(); }}>
         <defs>
           <filter id="concept-glow" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="3.5" result="blur" /><feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
           <filter id="cloud-blur" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="20" /></filter>
@@ -331,6 +337,36 @@ const KnowledgeGraph: React.FC = () => {
       </div>
       <div className="relative z-30 border-t border-white/10 p-5 lg:hidden">
         {detailPanel}
+      </div>
+      <div data-accessibility-route="concept-relationships" className="relative z-30 border-t border-white/10 bg-slate-950/70 p-5 sm:p-7" aria-labelledby="accessible-graph-title">
+        <h3 id="accessible-graph-title" className="text-lg font-bold text-white">{T('tech.graph_accessible_label')}</h3>
+        <p id="accessible-graph-help" className="mt-1 max-w-2xl text-sm leading-relaxed text-slate-300">{T('tech.graph_accessible_help')}</p>
+        <label htmlFor="accessible-concept-select" className="mt-4 block text-sm font-semibold text-white">{T('tech.graph_choose_concept')}</label>
+        <select id="accessible-concept-select" value={selectedNode ?? ''} onChange={(event) => { if (event.target.value === '') { resetGraph(); return; } const value = Number(event.target.value); if (Number.isInteger(value)) selectNode(value, true); }} aria-describedby="accessible-graph-help" className="mt-2 min-h-11 w-full max-w-xl rounded-xl border border-white/20 bg-slate-900 px-3 text-sm text-white focus:border-cyan-300 focus:outline-none focus:ring-2 focus:ring-cyan-300/40">
+          <option value="">{T('tech.graph_choose_concept')}</option>
+          {graph.n.map((node, index) => <option key={index} value={index}>{node.n} ({T('tech.graph_grade')} {node.g})</option>)}
+        </select>
+        {selected && selectedRelationships && <div className="mt-5 grid gap-5 lg:grid-cols-2">
+          {(['prerequisites', 'dependents'] as const).map((relationship) => {
+            const edges = selectedRelationships[relationship];
+            const heading = relationship === 'prerequisites' ? T('tech.graph_prerequisites') : T('tech.graph_dependents');
+            return <section key={relationship} aria-labelledby={`accessible-${relationship}-title`}>
+              <h4 id={`accessible-${relationship}-title`} className="text-sm font-bold uppercase tracking-[0.12em] text-cyan-200">{heading}</h4>
+              {edges.length === 0 ? <p className="mt-2 text-sm text-slate-300">{relationship === 'prerequisites' ? T('tech.graph_no_prerequisites') : T('tech.graph_no_dependents')}</p> : <ul className="mt-2 space-y-2">
+                {edges.map((edge) => {
+                  const relatedIndex = relationship === 'prerequisites' ? edge.t : edge.s;
+                  return <li key={`${relationship}-${relatedIndex}`} className="rounded-xl border border-white/10 bg-white/5 p-3">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <button type="button" onClick={() => selectNode(relatedIndex, true)} className="text-left text-sm font-semibold text-white underline decoration-cyan-300/70 underline-offset-2 hover:text-cyan-100 focus:outline-none focus:ring-2 focus:ring-cyan-300/70">{graph.n[relatedIndex].n}</button>
+                      <span className={`rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${edge.k === 1 ? 'bg-amber-300/20 text-amber-200' : 'bg-slate-300/15 text-slate-200'}`}>{edge.k === 1 ? T('tech.graph_relationship_prerequisite') : T('tech.graph_relationship_related')}</span>
+                    </div>
+                    <p className="mt-1 text-xs leading-relaxed text-slate-300">{edge.r}</p>
+                  </li>;
+                })}
+              </ul>}
+            </section>;
+          })}
+        </div>}
       </div>
       <p className="sr-only" aria-live="polite">{selected ? `${selected.n}. ${trace.nodes.size > 1 ? T('tech.graph_two_hop') : T('tech.graph_foundational')}` : ''}</p>
     </section>

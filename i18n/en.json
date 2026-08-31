@@ -223,7 +223,16 @@
     "graph_help": "Drag to pan, scroll to zoom, and select a dot or line to explore a real learning dependency.",
     "graph_aria_label": "Interactive NCERT Mathematics prerequisite graph for Classes 6 to 8",
     "graph_loading": "Loading the curriculum graph",
-    "graph_unavailable": "The curriculum graph is unavailable right now."
+    "graph_unavailable": "The curriculum graph is unavailable right now.",
+    "graph_accessible_label": "Explore the graph by keyboard",
+    "graph_accessible_help": "Choose a concept to review its prerequisite and dependent relationships. Each relationship includes the reason for the link, and related concepts can be selected directly.",
+    "graph_choose_concept": "Choose a concept",
+    "graph_prerequisites": "Prerequisites",
+    "graph_dependents": "Concepts that depend on this",
+    "graph_no_prerequisites": "No prerequisite links are recorded for this concept.",
+    "graph_no_dependents": "No dependent links are recorded for this concept.",
+    "graph_relationship_prerequisite": "Hard prerequisite",
+    "graph_relationship_related": "Related concept"
   },
   "waitlist": {
     "title_1": "Join the ",
