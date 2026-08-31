@@ -10,6 +10,13 @@ import Vision from './pages/Vision';
 import Login from './pages/Login';
 import GradeOwl from './pages/GradeOwl';
 import Waitlist from './pages/Waitlist';
+import About from './pages/About';
+import Pricing from './pages/Pricing';
+import Privacy from './pages/Privacy';
+import Terms from './pages/Terms';
+import Faq from './pages/Faq';
+import CoachingInstitutes from './pages/CoachingInstitutes';
+import NotFound from './pages/NotFound';
 import en from './i18n/en.json';
 import hi from './i18n/hi.json';
 import kn from './i18n/kn.json';
@@ -40,6 +47,13 @@ const App: React.FC = () => {
               <Route path="/login" element={<Login />} />
               <Route path="/gradeowl" element={<GradeOwl />} />
               <Route path="/waitlist" element={<Waitlist />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/pricing" element={<Pricing />} />
+              <Route path="/privacy" element={<Privacy />} />
+              <Route path="/terms" element={<Terms />} />
+              <Route path="/faq" element={<Faq />} />
+              <Route path="/coaching-institutes" element={<CoachingInstitutes />} />
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </main>
           <Footer />

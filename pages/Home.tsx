@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, MessageCircle } from 'lucide-react';
 import { useT } from 'talkr';
 import { SEO } from '../components/SEO';
 import Hero from '../components/Hero';
 import Features from '../components/Features';
-import AnalyticsDemo from '../components/AnalyticsDemo';
+
+const AnalyticsDemo = lazy(() => import('../components/AnalyticsDemo'));
 
 const Home: React.FC = () => {
   const { T } = useT();
@@ -15,10 +16,13 @@ const Home: React.FC = () => {
       <SEO
         title="Home"
         description={T("home.seo_desc")}
+        url="https://neuraconcept.com/"
       />
       <Hero />
       <Features />
-      <AnalyticsDemo />
+      <Suspense fallback={<div className="py-24 bg-gray-50" style={{ minHeight: 600 }} aria-hidden="true" />}>
+        <AnalyticsDemo />
+      </Suspense>
 
       {/* Social Proof / Board Support Section */}
       <section className="py-16 container mx-auto px-6">
@@ -39,7 +43,7 @@ const Home: React.FC = () => {
           <blockquote className="text-2xl text-gray-600 italic mb-6">
             {T("home.quote")}
           </blockquote>
-          <p className="text-gray-400 font-medium">{T("home.quote_attr")}</p>
+          <p className="text-gray-500 font-medium">{T("home.quote_attr")}</p>
         </div>
       </section>
 
@@ -48,7 +52,7 @@ const Home: React.FC = () => {
         <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
           {T("home.cta_heading_1")}<span className="text-apple-blue">{T("home.cta_heading_2")}</span>
         </h2>
-        <p className="text-gray-400 max-w-2xl mx-auto mb-10 text-lg">
+        <p className="text-gray-500 max-w-2xl mx-auto mb-10 text-lg">
           {T("home.cta_subheading")}
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">

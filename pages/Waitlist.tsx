@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useT } from 'talkr';
 import { SEO } from '../components/SEO';
+import { breadcrumbsJsonLd } from '../components/breadcrumbs';
 import { MessageCircle, Users, ArrowRight, CheckCircle, Phone, School, BookOpen, User } from 'lucide-react';
 
 const Waitlist: React.FC = () => {
@@ -14,12 +15,33 @@ const Waitlist: React.FC = () => {
     subjects: '',
   });
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // For now, just show success state
-    // TODO: Connect to backend or Google Sheets API
-    setSubmitted(true);
+    setLoading(true);
+    setError('');
+
+    const apiUrl = import.meta.env.VITE_API_URL || 'https://api.neuraconcept.com';
+
+    try {
+      const res = await fetch(`${apiUrl}/waitlist`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      if (res.status === 201) {
+        setSubmitted(true);
+      } else {
+        setError(T("waitlist.error_generic"));
+      }
+    } catch {
+      setError(T("waitlist.error_generic"));
+    } finally {
+      setLoading(false);
+    }
   };
 
   const benefits = ["waitlist.benefit_1", "waitlist.benefit_2", "waitlist.benefit_3"];
@@ -30,6 +52,8 @@ const Waitlist: React.FC = () => {
         title={T("nav.waitlist")}
         description={T("waitlist.seo_desc")}
         keywords={T("waitlist.seo_keywords")}
+        url="https://neuraconcept.com/waitlist"
+        jsonLd={breadcrumbsJsonLd("Waitlist", "/waitlist")}
       />
 
       <div className="container mx-auto px-6">
@@ -38,7 +62,7 @@ const Waitlist: React.FC = () => {
           <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4 tracking-tight">
             {T("waitlist.title_1")}<span className="text-apple-blue">{T("waitlist.title_2")}</span>{T("waitlist.title_3")}
           </h1>
-          <p className="text-lg text-gray-400">
+          <p className="text-lg text-gray-500">
             {T("waitlist.subtitle")}
           </p>
         </div>
@@ -68,12 +92,12 @@ const Waitlist: React.FC = () => {
               href="https://chat.whatsapp.com/HgeTpYJgkksAZYYOxwYMDj"
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-emerald-600 text-white font-semibold px-6 py-4 rounded-xl hover:bg-emerald-700 inline-flex items-center justify-center gap-2 w-full"
+              className="bg-emerald-700 text-white font-semibold px-6 py-4 rounded-xl hover:bg-emerald-800 inline-flex items-center justify-center gap-2 w-full"
             >
               <MessageCircle size={20} />
               {T("waitlist.whatsapp_cta")}
             </a>
-            <p className="text-sm text-gray-400 text-center mt-3">
+            <p className="text-sm text-gray-500 text-center mt-3">
               <Users size={14} className="inline mr-1" />
               {T("waitlist.teachers_count")}
             </p>
@@ -87,7 +111,7 @@ const Waitlist: React.FC = () => {
                   <CheckCircle className="text-apple-blue" size={32} />
                 </div>
                 <h2 className="text-2xl font-bold text-gray-900 mb-3">{T("waitlist.success_title")}</h2>
-                <p className="text-gray-400 mb-6">{T("waitlist.success_desc")}</p>
+                <p className="text-gray-500 mb-6">{T("waitlist.success_desc")}</p>
                 <a
                   href="https://chat.whatsapp.com/HgeTpYJgkksAZYYOxwYMDj"
                   target="_blank"
@@ -101,7 +125,7 @@ const Waitlist: React.FC = () => {
             ) : (
               <>
                 <h2 className="text-2xl font-bold text-gray-900 mb-2">{T("waitlist.form_title")}</h2>
-                <p className="text-gray-400 mb-6">{T("waitlist.form_subtitle")}</p>
+                <p className="text-gray-500 mb-6">{T("waitlist.form_subtitle")}</p>
                 <form onSubmit={handleSubmit} className="space-y-5">
                   <div>
                     <label className="block text-sm font-medium text-gray-600 mb-1.5">
@@ -113,7 +137,7 @@ const Waitlist: React.FC = () => {
                       required
                       value={formData.name}
                       onChange={(e) => setFormData({...formData, name: e.target.value})}
-                      className="w-full border border-gray-200 rounded-lg py-3 px-4 text-gray-900 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-apple-blue focus:border-transparent"
+                      className="w-full border border-gray-200 rounded-lg py-3 px-4 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-apple-blue focus:border-transparent"
                       placeholder={T("waitlist.name_placeholder")}
                     />
                   </div>
@@ -127,7 +151,7 @@ const Waitlist: React.FC = () => {
                       required
                       value={formData.school}
                       onChange={(e) => setFormData({...formData, school: e.target.value})}
-                      className="w-full border border-gray-200 rounded-lg py-3 px-4 text-gray-900 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-apple-blue focus:border-transparent"
+                      className="w-full border border-gray-200 rounded-lg py-3 px-4 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-apple-blue focus:border-transparent"
                       placeholder={T("waitlist.school_placeholder")}
                     />
                   </div>
@@ -141,7 +165,7 @@ const Waitlist: React.FC = () => {
                       required
                       value={formData.phone}
                       onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                      className="w-full border border-gray-200 rounded-lg py-3 px-4 text-gray-900 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-apple-blue focus:border-transparent"
+                      className="w-full border border-gray-200 rounded-lg py-3 px-4 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-apple-blue focus:border-transparent"
                       placeholder={T("waitlist.phone_placeholder")}
                     />
                   </div>
@@ -170,15 +194,19 @@ const Waitlist: React.FC = () => {
                       type="text"
                       value={formData.subjects}
                       onChange={(e) => setFormData({...formData, subjects: e.target.value})}
-                      className="w-full border border-gray-200 rounded-lg py-3 px-4 text-gray-900 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-apple-blue focus:border-transparent"
+                      className="w-full border border-gray-200 rounded-lg py-3 px-4 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-apple-blue focus:border-transparent"
                       placeholder={T("waitlist.subjects_placeholder")}
                     />
                   </div>
+                  {error && (
+                    <p className="text-sm text-red-600">{error}</p>
+                  )}
                   <button
                     type="submit"
-                    className="w-full bg-apple-blue text-white font-semibold py-3.5 rounded-xl hover:bg-apple-blue-dark transition-colors flex items-center justify-center gap-2"
+                    disabled={loading}
+                    className="w-full bg-apple-blue text-white font-semibold py-3.5 rounded-xl hover:bg-apple-blue-dark transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    {T("waitlist.submit")} <ArrowRight size={18} />
+                    {loading ? T("waitlist.submitting") : <>{T("waitlist.submit")} <ArrowRight size={18} /></>}
                   </button>
                 </form>
               </>

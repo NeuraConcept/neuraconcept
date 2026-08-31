@@ -1,0 +1,51 @@
+name: Quality Checks
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  static:
+    name: tsc + i18n parity + build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Type check
+        run: npx tsc --noEmit
+
+      - name: i18n parity
+        run: node scripts/i18n-parity.mjs
+
+      - name: Build
+        run: npm run build
+        env:
+          NODE_ENV: production
+
+      - name: Bundle summary
+        run: |
+          echo "### Build output" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Asset | Size |" >> $GITHUB_STEP_SUMMARY
+          echo "|---|---:|" >> $GITHUB_STEP_SUMMARY
+          for f in dist/assets/*.js dist/assets/*.css; do
+            [ -f "$f" ] || continue
+            sz=$(stat -c%s "$f")
+            sz_kb=$((sz / 1024))
+            echo "| ${f##*/} | ${sz_kb} KB |" >> $GITHUB_STEP_SUMMARY
+          done
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Lighthouse CI enforces budgets (JS 600 KB, CSS 50 KB, image 300 KB)." >> $GITHUB_STEP_SUMMARY

@@ -8,15 +8,25 @@ interface SEOProps {
   image?: string;
   url?: string;
   type?: string;
+  noindex?: boolean;
+  jsonLd?: Record<string, unknown> | Array<Record<string, unknown>>;
 }
+
+// Canonical URLs of pages where identity schemas (Organization, WebSite,
+// SoftwareApplication) attach. Anything else falls through to whatever the
+// page passes via the `jsonLd` prop.
+const HOME_URL = "https://neuraconcept.com/";
+const GRADEOWL_URL = "https://neuraconcept.com/gradeowl";
 
 export const SEO = ({
   title,
   description,
   keywords,
   image = "/assets/digital-brain.webp",
-  url = "https://neuraconcept.com",
-  type = "website"
+  url,
+  type = "website",
+  noindex = false,
+  jsonLd,
 }: SEOProps) => {
   const { T, locale } = useT();
   const defaultKeywords = T("seo.default_keywords");
@@ -40,62 +50,108 @@ export const SEO = ({
     // Standard Meta
     updateMeta('name', 'description', description);
     updateMeta('name', 'keywords', resolvedKeywords);
+    updateMeta('name', 'robots', noindex ? 'noindex,follow' : 'index,follow');
 
     // Open Graph
     updateMeta('property', 'og:title', fullTitle);
     updateMeta('property', 'og:description', description);
     updateMeta('property', 'og:image', image);
-    updateMeta('property', 'og:url', url);
     updateMeta('property', 'og:type', type);
-    updateMeta('property', 'og:locale', locale === 'hi' ? 'hi_IN' : 'en_US');
+    const ogLocale = locale === 'hi' ? 'hi_IN' : locale === 'kn' ? 'kn_IN' : 'en_US';
+    updateMeta('property', 'og:locale', ogLocale);
+    if (url) {
+      updateMeta('property', 'og:url', url);
+    }
 
     // Twitter
     updateMeta('name', 'twitter:title', fullTitle);
     updateMeta('name', 'twitter:description', description);
+    updateMeta('name', 'twitter:image', image);
 
-    // Canonical Link
-    let link = document.querySelector('link[rel="canonical"]');
-    if (!link) {
+    // Canonical Link — only emit when the page provides an explicit URL.
+    // Pages without an explicit canonical (e.g. NotFound) intentionally
+    // emit none to avoid pointing every URL at the homepage.
+    if (url) {
+      let link = document.querySelector('link[rel="canonical"]');
+      if (!link) {
         link = document.createElement('link');
         link.setAttribute('rel', 'canonical');
         document.head.appendChild(link);
+      }
+      link.setAttribute('href', url);
     }
-    link.setAttribute('href', url);
 
     // JSON-LD Structured Data
-    const schemaData = {
-      "@context": "https://schema.org",
-      "@graph": [
-        {
+    //
+    // Identity schemas land on the page where they're canonical, so Google
+    // associates them with the correct URL:
+    //   - Organization + WebSite → home (/)
+    //   - SoftwareApplication    → /gradeowl
+    //
+    // Everything else (FAQPage, BreadcrumbList, Service) comes through the
+    // `jsonLd` prop and gets appended to the @graph below.
+    const baseGraph: Array<Record<string, unknown>> = [];
+
+    if (url === HOME_URL) {
+      baseGraph.push({
+        "@type": "Organization",
+        "name": "NeuraConcept",
+        "url": "https://neuraconcept.com",
+        "logo": "https://neuraconcept.com/assets/digital-brain.webp",
+        "description": T("seo.org_desc"),
+        "founder": {
+          "@type": "Person",
+          "name": "Dip Turkar",
+          "jobTitle": "Founder",
+        },
+        // Only include URLs that actually resolve. Twitter / LinkedIn
+        // company pages don't exist yet — listing fake `sameAs` URLs is
+        // worse than empty for entity disambiguation.
+        "sameAs": [
+          "https://chat.whatsapp.com/HgeTpYJgkksAZYYOxwYMDj",
+        ],
+      });
+      baseGraph.push({
+        "@type": "WebSite",
+        "name": "NeuraConcept",
+        "url": "https://neuraconcept.com",
+      });
+    }
+
+    if (url === GRADEOWL_URL) {
+      baseGraph.push({
+        "@type": "SoftwareApplication",
+        "name": "GradeOwl",
+        "description": T("gradeowl.seo_desc"),
+        "applicationCategory": "EducationalApplication",
+        "operatingSystem": "Web, iOS, Android",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "INR",
+          "availability": "https://schema.org/PreOrder",
+          "description": T("seo.free_offer"),
+        },
+        "audience": {
+          "@type": "EducationalAudience",
+          "educationalRole": "teacher",
+        },
+        "publisher": {
           "@type": "Organization",
           "name": "NeuraConcept",
-          "description": T("seo.org_desc"),
           "url": "https://neuraconcept.com",
-          "logo": "https://neuraconcept.com/assets/digital-brain.webp",
-          "sameAs": [
-            "https://twitter.com/neuraconcept",
-            "https://linkedin.com/company/neuraconcept"
-          ]
         },
-        {
-          "@type": "SoftwareApplication",
-          "name": "GradeOwl",
-          "description": T("seo.app_desc"),
-          "applicationCategory": "EducationalApplication",
-          "operatingSystem": "Android, iOS",
-          "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "INR",
-            "description": T("seo.free_offer")
-          }
-        },
-        {
-          "@type": "WebSite",
-          "name": "NeuraConcept",
-          "url": "https://neuraconcept.com"
-        }
-      ]
+      });
+    }
+
+    // Merge any page-specific structured data into the @graph array
+    const pageGraph: Array<Record<string, unknown>> = jsonLd
+      ? Array.isArray(jsonLd) ? jsonLd : [jsonLd]
+      : [];
+
+    const schemaData = {
+      "@context": "https://schema.org",
+      "@graph": [...baseGraph, ...pageGraph],
     };
 
     let script = document.querySelector('script[type="application/ld+json"]');
@@ -106,7 +162,7 @@ export const SEO = ({
     }
     script.textContent = JSON.stringify(schemaData);
 
-  }, [title, description, resolvedKeywords, image, url, type, locale]);
+  }, [title, description, resolvedKeywords, image, url, type, noindex, locale, jsonLd]);
 
   return null;
 };
